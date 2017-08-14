@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Dashboard.Control.GraphWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ctr="clr-namespace:Dashboard.Control"
+             mc:Ignorable="d"              
+             d:DesignHeight="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=Height}" 
+             d:DesignWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=Width}">
+    <Grid HorizontalAlignment="Center"
+          Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=Height}"
+          Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=Width}"
+          >
+        <Border BorderThickness="0" CornerRadius="10,10,0,0" Margin="0" HorizontalAlignment="Left"
+                BorderBrush="#FFC3C2CB" Background="Transparent" >
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                <Grid>
+                    <Grid.RowDefinitions >
+                        <RowDefinition Height="30" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Grid.Column="0" Background="WhiteSmoke" BorderThickness="1"                                                         
+                                                        BorderBrush="LightGray" CornerRadius="10,10,0,0">
+                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                            <Image Source="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=IconPath}"  Height="15" HorizontalAlignment="Left" />
+                            <Label 
+                                Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=Title}"  
+                                ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=TitleToolTip}"
+                                VerticalAlignment="Center" Margin="5,0,0,0"></Label>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Row="1" Grid.Column="0" Background="White" BorderThickness="1,0,1,1" BorderBrush="LightGray">
+                        <Image Stretch="Fill" Margin="8,5" 
+                               Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=GWidth}" 
+                               Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=GHeight}" 
+                               Source="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=ImgSource}" />
+                    </Border>
+                </Grid>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

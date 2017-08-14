@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CAD28CA3-1084-4F08-81EA-F0D2865C8581}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dashboard</RootNamespace>
+    <AssemblyName>Dashboard</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MathNet.Numerics, Version=3.13.1.0, Culture=neutral, PublicKeyToken=cd8b63ad3d691a37, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.Signed.3.13.1\lib\net40\MathNet.Numerics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Mtblib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\00.GeneralTool\Mtblib_v16\Mtblib\bin\Release\Mtblib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="AboutDialog.xaml.cs">
+      <DependentUpon>AboutDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\CircularProgressBar.xaml.cs">
+      <DependentUpon>CircularProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\GraphWindow.xaml.cs">
+      <DependentUpon>GraphWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\LoadingPane.xaml.cs">
+      <DependentUpon>LoadingPane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Database\DBQueryTool.cs" />
+    <Compile Include="DBServer.cs" />
+    <Compile Include="DBServer.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>DBServer.settings</DependentUpon>
+    </Compile>
+    <Compile Include="IconHelper.cs" />
+    <Compile Include="Model\BkCorrelation.cs" />
+    <Compile Include="Model\IReport.cs" />
+    <Compile Include="Model\IRptOutput.cs" />
+    <Compile Include="Model\ISeletableItem.cs" />
+    <Compile Include="Model\MultivariateReport.cs" />
+    <Compile Include="Model\OverlayTrendReport.cs" />
+    <Compile Include="Model\PosiDiffTest.cs" />
+    <Compile Include="Model\Report.cs" />
+    <Compile Include="Model\RptOutput.cs" />
+    <Compile Include="Model\TSquareLimCalculation.cs" />
+    <Compile Include="Model\UnivariateReport.cs" />
+    <Compile Include="Tool.cs" />
+    <Compile Include="ViewModel\BasicPage.cs" />
+    <Compile Include="ViewModel\BKCorrelationViewModel.cs" />
+    <Compile Include="ViewModel\Command\RelayCommand.cs" />
+    <Compile Include="ViewModel\ConfigDialog\ConnectSettingViewModel.cs" />
+    <Compile Include="ViewModel\ConfigDialog\EditFurnItemViewModel.cs" />
+    <Compile Include="ViewModel\ConfigDialog\EditSPCMultivariateViewModel.cs" />
+    <Compile Include="ViewModel\ConfigDialog\EditSPCUnivariateViewModel.cs" />
+    <Compile Include="ViewModel\ConfigDialog\FurnBkLagManagerViewModel.cs" />
+    <Compile Include="ViewModel\ConfigDialog\LoginViewModel.cs" />
+    <Compile Include="ViewModel\Converter\ActionToVisibility.cs" />
+    <Compile Include="ViewModel\Converter\MultiValueConverter.cs" />
+    <Compile Include="ViewModel\Converter\StepToEnable.cs" />
+    <Compile Include="ViewModel\Converter\StepToVisibility.cs" />
+    <Compile Include="ViewModel\Converter\StringToSubstitute.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\NotifyPropertyChanged.cs" />
+    <Compile Include="ViewModel\PosiDiffTestViewModel.cs" />
+    <Compile Include="ViewModel\RealTimeSPCViewModel.cs" />
+    <Compile Include="ViewModel\SelectMulItemViewModel.cs" />
+    <Compile Include="ViewModel\SelectTrendItemViewModel.cs" />
+    <Compile Include="ViewModel\SPCItemInfo.cs" />
+    <Compile Include="ViewModel\SPCItemSettingViewModel.cs" />
+    <Compile Include="ViewModel\TrandAnalysisViewModel.cs" />
+    <Compile Include="ViewModel\Validation\MatrixRowValidation.cs" />
+    <Compile Include="View\BKCorrelationView.xaml.cs">
+      <DependentUpon>BKCorrelationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigDialog\AccoutSettingView.xaml.cs">
+      <DependentUpon>AccoutSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigDialog\ConnectSettingView.xaml.cs">
+      <DependentUpon>ConnectSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigDialog\EditFurnItemView.xaml.cs">
+      <DependentUpon>EditFurnItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigDialog\EditSPCMultivariateView.xaml.cs">
+      <DependentUpon>EditSPCMultivariateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigDialog\EditSPCUnivariateView.xaml.cs">
+      <DependentUpon>EditSPCUnivariateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigDialog\FurnBKLagManagerView.xaml.cs">
+      <DependentUpon>FurnBKLagManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigDialog\IAdminPage.cs" />
+    <Compile Include="View\ConfigDialog\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigDialog\RealtimeItemManagerView.xaml.cs">
+      <DependentUpon>RealtimeItemManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\IFuncPage.cs" />
+    <Compile Include="View\PosiDiffTestView.xaml.cs">
+      <DependentUpon>PosiDiffTestView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RealTimeSPCView.xaml.cs">
+      <DependentUpon>RealTimeSPCView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectItemView.xaml.cs">
+      <DependentUpon>SelectItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectMultivariateItemDialogView.xaml.cs">
+      <DependentUpon>SelectMultivariateItemDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectTrendItemDialogView.xaml.cs">
+      <DependentUpon>SelectTrendItemDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TrendAnalysisView.xaml.cs">
+      <DependentUpon>TrendAnalysisView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AboutDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\CircularProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\GraphWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\LoadingPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="View\BKCorrelationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigDialog\AccoutSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigDialog\ConnectSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigDialog\EditFurnItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigDialog\EditSPCMultivariateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigDialog\EditSPCUnivariateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigDialog\FurnBKLagManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigDialog\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigDialog\RealtimeItemManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PosiDiffTestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RealTimeSPCView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SelectItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SelectMultivariateItemDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SelectTrendItemDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TrendAnalysisView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Minitab.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="DBServer.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>DBServer.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Mtb">
+      <Guid>{065BB861-A35C-4055-B49D-DB34B10D6E36}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\chart26x26_black.png" />
+    <Resource Include="images\chart26x26_white.png" />
+    <Resource Include="images\dashboard26x26_black.png" />
+    <Resource Include="images\dashboard26x26_white.png" />
+    <Resource Include="images\pie26x26_black.png" />
+    <Resource Include="images\piechart26x26_white.png" />
+    <Resource Include="images\trend26x26_black.png" />
+    <Resource Include="images\trend26x26_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\corp30x30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\delete-icon2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\more26x5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="SplashScreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\sfilogo.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

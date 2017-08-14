@@ -1,0 +1,150 @@
+﻿<Page x:Class="Dashboard.View.RealTimeSPCView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:vm="clr-namespace:Dashboard.ViewModel"
+      xmlns:local="clr-namespace:Dashboard.View"     
+      xmlns:root="clr-namespace:Dashboard"
+      xmlns:ctr="clr-namespace:Dashboard.Control"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" Title="RealTimeSPC" Loaded="Page_Loaded">
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Page.Resources>
+    <Page.DataContext>
+        <vm:RealTimeSPCViewModel/>
+    </Page.DataContext>
+    <Grid>
+        <ctr:LoadingPane            
+            IsLoading="{Binding IsBusy}"
+            Background="White"
+            Opacity="0.5"
+            Panel.ZIndex="99"
+            Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}"
+         />
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical" Margin="10">
+                <Expander Header="" VerticalAlignment="Top" 
+                          HorizontalAlignment="Left"                           
+                          IsExpanded="True" Width="Auto">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="500"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" BorderThickness="0">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="廠別:"/>
+                                    <ComboBox x:Name="cbSite" ItemsSource="{Binding Sites , UpdateSourceTrigger=PropertyChanged}" 
+                                      Width="150" DisplayMemberPath="SITE_ID" SelectedValuePath="SITE_ID"
+                                      IsEnabled="{Binding EnableSiteChange, UpdateSourceTrigger=PropertyChanged}"
+                                      SelectedValue="{Binding SITE_ID, Mode=TwoWay}"
+                                      />
+                                </StackPanel>
+                                <TextBlock/>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="1" BorderThickness="0">
+                            <DockPanel>
+                                <Button x:Name="btDoWork" Content="停止更新..."  
+                                        HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"
+                                        Width="150" Height="30" IsEnabled="{Binding EnableCancelDoWork}"
+                                    />
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </Expander>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="即時報表" FontSize="15" FontWeight="Bold" VerticalAlignment="Bottom"/>
+                    <TextBlock Text="  "/>
+                    <TextBlock Text="熔爐管制圖" FontSize="12" Foreground="#FFA4A4A4" VerticalAlignment="Bottom"/>
+                </StackPanel>
+                <Separator/>
+                <ItemsControl ItemsSource="{Binding MultiVariateContent , UpdateSourceTrigger=PropertyChanged}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                                <ctr:GraphWindow HorizontalAlignment="Left" Margin="5"
+                                                 IconPath="..\images\trend26x26_black.png"
+                                                 GWidth="{Binding Chart.Width}"
+                                                 GHeight="{Binding Chart.Height}"
+                                                 Title="{Binding Title}"
+                                                 TitleToolTip="{Binding Title}"
+                                                 ImgSource="{Binding Chart}"/>
+                                <DataGrid ItemsSource="{Binding DecomTable,UpdateSourceTrigger=PropertyChanged}"
+                                          Visibility="{Binding ShowTable, Converter={StaticResource BoolToVis },FallbackValue=Collapsed}"
+                                          MaxHeight="200"
+                                          Height="Auto"
+                                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                          HeadersVisibility="Column" 
+                                          CanUserAddRows="False"
+                                          Margin="5,5,5,10"
+                                              />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Separator Visibility="{Binding ShowSeparator,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVis},FallbackValue=Collapsed}"/>                
+                <ItemsControl ItemsSource="{Binding OverviewTrend, UpdateSourceTrigger=PropertyChanged}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ctr:GraphWindow HorizontalAlignment="Left" Margin="5"
+                                             IconPath="..\images\trend26x26_black.png"
+                                             GWidth="{Binding Chart.Width}"
+                                             GHeight="{Binding Chart.Height}"
+                                             Title="{Binding Title}"
+                                             TitleToolTip="{Binding Title}"
+                                             ImgSource="{Binding Chart}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    
+                </ItemsControl>
+                <ItemsControl ItemsSource="{Binding UnivariateContent , UpdateSourceTrigger=PropertyChanged}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <ctr:GraphWindow HorizontalAlignment="Left" Margin="5"
+                                                 IconPath="..\images\trend26x26_black.png"
+                                                 GWidth="{Binding Chart.Width}"
+                                                 GHeight="{Binding Chart.Height}"
+                                                 Title="{Binding Title}"
+                                                 TitleToolTip="{Binding Title}"
+                                                 ImgSource="{Binding Chart}"/>
+                                <Grid>
+                                    <Border BorderThickness="0" Margin="5"  CornerRadius="10"
+                                            BorderBrush="#FFC3C2CB" Background="Transparent" Width="Auto" Height="Auto">
+                                        <TextBox x:Name="SummaryTable" AcceptsReturn="True" TextWrapping="Wrap" 
+                                                 BorderThickness="0"                                                 
+                                                 VerticalAlignment="Top"
+                                                 Margin="0,30,0,0"
+                                                 Height="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" TextAlignment="Left"
+                                                 IsReadOnly="True"  Text="{Binding Summary}"></TextBox>
+                                    </Border>
+                                </Grid>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</Page>

@@ -1,0 +1,162 @@
+﻿<Window x:Class="Dashboard.View.SelectTrendItemDialogView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Dashboard.ViewModel"
+        xmlns:root="clr-namespace:Dashboard"       
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        WindowStartupLocation="CenterScreen"        
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="NoResize"
+        Loaded="Window_Loaded"
+        Title="選擇熔爐項目..." Height="541" Width="482" ShowInTaskbar="False">
+    <Window.DataContext>
+        <vm:SelectTrendItemViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <CollectionViewSource Source="{Binding AvailableUnivariateSPCItems, UpdateSourceTrigger=PropertyChanged}" x:Key="sortedAvailableUniSPCItem">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="IntItemList"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+        <CollectionViewSource Source="{Binding SelectedUnivariateSPCItems, UpdateSourceTrigger=PropertyChanged}" x:Key="sortedSelUniSPCItem">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="IntItemList"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+        <Style x:Key="NoChromeButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="Chrome" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#ADADAD"/>
+                                <Setter Property="Opacity" TargetName="Chrome" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="10,5,10,5" >
+            <Label Content="單變量管制圖..." FontWeight="Bold"/>
+            <StackPanel Orientation="Horizontal" Margin="0,10" HorizontalAlignment="Center">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="可選擇項.."/>
+                    <ListBox Width="200" Height="150" ItemsSource="{Binding Source={StaticResource sortedAvailableUniSPCItem}}"
+                             SelectionMode="Extended"                               
+                             >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                    <Button Content="&gt;" Width="30" Margin="5,5" Command="{Binding AddSelectedItemCommand}"/>
+                    <Button Content="&lt;" Width="30" Margin="5,5" Command="{Binding RemoveSelectedItemCommand}"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Label Content="已選擇項.."/>
+                    <ListBox Width="200" Height="150" ItemsSource="{Binding Source={StaticResource sortedSelUniSPCItem}}"
+                             SelectionMode="Extended"                               
+                             >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </StackPanel>
+            </StackPanel>
+            <Separator/>
+            <Label Content="多變量管制圖..." FontWeight="Bold"/>
+            <StackPanel Orientation="Horizontal" Margin="0,10">
+                <Button Content="新增管制圖..." Width="Auto" Height="20" Margin="10,0,0,0" Command="{Binding AddNewMultiSPCItemCommand}"/>
+            </StackPanel>
+            <DataGrid x:Name="multivariateGrid" HeadersVisibility="Column" VerticalScrollBarVisibility="Auto" Height="150" Margin="10,0,10,10"
+                      AlternatingRowBackground="LightGray"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      GridLinesVisibility="None"
+                      ItemsSource="{Binding SelectedMultivariateSPCItems, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}">
+                <!--<DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" 
+                   Color="{DynamicResource {x:Static SystemColors.GradientActiveCaptionColorKey}}"/>
+                </DataGrid.Resources>-->
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="25">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding DataContext.DeleteMulItemCommand, ElementName=multivariateGrid}" CommandParameter="{Binding}"
+                                        Background="Transparent" BorderThickness="0">
+                                    <Image Source="..\images\delete-icon2.png" Width="15" Cursor="Hand" ToolTip="刪除多變量管制圖"/>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="標題" MinWidth="100" Width="100" CanUserSort="False" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>                            
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <!--<DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <TextBox x:Name="EditTextBox" Text="{Binding Title,Mode=TwoWay}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>-->
+                    </DataGridTemplateColumn>                    
+                    <DataGridTextColumn Binding="{Binding Description}" 
+                                        Header="描述" Width="*" 
+                                        CanUserSort="False" IsReadOnly="True">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=Content.Text}"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTemplateColumn Width="25" x:Name="EditCol">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding DataContext.ShowSelMulItemDialogCommand, ElementName=multivariateGrid}" CommandParameter="{Binding}">
+                                    <Image Source="..\images\more26x5.png" Width="15" Cursor="Hand" ToolTip="編輯多變量管制圖"/>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+
+            </DataGrid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="確定" Width="60" Height="30" Margin="5" Command="{Binding SaveCommand}" />
+                <Button Content="取消" Width="60" Height="30" IsCancel="True"/>
+            </StackPanel>
+        </StackPanel>
+
+
+
+    </Grid>
+</Window>

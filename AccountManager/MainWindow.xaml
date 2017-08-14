@@ -1,0 +1,72 @@
+﻿<Window x:Class="AccountManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm ="clr-namespace:AccountManager.ViewModel"
+        Title="使用者管理工具" Width="800" SizeToContent="Height" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <TabControl Width="Auto" Height="Auto">
+            <TabItem Header="帳號上傳">
+                <DockPanel>
+                    <StackPanel Orientation="Vertical" Margin="10">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <Label Content="上傳使用者資訊" FontSize="14"/>
+                            <Button Width="20" Height="20" Margin="10,0,0,0" Background="Transparent" BorderThickness="0"
+                            ToolTip="將符合規範的使用者帳密清單上傳至資料庫中">
+                                <Image Source="images\Help.png"/>
+                            </Button>
+                        </StackPanel>
+                        <DockPanel>
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                                <TextBox Width="400" Height="30" Margin="5,0,15,0" VerticalContentAlignment="Center"
+                                 Text="{Binding SelectedFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                <Button Content="瀏覽..." Width="80" Height="30" Command="{Binding BrowseFileCommand}"/>
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Right">
+                                <Label HorizontalAlignment="Right">
+                                    <Hyperlink Command="{Binding DownloadSampleCommand}">下載範例檔</Hyperlink>
+                                </Label>
+                            </StackPanel>
+                        </DockPanel>
+                        <Button Content="上傳檔案" FontSize="14" Width="100" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="20" Command="{Binding UploadFileCommand}"/>
+
+                    </StackPanel>
+
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="連線設定">
+                <DockPanel>
+                    <StackPanel Orientation="Vertical" Margin="10" DockPanel.Dock="Top">
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Content="資料庫位置" FontSize="14" Width="100"/>
+                            <TextBox Text="{Binding SrvName, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25" FontSize="14" VerticalContentAlignment="Center" Margin="5,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Content="連接阜" FontSize="14" Width="100"/>
+                            <TextBox Text="{Binding PortNum, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25" FontSize="14" VerticalContentAlignment="Center" Margin="5,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Content="資料庫名稱" FontSize="14" Width="100"/>
+                            <TextBox Text="{Binding DBName, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25" FontSize="14" VerticalContentAlignment="Center" Margin="5,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Content="使用者帳號" FontSize="14" Width="100"/>
+                            <TextBox Text="{Binding UID, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25" FontSize="14" VerticalContentAlignment="Center" Margin="5,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Content="密碼" FontSize="14" Width="100"/>
+                            <TextBox Text="{Binding PSW, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25" FontSize="14" VerticalContentAlignment="Center" Margin="5,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Bottom" Margin="15">
+                        <Button Content="更新連線設定" Command="{Binding UpdateConnStrCommand}" 
+                                HorizontalAlignment="Right"
+                                Width="100" Height="30"/>
+                    </StackPanel>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

@@ -1,0 +1,252 @@
+﻿<Window x:Class="Dashboard.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Dashboard"  
+        xmlns:vm="clr-namespace:Dashboard.ViewModel"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        Height="600" Width="1200" WindowStartupLocation="CenterScreen"
+        MinWidth="800" MinHeight="600"
+        Title="Minitab Dashboard" Closed="Window_Closed"  Loaded="Window_Loaded"
+        Icon="images/corp30x30.png" FontSize="11">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <SolidColorBrush x:Key="GlyphBrush" Color="#FFF9F9F9" />
+        <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Grid  Width="15" Height="13" Background="Transparent">
+                            <Path x:Name="ExpandPath" HorizontalAlignment="Left" VerticalAlignment="Center" 
+        						Margin="1,1,1,1" Fill="{StaticResource GlyphBrush}"
+        						Data="M 4 0 L 8 4 L 4 8 Z"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Data" TargetName="ExpandPath" Value="M 0 4 L 8 4 L 4 8 Z"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type TreeViewItem}" x:Key="MyTreeViewItem">
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="DarkGray"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="DarkGray"/>
+            </Style.Resources>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="MinHeight" Value="22"/>
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Width="10"/>
+                            <!--<Image x:Name="img"
+        						Width="15"
+        						Height="15"						   
+        						Source="{Binding RelativeSource=}"/>-->
+                            <TextBlock Text="{Binding}" Margin="0,5,0,5" TextAlignment="Left" FontSize="14" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                        <ControlTemplate.Resources>
+                            <local:LeftMarginMultiplierConverter Length="19" x:Key="lengthConverter" />
+                        </ControlTemplate.Resources>
+                        <StackPanel>
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}"
+        						BorderBrush="{TemplateBinding BorderBrush}"
+        						BorderThickness="{TemplateBinding BorderThickness}"
+        						Padding="{TemplateBinding Padding}">
+                                <Grid Margin="{Binding Converter={StaticResource lengthConverter}, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="19" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <ToggleButton x:Name="Expander"
+        								Style="{StaticResource ExpandCollapseToggleStyle}"
+        								IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press"/>
+                                    <ContentPresenter x:Name="PART_Header" Grid.Column="1" 
+        								ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                </Grid>
+                            </Border>
+                            <ItemsPresenter x:Name="ItemsHost" />
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsExpanded" Value="false">
+                                <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                            <Trigger Property="HasItems" Value="false">
+                                <Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="HasHeader" Value="false"/>
+                                    <Condition Property="Width" Value="Auto"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="PART_Header" Property="MinWidth"  Value="75"/>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="HasHeader" Value="false"/>
+                                    <Condition Property="Height" Value="Auto"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="PART_Header" Property="MinHeight" Value="19"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="true"/>
+                                    <Condition Property="IsSelectionActive" Value="false"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <!--Selected and has focus-->
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="BorderBrush" Value="{x:Null}"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <!--Mouse over-->
+                <Trigger Property="IsMouseOver"  Value="True">
+                    <Setter Property="BorderBrush" Value="#B8D6FB"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+                <!--Selected but does not have the focus-->
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsSelected" Value="True"/>
+                        <Condition Property="IsSelectionActive" Value="False"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Foreground" Value="WhiteSmoke"/>
+                    <Setter Property="BorderBrush" Value="#FFFD4747"/>
+                    <!--<Setter Property="Background" Value="Transparent"/>-->
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions >
+            <RowDefinition Height="30" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition Width="180" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Row="0" Grid.Column="0"  Grid.RowSpan="1" Grid.ColumnSpan="2" Background="#FF3C3C3C" >
+            <DockPanel Visibility="Visible"                        
+                       Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}">
+                <Menu x:Name="_menu" 
+                      BorderThickness="0" BorderBrush="LightGray">
+                    <MenuItem Header="熔爐量測項管理" Foreground="Black" FontSize="12" Margin="10,0,2,0" VerticalAlignment="Center"
+                              Height="28">
+                        <MenuItem Header="熔爐項目" IsEnabled="{Binding IsAdmin, UpdateSourceTrigger=PropertyChanged}" Command="{Binding EditItemCommand}"/>
+                        <MenuItem Header="單變量參數" IsEnabled="{Binding IsAdmin, UpdateSourceTrigger=PropertyChanged}" Command="{Binding EditUniVarCommand}"/>
+                        <MenuItem Header="多變量參數" IsEnabled="{Binding IsAdmin, UpdateSourceTrigger=PropertyChanged}" Command="{Binding EditMulVarCommand}"/>
+                        <MenuItem Header="熔爐項至抽絲延遲" IsEnabled="{Binding IsAdmin, UpdateSourceTrigger=PropertyChanged}" Command="{Binding EditFurnBkLagCommand}"/>
+                        <Separator/>
+                        <MenuItem Header="設定即時報表項目" IsEnabled="{Binding IsAdmin, UpdateSourceTrigger=PropertyChanged}" Command="{Binding EditRealTimeCommand}"/>
+                    </MenuItem>
+                    <MenuItem Header="選項" Foreground="Black" FontSize="12" Margin="2,0" VerticalAlignment="Center"
+                              Height="28">
+                        <MenuItem Header="連線設定" Command="{Binding DBSettingCommand}"/>
+                    </MenuItem>
+                    <MenuItem Header="協助" Foreground="Black" FontSize="12" Margin="2,0" VerticalAlignment="Center"
+                              Height="28">
+                        <MenuItem Header="關於" Command="{Binding AboutCommand}"/>
+                    </MenuItem>
+                </Menu>
+                <StackPanel Background="Transparent" DockPanel.Dock="Right"  VerticalAlignment="Center">
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Right" 
+                           Visibility="{Binding ShowLogIn, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource BoolToVis }}"
+                           FontSize="12" Height="28" Margin="10">
+                        <Hyperlink Command="{Binding LoginCommand}">Login</Hyperlink>
+                    </Label>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                                Visibility="{Binding ShowLogOut, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVis }}">
+                        <Label VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="12" Height="28" Margin="5"
+                               Content="{Binding UserName}"/>
+                        <Label VerticalAlignment="Center" HorizontalAlignment="Right"
+                               FontSize="12" Height="28" Margin="5">
+                            <Hyperlink Command="{Binding AccountSettingCommand}">Settings</Hyperlink>
+                        </Label>
+                        <Label VerticalAlignment="Center" HorizontalAlignment="Right"   
+                               FontSize="12" Height="28" Margin="5">
+                            <Hyperlink Command="{Binding LogoutCommand}">Logout</Hyperlink>
+                        </Label>
+                    </StackPanel>
+
+                </StackPanel>
+            </DockPanel>
+        </Border>
+        <!--Task Pane-->
+        <Border Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Background="#FF3C3C3C" BorderThickness="0">
+            <DockPanel LastChildFill="False">
+                <StackPanel DockPanel.Dock="Top">
+                    <TreeView x:Name="treeView" Background="{x:Null}" Foreground="WhiteSmoke" BorderBrush="Transparent">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectedItemChanged">
+                                <i:InvokeCommandAction Command="{Binding TreeviewSelectedItemChangedCommand}" CommandParameter="{Binding ElementName=treeView, Path=SelectedItem}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <TreeViewItem  Header="即時報表" Style="{StaticResource MyTreeViewItem}" x:Name="RealTime"                                 
+                                   IsSelected="{Binding IsRealTimeSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TreeViewItem Header="熔爐" Style="{StaticResource MyTreeViewItem}" Cursor="Arrow" IsExpanded="True">
+                            <TreeViewItem x:Name="SPC" Header="趨勢分析" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding IsSPCSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TreeViewItem x:Name="Correlation" Header="斷絲率相關性" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding IsCorrSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                        </TreeViewItem>
+                        <TreeViewItem Header="紡位" Style="{StaticResource MyTreeViewItem}" Cursor="Arrow" IsExpanded="True">
+                            <TreeViewItem x:Name="DiffCompare" Header="斷絲率差異" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding  IsPosiDiffSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                        </TreeViewItem>
+                        <!--<TreeViewItem Header="玻璃物性" Style="{StaticResource MyTreeViewItem}" Cursor="Arrow" IsExpanded="True">
+                        <TreeViewItem x:Name="PropTrend" Header="趨勢分析" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding  IsPropTrendSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                    </TreeViewItem>-->
+                        <!--<TreeViewItem x:Name="Export" Header="匯出報表" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding IsExportSelected, UpdateSourceTrigger=PropertyChanged}"/>-->
+                        <!--<TreeViewItem x:Name="ExportData" Header="取得資料" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding IsExportDataSelected, UpdateSourceTrigger=PropertyChanged}"/>-->
+                    </TreeView>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical" Margin="1">
+                    <Button Content="匯出報表" Background="WhiteSmoke"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center" 
+                            FontSize="14"
+                            Height="30" Command="{Binding ExportReportCommand}"></Button>
+                    <Button Content="匯出資料表" Background="WhiteSmoke"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center" 
+                            FontSize="14"
+                            Height="30" Command="{Binding ExportDataCommand}"></Button>
+                </StackPanel>
+            </DockPanel>
+
+        </Border>
+        <!--Report Pane-->
+        <Border Grid.Row="1" Grid.Column="1" Background="Transparent">
+            <DockPanel>
+                <Frame x:Name="_mainFrame" NavigationUIVisibility="Hidden" Content="{Binding CurrentPage}"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>
