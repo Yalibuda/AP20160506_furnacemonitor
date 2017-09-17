@@ -43,7 +43,7 @@
     </Reference>
     <Reference Include="Mtblib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\00.GeneralTool\Mtblib_v16\Mtblib\bin\Release\Mtblib.dll</HintPath>
+      <HintPath>..\..\Mtblib\Mtblib\bin\Release\Mtblib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -155,6 +155,9 @@
     <Compile Include="View\PosiDiffTestView.xaml.cs">
       <DependentUpon>PosiDiffTestView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\PropertyAnalysisView.xaml.cs">
+      <DependentUpon>PropertyAnalysisView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\RealTimeSPCView.xaml.cs">
       <DependentUpon>RealTimeSPCView.xaml</DependentUpon>
     </Compile>
@@ -235,6 +238,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\PosiDiffTestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PropertyAnalysisView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

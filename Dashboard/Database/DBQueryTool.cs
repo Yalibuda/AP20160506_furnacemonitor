@@ -142,7 +142,7 @@ namespace Dashboard.Database
             string[] itemname
                 = GetData(query.ToString(), GetConnString()).AsEnumerable()
                 .Select(x => x.Field<string>("ITEM_NAME")).ToArray();
-            string[] pivotCol = itemname.Zip(items, (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
+            string[] pivotCol = itemname.Zip(items.OrderBy(x => x), (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
 
             query.Clear();
             query.AppendFormat("SELECT [TIMESTAMP],{0}, MAX(CHART_PARA_INDEX) AS CHART_PARA_INDEX FROM (\r\n", string.Join(",", pivotCol));
@@ -264,7 +264,7 @@ namespace Dashboard.Database
             string[] itemname
                 = GetData(query.ToString(), GetConnString()).AsEnumerable()
                 .Select(x => x.Field<string>("ITEM_NAME")).ToArray();
-            string[] pivotCol = itemname.Zip(items, (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
+            string[] pivotCol = itemname.Zip(items.OrderBy(x => x), (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
             query.Clear();
             //query.AppendFormat("SELECT BK.GROUP_ID, BK.TIMESTAMP, FURN.RPT_TIMEHOUR ,BK.BK, {0} FROM vw_bkhour BK LEFT JOIN (\r\n",
             //    string.Join(",", itemname.Select(x => "FURN.[" + x + "]")));
