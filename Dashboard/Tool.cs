@@ -205,262 +205,63 @@ namespace Dashboard
         /// <returns></returns>
         public static bool ExportMSWordReport(IEnumerable<Model.IReport> rpt)
         {
-            #region rawversion
-            //Word.Application wdApp = null;
-            //try
-            //{                
-            //    wdApp = new Word.Application();    
-            //    wdApp.Visible = true;
-            //    Word.Document doc = wdApp.Documents.Add();
-            //    Word.Range rng;
-            //    foreach (Model.IReport item in rpt)
-            //    {
-            //        rng = doc.Paragraphs.Add().Range;
-            //        rng.InsertAfter(item.Title);
-            //        rng.Font.Size = 14;
-            //        rng.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-            //        foreach (Model.IRptOutput output in item.Contents)
-            //        {
-            //            rng.InsertParagraphAfter();
-            //            rng = doc.Paragraphs[doc.Paragraphs.Count].Range;
-            //            rng.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-            //            rng.ParagraphFormat.LineSpacingRule = Word.WdLineSpacing.wdLineSpaceSingle;
-            //            rng.Font.Size = 10;
-            //            if (output.OutputInByteArr == null) { continue; }
-            //            switch (output.OType)
-            //            {
-            //                case Dashboard.Model.MtbOType.GRAPH:
-            //                    Image img = Tool.BinaryToImage(output.OutputInByteArr);
-            //                    System.Windows.Clipboard.SetDataObject(img);
-            //                    rng.Paste();
-            //                    var shape = rng.InlineShapes[rng.InlineShapes.Count];
-            //                    shape.Width = doc.PageSetup.PageWidth * 0.7f;
-            //                    break;
-            //                case Dashboard.Model.MtbOType.PARAGRAPH:
-
-            //                    rng.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
-            //                    rng.ParagraphFormat.LineSpacingRule = Word.WdLineSpacing.wdLineSpaceExactly;
-            //                    rng.ParagraphFormat.LineSpacing = 12f;
-            //                    rng.InsertAfter(System.Text.Encoding.UTF8.GetString(output.OutputInByteArr));
-            //                    break;
-            //                case Dashboard.Model.MtbOType.TABLE:
-            //                    DataTable dt = Tool.BinaryToDataTable(output.OutputInByteArr);
-            //                    Word.Table tbl = CreateWordTableWithDataTable(dt, rng);
-            //                    break;
-            //                case Dashboard.Model.MtbOType.TITLE:
-            //                    break;
-            //                default:
-            //                    break;
-            //            }
-            //        }
-
-
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    System.Windows.MessageBox.Show( ex.HResult.ToString() + "-" +ex.Message,"", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
-            //    return false;                
-            //}
-            //return true;
-            #endregion
-
-            #region revised version
-            //Word.Application wdApp = null;
-            //try
-            //{
-            //    wdApp = new Word.Application();
-            //    wdApp.Visible = true;
-            //    Word.Document doc = wdApp.Documents.Add();
-            //    Word.Range rng;
-            //    if (rpt.ElementAt(0) is Model.IOxyReport)
-            //    {
-            //        foreach (Model.IOxyReport item in rpt)
-            //        {
-            //            rng = doc.Paragraphs.Add().Range;
-            //            //rng.InsertAfter(item.Title);
-            //            rng.Font.Size = 14;
-            //            rng.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-            //            foreach (Model.IOxyRptOutput output in item.OxyContents)
-            //            {
-            //                rng.InsertParagraphAfter();
-            //                rng = doc.Paragraphs[doc.Paragraphs.Count].Range;
-            //                rng.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-            //                rng.ParagraphFormat.LineSpacingRule = Word.WdLineSpacing.wdLineSpaceSingle;
-            //                rng.Font.Size = 10;
-            //                if (output.OutputInByteArr == null) { continue; }
-            //                switch (output.OxyOType)
-            //                {
-            //                    case Dashboard.Model.OxyOType.GRAPH:
-            //                        Image img = Tool.BinaryToImage(output.OutputInByteArr);
-            //                        System.Windows.Clipboard.SetDataObject(img);
-            //                        rng.Paste();
-            //                        var shape = rng.InlineShapes[rng.InlineShapes.Count];
-            //                        shape.Width = doc.PageSetup.PageWidth * 0.7f;
-            //                        break;
-            //                    case Dashboard.Model.OxyOType.TABLE:
-            //                        DataTable dt = Tool.BinaryToDataTable(output.OutputInByteArr);
-            //                        Word.Table tbl = CreateWordTableWithDataTable(dt, rng);
-            //                        break;
-            //                    default:
-            //                        break;
-            //                }
-            //            }
-            //        }
-            //    }
-            //    else //here is the original code for Mtb
-            //    {
-            //        foreach (Model.IReport item in rpt)
-            //        {
-            //            rng = doc.Paragraphs.Add().Range;
-            //            rng.InsertAfter(item.Title);
-            //            rng.Font.Size = 14;
-            //            rng.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-            //            foreach (Model.IRptOutput output in item.Contents)
-            //            {
-            //                rng.InsertParagraphAfter();
-            //                rng = doc.Paragraphs[doc.Paragraphs.Count].Range;
-            //                rng.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-            //                rng.ParagraphFormat.LineSpacingRule = Word.WdLineSpacing.wdLineSpaceSingle;
-            //                rng.Font.Size = 10;
-            //                if (output.OutputInByteArr == null) { continue; }
-            //                switch (output.OType)
-            //                {
-            //                    case Dashboard.Model.MtbOType.GRAPH:
-            //                        Image img = Tool.BinaryToImage(output.OutputInByteArr);
-            //                        System.Windows.Clipboard.SetDataObject(img);
-            //                        rng.Paste();
-            //                        var shape = rng.InlineShapes[rng.InlineShapes.Count];
-            //                        shape.Width = doc.PageSetup.PageWidth * 0.7f;
-            //                        break;
-            //                    case Dashboard.Model.MtbOType.PARAGRAPH:
-
-            //                        rng.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
-            //                        rng.ParagraphFormat.LineSpacingRule = Word.WdLineSpacing.wdLineSpaceExactly;
-            //                        rng.ParagraphFormat.LineSpacing = 12f;
-            //                        rng.InsertAfter(System.Text.Encoding.UTF8.GetString(output.OutputInByteArr));
-            //                        break;
-            //                    case Dashboard.Model.MtbOType.TABLE:
-            //                        DataTable dt = Tool.BinaryToDataTable(output.OutputInByteArr);
-            //                        Word.Table tbl = CreateWordTableWithDataTable(dt, rng);
-            //                        break;
-            //                    case Dashboard.Model.MtbOType.TITLE:
-            //                        break;
-            //                    default:
-            //                        break;
-            //                }
-            //            }
-            //        }
-            //    }
-                
-            //}
-            //catch (Exception ex)
-            //{
-            //    System.Windows.MessageBox.Show(ex.HResult.ToString() + "-" + ex.Message, "", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
-            //    return false;
-            //}
-            //return true;
-            #endregion
-
-            #region revised version II
-            //write a method which could handle both mtb and oxy reports in ReportItems, not only one kinds
-             Word.Application wdApp = null;
-             try
-             {
-                 wdApp = new Word.Application();
-                 wdApp.Visible = true;
-                 Word.Document doc = wdApp.Documents.Add();
-                 Word.Range rng;
-                 foreach (var item in rpt)
-                 {
-                     #region if item is Model.IOxyReport
-                     if (item is Model.IOxyReport) 
-                     {
-                         Model.IOxyReport itemTrans = item as Model.IOxyReport;
-                         rng = doc.Paragraphs.Add().Range;
-                        //rng.InsertAfter(item.Title);
-                        rng.Font.Size = 14;
+            Word.Application wdApp = null;
+            try
+            {                
+                wdApp = new Word.Application();    
+                wdApp.Visible = true;
+                Word.Document doc = wdApp.Documents.Add();
+                Word.Range rng;
+                foreach (Model.IReport item in rpt)
+                {
+                    rng = doc.Paragraphs.Add().Range;
+                    rng.InsertAfter(item.Title);
+                    rng.Font.Size = 14;
+                    rng.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                    foreach (Model.IRptOutput output in item.Contents)
+                    {
+                        rng.InsertParagraphAfter();
+                        rng = doc.Paragraphs[doc.Paragraphs.Count].Range;
                         rng.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                        foreach (Model.IOxyRptOutput output in itemTrans.OxyContents)
+                        rng.ParagraphFormat.LineSpacingRule = Word.WdLineSpacing.wdLineSpaceSingle;
+                        rng.Font.Size = 10;
+                        if (output.OutputInByteArr == null) { continue; }
+                        switch (output.OType)
                         {
-                            rng.InsertParagraphAfter();
-                            rng = doc.Paragraphs[doc.Paragraphs.Count].Range;
-                            rng.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                            rng.ParagraphFormat.LineSpacingRule = Word.WdLineSpacing.wdLineSpaceSingle;
-                            rng.Font.Size = 10;
-                            if (output.OutputInByteArr == null) { continue; }
-                            switch (output.OxyOType)
-                            {
-                                case Dashboard.Model.OxyOType.GRAPH:
-                                    Image img = Tool.BinaryToImage(output.OutputInByteArr);
-                                    System.Windows.Clipboard.SetDataObject(img);
-                                    rng.Paste();
-                                    var shape = rng.InlineShapes[rng.InlineShapes.Count];
-                                    shape.Width = doc.PageSetup.PageWidth * 0.7f;
-                                    break;
-                                case Dashboard.Model.OxyOType.TABLE:
-                                    DataTable dt = Tool.BinaryToDataTable(output.OutputInByteArr);
-                                    Word.Table tbl = CreateWordTableWithDataTable(dt, rng);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                     }
-                     #endregion
-                     #region if item is Model.IReport
-                     else
-                     {
-                         Model.IReport itemTrans = item as Model.IReport;
-                         rng = doc.Paragraphs.Add().Range;
-                         rng.InsertAfter(item.Title);
-                         rng.Font.Size = 14;
-                         rng.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                         foreach (Model.IRptOutput output in itemTrans.Contents)
-                         {
-                             rng.InsertParagraphAfter();
-                             rng = doc.Paragraphs[doc.Paragraphs.Count].Range;
-                             rng.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                             rng.ParagraphFormat.LineSpacingRule = Word.WdLineSpacing.wdLineSpaceSingle;
-                             rng.Font.Size = 10;
-                             if (output.OutputInByteArr == null) { continue; }
-                             switch (output.OType)
-                             {
-                                 case Dashboard.Model.MtbOType.GRAPH:
-                                     Image img = Tool.BinaryToImage(output.OutputInByteArr);
-                                     System.Windows.Clipboard.SetDataObject(img);
-                                     rng.Paste();
-                                     var shape = rng.InlineShapes[rng.InlineShapes.Count];
-                                     shape.Width = doc.PageSetup.PageWidth * 0.7f;
-                                     break;
-                                 case Dashboard.Model.MtbOType.PARAGRAPH:
+                            case Dashboard.Model.MtbOType.GRAPH:
+                                Image img = Tool.BinaryToImage(output.OutputInByteArr);
+                                System.Windows.Clipboard.SetDataObject(img);
+                                rng.Paste();
+                                var shape = rng.InlineShapes[rng.InlineShapes.Count];
+                                shape.Width = doc.PageSetup.PageWidth * 0.7f;
+                                break;
+                            case Dashboard.Model.MtbOType.PARAGRAPH:
 
-                                     rng.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
-                                     rng.ParagraphFormat.LineSpacingRule = Word.WdLineSpacing.wdLineSpaceExactly;
-                                     rng.ParagraphFormat.LineSpacing = 12f;
-                                     rng.InsertAfter(System.Text.Encoding.UTF8.GetString(output.OutputInByteArr));
-                                     break;
-                                 case Dashboard.Model.MtbOType.TABLE:
-                                     DataTable dt = Tool.BinaryToDataTable(output.OutputInByteArr);
-                                     Word.Table tbl = CreateWordTableWithDataTable(dt, rng);
-                                     break;
-                                 case Dashboard.Model.MtbOType.TITLE:
-                                     break;
-                                 default:
-                                     break;
-                             }
-                         }
-                     }
-                     #endregion
-                 }
-             }
-             catch (Exception ex)
-             {
-                 System.Windows.MessageBox.Show(ex.HResult.ToString() + "-" + ex.Message, "", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
-                 return false;
-             }
-             return true;
-            #endregion
+                                rng.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                                rng.ParagraphFormat.LineSpacingRule = Word.WdLineSpacing.wdLineSpaceExactly;
+                                rng.ParagraphFormat.LineSpacing = 12f;
+                                rng.InsertAfter(System.Text.Encoding.UTF8.GetString(output.OutputInByteArr));
+                                break;
+                            case Dashboard.Model.MtbOType.TABLE:
+                                DataTable dt = Tool.BinaryToDataTable(output.OutputInByteArr);
+                                Word.Table tbl = CreateWordTableWithDataTable(dt, rng);
+                                break;
+                            case Dashboard.Model.MtbOType.TITLE:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show( ex.HResult.ToString() + "-" +ex.Message,"", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                return false;                
+            }
+            return true;
         }
 
         /// <summary>

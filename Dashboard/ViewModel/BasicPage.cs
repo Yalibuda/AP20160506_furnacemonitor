@@ -34,8 +34,7 @@ namespace Dashboard.ViewModel
                 if (!Database.DBQueryTool.CompareDataTableRow(_dtSiteInfo, value))
                 {
                     _dtSiteInfo = value;
-                    //RaisePropertyChanged("SiteInfo"); // this one is no use? 20171002
-                    RaisePropertyChanged("Sites"); // this one is added 20171002
+                    RaisePropertyChanged("SiteInfo");
                 }
             }
         }

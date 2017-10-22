@@ -339,9 +339,9 @@
 		<col def="S0">ISDotNetInstallerArgsCommit</col>
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
-		<row><td>Dashboard.exe</td><td>{66A87199-5CC0-4B29-BF32-5F29371D8A0F}</td><td>INSTALLDIR</td><td>2</td><td/><td>dashboard.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Dashboard.exe</td><td>{B2CA6243-B2E1-48F4-9781-B40CC094D581}</td><td>INSTALLDIR</td><td>2</td><td/><td>dashboard.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{7DA03AE4-84E9-4137-863E-B8B8F177DE39}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Windows.Interactivity.dll</td><td>{9765B897-CCDB-48F1-86E9-4902DFF7A757}</td><td>INSTALLDIR</td><td>2</td><td/><td>system.windows.interactivity</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.Windows.Interactivity.dll</td><td>{73E9AA0F-45D8-4A18-85B9-E8907B6E5031}</td><td>INSTALLDIR</td><td>2</td><td/><td>system.windows.interactivity</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -1882,10 +1882,10 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
-		<row><td>dashboard.exe</td><td>Dashboard.exe</td><td>DASHBO~1.EXE|Dashboard.exe</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Dropbox\Workspace\03.PFG\02.UI\AP20160506_FurnaceMonitor\Dashboard\bin\Release\Dashboard.exe</td><td>1</td><td/></row>
-		<row><td>dashboard.exe.config</td><td>ISX_DEFAULTCOMPONENT</td><td>DASHBO~1.CON|Dashboard.exe.config</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Dropbox\Workspace\03.PFG\02.UI\AP20160506_FurnaceMonitor\Dashboard\bin\Release\Dashboard.exe.config</td><td>1</td><td/></row>
-		<row><td>readme.txt</td><td>ISX_DEFAULTCOMPONENT</td><td>readme.txt</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Dropbox\Workspace\03.PFG\02.UI\AP20160506_FurnaceMonitor\Dashboard\bin\Debug\readme.txt</td><td>1</td><td/></row>
-		<row><td>system.windows.interactivity</td><td>System.Windows.Interactivity.dll</td><td>SYSTEM~1.DLL|System.Windows.Interactivity.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Dropbox\Workspace\03.PFG\02.UI\AP20160506_FurnaceMonitor\Dashboard\bin\Debug\System.Windows.Interactivity.dll</td><td>1</td><td/></row>
+		<row><td>dashboard.exe</td><td>Dashboard.exe</td><td>DASHBO~1.EXE|Dashboard.exe</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Yalibuda\Desktop\AP20160506_furnacemonitor\Dashboard\bin\Release\Dashboard.exe</td><td>1</td><td/></row>
+		<row><td>dashboard.exe.config</td><td>ISX_DEFAULTCOMPONENT</td><td>DASHBO~1.CON|Dashboard.exe.config</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Yalibuda\Desktop\AP20160506_furnacemonitor\Dashboard\bin\Release\Dashboard.exe.config</td><td>1</td><td/></row>
+		<row><td>readme.txt</td><td>ISX_DEFAULTCOMPONENT</td><td>readme.txt</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Yalibuda\Desktop\AP20160506_furnacemonitor\readme.txt</td><td>1</td><td/></row>
+		<row><td>system.windows.interactivity</td><td>System.Windows.Interactivity.dll</td><td>SYSTEM~1.DLL|System.Windows.Interactivity.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Yalibuda\Desktop\AP20160506_furnacemonitor\Dashboard\bin\Release\System.Windows.Interactivity.dll</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2028,9 +2028,9 @@
 		<col def="S0">FTPLocation</col>
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
-		<row><td>Dashboard.exe</td><td/><td/><td>_1C36FD10_D061_4B72_95F2_85784B552565_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Dashboard.exe</td><td/><td/><td>_EC94F244_7287_4356_BE43_3BC4A2F95A9D_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_E75453D6_4564_452E_8EF1_4C6FE452C88A_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Windows.Interactivity.dll</td><td/><td/><td>_E6EB0153_0F40_4246_AB92_9F327AFB31C3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.Windows.Interactivity.dll</td><td/><td/><td>_5E95F10A_78FC_43FD_A4D5_A5FA6105D396_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -2620,7 +2620,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>1028</td><td>Scientific Formosa, Inc</td><td>0</td><td/><td>2099589684</td></row>
+		<row><td>COMPANY_NAME</td><td>1028</td><td>Scientific Formosa, Inc</td><td>0</td><td/><td>455428496</td></row>
 		<row><td>DN_AlwaysInstall</td><td>1028</td><td>總是安裝</td><td>0</td><td/><td>497323435</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>1028</td><td>系統顏色設定不足以執行 [ProductName]。</td><td>0</td><td/><td>497323435</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_OS</td><td>1028</td><td>作業系統不足以執行 [ProductName]。</td><td>0</td><td/><td>497323435</td></row>
@@ -3438,6 +3438,10 @@
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME2</td><td>1033</td><td/><td>0</td><td/><td>497317675</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME3</td><td>1028</td><td>Minitab PFG Dashboard</td><td>0</td><td/><td>1982114464</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME3</td><td>1033</td><td/><td>0</td><td/><td>1982124640</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME4</td><td>1028</td><td>LAUNCH~1.EXE|Launch Dashboard.exe</td><td>0</td><td/><td>-2069553808</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME4</td><td>1033</td><td/><td>0</td><td/><td>-2069553808</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME5</td><td>1028</td><td>Minitab PFG Dashboard</td><td>0</td><td/><td>-2069529136</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME5</td><td>1033</td><td/><td>0</td><td/><td>-2069541488</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO</td><td>1028</td><td>從以下伺服器清單中選擇要連接的資料庫伺服器。</td><td>0</td><td/><td>497323435</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_DB</td><td>1028</td><td>請從下列目錄名稱清單中選取您希望作為目標的資料庫目錄。</td><td>0</td><td/><td>497323435</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_TEMPLATE</td><td>1028</td><td>[IS_SQLBROWSE_INTRO]</td><td>0</td><td/><td>497323435</td></row>
@@ -3726,8 +3730,8 @@
 		<row><td>IDS__TargetReq_DESC_PROCESSOR</td><td>1028</td><td>對於執行 [ProductName] 處理器不足。</td><td>0</td><td/><td>497323435</td></row>
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1028</td><td>對於執行 [ProductName] 記憶體量不足。</td><td>0</td><td/><td>497323435</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1028</td><td>對於執行 [ProductName] 螢幕解析度不足。</td><td>0</td><td/><td>497323435</td></row>
-		<row><td>ID_STRING1</td><td>1028</td><td>http://www.ScientificFormosa,Inc.com</td><td>0</td><td/><td>2099589684</td></row>
-		<row><td>ID_STRING2</td><td>1028</td><td>Scientific Formosa, Inc</td><td>0</td><td/><td>2099589684</td></row>
+		<row><td>ID_STRING1</td><td>1028</td><td>http://www.minitab.com.tw</td><td>0</td><td/><td>-2069506800</td></row>
+		<row><td>ID_STRING2</td><td>1028</td><td>Scientific Formosa, Inc</td><td>0</td><td/><td>455428496</td></row>
 		<row><td>ID_STRING3</td><td>1028</td><td>歡迎安裝</td><td>0</td><td/><td>497315275</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>歡迎安裝</td><td>0</td><td/><td>497315275</td></row>
 		<row><td>ID_STRING4</td><td>1028</td><td>PFG Minitab Dashboard</td><td>0</td><td/><td>497339979</td></row>
@@ -3852,6 +3856,8 @@
 		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;ISProductFolder&gt;\redist\Language Independent\OS Independent\setupicon.ico</td><td>0</td></row>
 		<row><td>Dashboard.exe1_3D6B2297985A4B8887C0F39204B09F79.exe</td><td/><td>D:\Dropbox\Workspace\Pic\myicon\corp30x30.ico</td><td>0</td></row>
 		<row><td>Dashboard.exe1_6B2D04A77DF54BD3B5BA1B7BB137CB4F.exe</td><td/><td>D:\Dropbox\Workspace\Pic\myicon\corp30x30.ico</td><td>0</td></row>
+		<row><td>Dashboard.exe_6D4D15F19E094BDE886CB61F39DA558C.exe</td><td/><td>&lt;ISProductFolder&gt;\redist\Language Independent\OS Independent\GenericExe.ico</td><td>0</td></row>
+		<row><td>Dashboard.exe_B95B5770FC4A425F8279BB3FDEB88CA0.exe</td><td/><td>D:\Dropbox\Workspace\Pic\myicon\corp30x30.ico</td><td>0</td></row>
 	</table>
 
 	<table name="IniFile">
@@ -3985,7 +3991,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{D1A65A49-68F4-473F-8AB1-4EB5811CB8C2}</td></row>
 		<row><td>ISUSSignature</td><td>{7B4B4FEC-3E92-4A8E-A783-15307150E11E}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewShortcuts,viewRelease,viewUpgradePaths,viewISToday,viewLearnMore</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewShortcuts,viewRelease,viewUpgradePaths</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
@@ -4359,7 +4365,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
-		<row><td>ProductCode</td><td>{98389DBD-4B73-4201-8686-A9381C8FA64D}</td><td/></row>
+		<row><td>ProductCode</td><td>{7FE7EE44-D397-4632-B01A-B43DF8E0A550}</td><td/></row>
 		<row><td>ProductName</td><td>PFG Minitab Dashboard</td><td/></row>
 		<row><td>ProductVersion</td><td>1.1.9</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
@@ -4373,7 +4379,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>RestartManagerOption</td><td>CloseRestart</td><td/></row>
 		<row><td>SERIALNUMBER</td><td/><td/></row>
 		<row><td>SERIALNUMVALSUCCESSRETVAL</td><td>1</td><td/></row>
-		<row><td>SecureCustomProperties</td><td>USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;ISACTIONPROP1;ISACTIONPROP2</td><td/></row>
+		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;ISACTIONPROP1</td><td/></row>
 		<row><td>SelectedSetupType</td><td>##IDS__DisplayName_Typical##</td><td/></row>
 		<row><td>SetupType</td><td>Typical</td><td/></row>
 		<row><td>UpgradeCode</td><td>{D9ED9F9E-2F3C-41BB-ACDD-88932991E553}</td><td/></row>
@@ -4436,6 +4442,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="L255">FileName</col>
 		<col def="s72">DirProperty</col>
 		<col def="i2">InstallMode</col>
+		<row><td>Dashboard.exe</td><td>Dashboard.exe</td><td/><td>pfgmin_1_pfg_minitab_dashboard1</td><td>2</td></row>
 	</table>
 
 	<table name="RemoveIniFile">
@@ -4521,7 +4528,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>Dashboard.exe1</td><td>DesktopFolder</td><td>##IDS_SHORTCUT_DISPLAY_NAME3##</td><td>Dashboard.exe</td><td>AlwaysInstall</td><td/><td/><td/><td>Dashboard.exe1_3D6B2297985A4B8887C0F39204B09F79.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>Dashboard.exe</td><td>pfgmin_1_pfg_minitab_dashboard1</td><td>##IDS_SHORTCUT_DISPLAY_NAME5##</td><td>Dashboard.exe</td><td>AlwaysInstall</td><td/><td/><td/><td>Dashboard.exe_B95B5770FC4A425F8279BB3FDEB88CA0.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">
@@ -4643,8 +4650,8 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">Remove</col>
 		<col def="s72">ActionProperty</col>
 		<col def="S72">ISDisplayName</col>
+		<row><td>{00000000-0000-0000-0000-000000000000}</td><td>***ALL_VERSIONS***</td><td></td><td></td><td>2</td><td/><td>ISFOUNDNEWERPRODUCTVERSION</td><td>ISPreventDowngrade</td></row>
 		<row><td>{D9ED9F9E-2F3C-41BB-ACDD-88932991E553}</td><td>1.0</td><td></td><td></td><td>768</td><td/><td>ISACTIONPROP1</td><td>update</td></row>
-		<row><td>{D9ED9F9E-2F3C-41BB-ACDD-88932991E553}</td><td>1.0.0</td><td>1.1.9</td><td></td><td>768</td><td/><td>ISACTIONPROP2</td><td>NewUpgradeEntry1</td></row>
 	</table>
 
 	<table name="Verb">

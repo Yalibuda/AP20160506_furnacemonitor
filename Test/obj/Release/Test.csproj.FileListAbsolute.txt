@@ -1,8 +1,0 @@
-D:\Dropbox-Hector\Dropbox\C sharp\2013\20170727CopyDashboard\Test\bin\Release\Test.exe.config
-D:\Dropbox-Hector\Dropbox\C sharp\2013\20170727CopyDashboard\Test\bin\Release\Test.exe
-D:\Dropbox-Hector\Dropbox\C sharp\2013\20170727CopyDashboard\Test\bin\Release\Test.pdb
-D:\Dropbox-Hector\Dropbox\C sharp\2013\20170727CopyDashboard\Test\obj\Release\Test.csprojResolveAssemblyReference.cache
-D:\Dropbox-Hector\Dropbox\C sharp\2013\20170727CopyDashboard\Test\obj\Release\Interop.Mtb.dll
-D:\Dropbox-Hector\Dropbox\C sharp\2013\20170727CopyDashboard\Test\obj\Release\Test.csproj.ResolveComReference.cache
-D:\Dropbox-Hector\Dropbox\C sharp\2013\20170727CopyDashboard\Test\obj\Release\Test.exe
-D:\Dropbox-Hector\Dropbox\C sharp\2013\20170727CopyDashboard\Test\obj\Release\Test.pdb
