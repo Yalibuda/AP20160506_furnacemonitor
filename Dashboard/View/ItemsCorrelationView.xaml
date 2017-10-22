@@ -1,0 +1,182 @@
+﻿<Page x:Class="Dashboard.View.ItemsCorrelationView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:vm="clr-namespace:Dashboard.ViewModel"
+      xmlns:cvt="clr-namespace:Dashboard.ViewModel.Converter"
+      xmlns:local="clr-namespace:Dashboard.View"     
+      xmlns:root="clr-namespace:Dashboard"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:ctr="clr-namespace:Dashboard.Control"
+      mc:Ignorable="d"       
+      d:DesignHeight="300" d:DesignWidth="800" 
+      Loaded="Page_Loaded"
+      Title="ItemsCorrelationView">
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <cvt:StringToSubstitute x:Key="GetSubString"/>
+    </Page.Resources>
+    <Page.DataContext>
+        <vm:ItemsCorrelationViewModel/>
+    </Page.DataContext>
+    <Grid>
+        <ctr:LoadingPane            
+            IsLoading="{Binding IsBusy}"
+            Background="White"
+            Opacity="0.5"
+            Panel.ZIndex="99"
+            Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}"
+         />
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical" Margin="10">
+                <Expander Header="" VerticalAlignment="Top" 
+                          HorizontalAlignment="Left"                           
+                          IsExpanded="True" Width="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="23*"/>
+                            <RowDefinition Height="5*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" BorderThickness="0" Grid.RowSpan="2">
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal" Margin="10,0,0,10">
+                                    <Label Content="廠別:"/>
+                                    <ComboBox x:Name="cbSite" ItemsSource="{Binding Sites , UpdateSourceTrigger=PropertyChanged}" 
+                                      Width="150" DisplayMemberPath="SITE_ID" SelectedValuePath="SITE_ID"                                     
+                                      SelectedValue="{Binding SITE_ID, Mode=TwoWay}"                                             
+                                      />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
+                                    <Button Content=" 設定分析項目 " Margin="0,0,10,0"
+                                            Command="{Binding ShowItemSelectionDialogCommand}" Height="25"
+                                            ></Button>
+                                    <Label Content="{Binding SelectedItemInfoString, UpdateSourceTrigger=PropertyChanged}" FontSize="12"/>
+                                </StackPanel>
+                                <Label Content="時間範圍" FontSize="12" Margin="10,15,5,5"
+                                       Foreground="DimGray"
+                                       >
+                                </Label>
+                                <WrapPanel Orientation="Horizontal" Margin="10,0,0,0">
+                                    <Label Content="起" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                    <DatePicker Margin="0,5,5,5" FirstDayOfWeek="Monday" VerticalContentAlignment="Bottom"
+                                                SelectedDate="{Binding StartDate,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox Width="70" VerticalContentAlignment="Center" Margin="0,5,0,5"
+                                             Text="{Binding StartTimeValue,UpdateSourceTrigger=PropertyChanged}"
+                                             />
+                                    <Label Content="迄" Margin="20,5,5,5"/>
+                                    <DatePicker Margin="0,5,5,5" FirstDayOfWeek="Monday"  VerticalContentAlignment="Bottom"
+                                                SelectedDate="{Binding EndDate,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox Width="70" VerticalContentAlignment="Center" Margin="0,5,0,5"
+                                             Text="{Binding EndTimeValue,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <DockPanel MinWidth="200">
+                                        <Button x:Name="btDoWork" Content="執行..."  Margin="100,5,0,5"
+                                                HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Visible"
+                                                Width="50" Height="25" Command="{Binding UpdatePageCommand}"/>
+                                    </DockPanel>
+
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Expander>
+                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                    <TextBlock Text="相關性分析" FontSize="15" FontWeight="Bold" VerticalAlignment="Bottom" Margin="0,0,10,0"/>
+                    <TextBlock Text="熔爐項相關性" FontSize="12" Foreground="#FFA4A4A4" VerticalAlignment="Bottom"/>
+                </StackPanel>
+                <Separator/>
+                <ItemsControl ItemsSource="{Binding CorrContent , UpdateSourceTrigger=PropertyChanged}"
+                              SnapsToDevicePixels="True">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                                <ctr:GraphWindow HorizontalAlignment="Left" Margin="5"
+                                                 Title="{Binding Path=Title, Converter={StaticResource GetSubString}}"
+                                                 TitleToolTip="{Binding Title}"
+                                                 IconPath="..\images\trend26x26_black.png"
+                                                 GHeight="{Binding TrendChart.Height}"
+                                                 GWidth="{Binding TrendChart.Width}"
+                                                 ImgSource="{Binding TrendChart}"/>
+                                <ctr:GraphWindow HorizontalAlignment="Left" Margin="5"
+                                                 Title="{Binding Path=Title, Converter={StaticResource GetSubString}}"
+                                                 TitleToolTip="{Binding Title}"
+                                                 IconPath="..\images\chart26x26_black.png"
+                                                 GHeight="{Binding ScatterPlot.Height}"
+                                                 GWidth="{Binding ScatterPlot.Width}"
+                                                 ImgSource="{Binding ScatterPlot}"/>
+                                <!--remove datagrid out-->
+                                <Grid>
+                                    <DataGrid ItemsSource="{Binding CorrTable,UpdateSourceTrigger=PropertyChanged}" 
+                                          Margin="5,10,0,0"
+                                          MaxHeight="200"
+                                          Height="Auto"                                          
+                                          MinWidth="200"
+                                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                          HeadersVisibility="Column" 
+                                          CanUserAddRows="False"
+                                          >
+                                        <!--><DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding Path=ItemName}" 
+                                                    Header="熔爐項目" Width="300"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=CorrCoef, StringFormat=\{0:n3\}}"
+                                                    Header="相關係數(-1~1)" Width="100" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=CorrCoef2, StringFormat=\{0:n3\}}"
+                                                    Header="test" Width="100" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            </DataGrid.Columns>-->
+                                    </DataGrid>
+                                </Grid>
+                                
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <!--DataGrid ItemsSource="{Binding CorrContent,UpdateSourceTrigger=PropertyChanged}">
+                    <DataGrid ItemsSource="{Binding CorrTable,UpdateSourceTrigger=PropertyChanged}" 
+                                          Margin="5,10,0,0"
+                                          MaxHeight="200"
+                                          Height="Auto"                                          
+                                          MinWidth="200"
+                                          CanUserResizeColumns="True"
+                                          AutoGenerateColumns="False"
+                                          HorizontalAlignment="Left"
+                                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                          HeadersVisibility="Column" 
+                                          CanUserAddRows="False"
+                                          Name="corrGrid"
+                                          >
+                        <DataGrid.Columns >
+                            <DataGridTextColumn Binding="{Binding Path=ItemName}" 
+                                                    Header="熔爐項目" Width="300"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Path=CorrCoef, StringFormat=\{0:n3\}}"
+                                                    Header="相關係數(-1~1)" Width="100" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Path=CorrCoef2, StringFormat=\{0:n3\}}"
+                                                    Header="test" Width="100" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </-->
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -1,0 +1,1394 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Mtblib</name>
+    </assembly>
+    <members>
+        <member name="T:Mtblib.Graph.Component.MGraph">
+            <summary>
+            Minitab Graph 基本設定
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.MGraph.GetOptionCommand">
+            <summary>
+            取得 Chart option 的指令碼 (GSave, WTitle)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Graph.Component.MGraph.GetRegionCommand">
+            <summary>
+            取得 Region 的指令碼(Graph, Data, Figure)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Graph.Component.MGraph.GetAnnotationCommand">
+            <summary>
+            取得 Annotation 指令碼 (Line, Mark, Rectangle, TextBox 等)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Graph.Component.MGraph.GetDataOptionCommand">
+            <summary>
+            取得 Data option 指令碼，繪製特定條件的資料
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Mtblib.Graph.Component.MGraph.WTitle">
+            <summary>
+            指定或取得 Session folder 上的標題
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.MGraph.GraphPath">
+            <summary>
+            指定或取得圖形儲存路徑(位置+檔名+副檔名)，副檔名可以是 JPG, JPEG, MGF.
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.MGraph.CommandPath">
+            <summary>
+            指定或取得 Minitab script 儲存路徑(位置+檔名)
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.MGraph.Title">
+            <summary>
+            圖形上的標題
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.MGraph.FootnoteLst">
+            <summary>
+            註解
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.MGraph.ShowDefaultFootnote">
+            <summary>
+            指定或取得是否要顯示預設的註腳
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.MGraph.ShowDefaultSubTitle">
+            <summary>
+            指定或取得是否要顯示預設的子標題
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.MGraph.ShowPersonalSubTitle">
+            <summary>
+            指定或取得是否要顯示個人註腳
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.MGraph.ShowSeparateSubTitle">
+            <summary>
+            指定或取得是否要顯示 Panel 分群註腳
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.BarChart.Chart.Variables">
+            <summary>
+            指定或取得要繪製的欄位，合法的 Set 為一(string/Mtb.Column)或多個(string[]/Mtb.Column[])欄位，
+            也可使用連續輸入表示式(string)，如: C1-C3，可用單引號名稱或是 Column id。使用 Get 取得 Minitab
+            欄位陣列(Mtb.Column[])
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.BarChart.Chart.GroupingVariables">
+            <summary>
+            指定或取得要分群的欄位，合法的 Set 為一(string/Mtb.Column)或多個(string[]/Mtb.Column[])欄位，
+            最多4組，也可使用連續輸入表示式(string)，如: C1-C3，可用單引號名稱或是 Column id。使用 Get 取
+            得 Minitab 欄位陣列(Mtb.Column[])
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.BarChart.Chart.BarsRepresent">
+            <summary>
+            設定或取得輸入的用於繪製 Bar Chart 的資料格式?
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.BarChart.Chart.StackType">
+            <summary>
+            指定或取得 Chart 的顯示方式，Stack 或是 Cluster
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.BarChart.Chart.FuncType">
+            <summary>
+            指定或取得 Chart 用於處理數據的函數類型，如果使用 Summarized Data 將無視 FuncType
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.BarChart.Chart.TableArrangement">
+            <summary>
+            指定或取得 Chart 使用 Two-way table 繪製時，依何種資料(Rows or Cols)做為最外層分群
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.BarChart.Chart.NoEmpty">
+            <summary>
+            指定或取得 Chart 是否要顯示 Empty cell
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.BarChart.Chart.NoMissing">
+            <summary>
+            指定或取得 Chart 是否要顯示 Missing cell
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.BarChart.Chart.Transponse">
+            <summary>
+            設定 X-Y 軸是否對調
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.BarChart.Chart.DataLabel">
+            <summary>
+            設定或取得 Data label 
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.BarChart.Chart.AdjDatlabAtStackBar">
+            <summary>
+            當顯示 Stack Bar Chart 的 Datlab 時，是否要使用修正的資料標籤?
+            即標籤代表各 Stack value，而非 Y 值。
+            並且需指定修正過標籤的欄位
+            </summary>
+        </member>
+        <member name="T:Mtblib.Graph.BarChart.Chart.ChartStackType">
+            <summary>
+            Chart 的顯示方式列舉，Stack 或是 Cluster
+            </summary>
+        </member>
+        <member name="T:Mtblib.Graph.BarChart.Chart.ChartFunctionType">
+            <summary>
+            輸入單一 Variable 時，可以對數據套用的函數
+            </summary>
+        </member>
+        <member name="T:Mtblib.Graph.BarChart.Chart.ChartRepresent">
+            <summary>
+            輸入的 Summarized Data 類型
+            </summary>
+        </member>
+        <member name="T:Mtblib.Graph.BarChart.Chart.ChartTableArrangementType">
+            <summary>
+            以 Two-way table 繪製 Bar chart 時，X軸的選用類型
+            </summary>
+        </member>
+        <member name="F:Mtblib.Graph.BarChart.Chart.ChartTableArrangementType.RowsOuterMost">
+            <summary>以列標籤做為分群的最外側</summary>
+        </member>
+        <member name="F:Mtblib.Graph.BarChart.Chart.ChartTableArrangementType.ColsOuterMost">
+            <summary>以行標籤做為分群的最外側</summary>
+        </member>
+        <member name="T:Mtblib.Graph.CategoricalChart.BoxPlot">
+            <summary>
+            處理的資料以
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.CategoricalChart.BoxPlot.Variables">
+            <summary>
+            指定或取得要繪製的欄位，合法的 Set 為一(string/Mtb.Column)或多個(string[]/Mtb.Column[])欄位，
+            也可使用連續輸入表示式(string)，如: C1-C3，可用單引號名稱或是 Column id。使用 Get 取得 Minitab
+            欄位陣列(Mtb.Column[])
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.CategoricalChart.BoxPlot.GroupingVariables">
+            <summary>
+            指定或取得要分群的欄位，合法的 Set 為一(string/Mtb.Column)或多個(string[]/Mtb.Column[])欄位，
+            最多4組，也可使用連續輸入表示式(string)，如: C1-C3，可用單引號名稱或是 Column id。使用 Get 取
+            得 Minitab 欄位陣列(Mtb.Column[])
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.DataView.DataView.DefaultCommand">
+            <summary>
+            取得預設的 Minitab 指令碼
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Graph.Component.DataView.DataView.Clone">
+            <summary>
+            複製目前物件的設定
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataView.Type">
+            <summary>
+            取得或回傳 Type 值 (string[]，值或欄位名稱)
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataView.Size">
+            <summary>
+            取得或回傳 Size 值 (string[]，值或欄位名稱)
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataView.Color">
+            <summary>
+            取得或回傳 Color 值 (string[]，值或欄位名稱)
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataView.EType">
+            <summary>
+            取得或回傳 EType 值 (string[]，值或欄位名稱)
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataView.ESize">
+            <summary>
+            取得或回傳 ESize 值 (string[]，值或欄位名稱)
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataView.EColor">
+            <summary>
+            取得或回傳 EColor 值 (string[]，值或欄位名稱)
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataView.Base">
+            <summary>
+            設定或取得 Bar 投影到 Y 軸的位置，合法 Set 為單一(double)或多個(double[])設定值。
+            Get 時丟出 double[]
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataView.Visible">
+            <summary>
+            設定 Symbol 是否可視
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataView.GroupingBy">
+            <summary>
+            指定或取得 DataView 的分群變數，可輸入時可一(string)或多個(stirng[])欄位文字，以string[] 回傳
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataView.DataViewPositionLst">
+            <summary>
+            微調的 Datlab 位置與屬性 List
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataView.GetCommand">
+            <summary>
+            取得 Minitab 指令碼
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.Bar.AssignAttributeByVariables">
+            <summary>
+            如果使用 Multi-variable 繪圖(2-way table的條件下)，如果要依據各變數給定 Bar 顏色、類型等，
+            需要 VASSIGN (Variables assign) 指令；此指令要搭配 Overlay 指令才有用
+            </summary>
+        </member>
+        <member name="T:Mtblib.Graph.Component.DataView.DataViewPosition">
+            <summary>
+            Dataview 的 Position 物件
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.DataView.DataViewPosition.DefaultCommand">
+            <summary>
+            取得預設的 Minitab 指令碼
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Graph.Component.DataView.DataViewPosition.Clone">
+            <summary>
+            深層複製
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataViewPosition.Model">
+            <summary>
+            設定或取得多組變數中要編輯的 Panel 
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataViewPosition.RowId">
+            <summary>
+            設定 Minitab Position 指令中要微調的資料位置
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataViewPosition.GetCommand">
+            <summary>
+            取得 Minitab 指令碼
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataViewPosition.Type">
+            <summary>
+            取得或回傳 Type 值
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataViewPosition.Size">
+            <summary>
+            取得或回傳 Size 值 
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataViewPosition.Color">
+            <summary>
+            取得或回傳 Color 值
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataViewPosition.EType">
+            <summary>
+            取得或回傳 EType 值 
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataViewPosition.ESize">
+            <summary>
+            取得或回傳 ESize 值 
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataViewPosition.EColor">
+            <summary>
+            取得或回傳 EColor 值 
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.DataView.DataViewPosition.Base">
+            <summary>
+            設定或取得 Bar 投影到 Y 軸的位置，合法 Set 為單一(double) 設定值。
+            Get 時丟出 double[]
+            </summary>
+        </member>
+        <member name="T:Mtblib.Graph.Component.DataView.Projection">
+            <summary>
+            圖形中的投影線
+            </summary>
+        </member>
+        <member name="T:Mtblib.Graph.Component.ILabels">
+            <summary>
+            定義圖形中文字的屬性
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Label.SetDefault">
+            <summary>
+            回復初始設定值
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Label.DefaultCommand">
+            <summary>
+            取得預設的 Minitab 指令
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Label.Clone">
+            <summary>
+            Label 不實作 Clone() 方法，讓繼承的物件自己實作，且不強迫
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Label.GetCommand">
+            <summary>
+            取得 Minitab 指令碼
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Label.Text">
+            <summary>
+            設定或取得 Label 的文字
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Label.Visible">
+            <summary>
+            設定 Label 是否可視
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Label.Offset">
+            <summary>
+            Moves a title away from the position specified alignment
+            輸入一個數值陣列 double[2]，第一個是水平位移(-1~1)、第二個是垂直位移(-1~1)
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Label.Placement">
+            <summary>
+            Moves a title away from the position specified alignment
+            輸入一個整數陣列 int[2]，第一個是水平位移(-1~1)、第二個是垂直位移(-1~1)
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Label.Alignment">
+            <summary>
+            指定對齊位置
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Label.FontSize">
+            <summary>
+            指定或取得字形大小(PSize)
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Label.FontColor">
+            <summary>
+            指定或取得字形顏色
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Label.Bold">
+            <summary>
+            字體是否粗體
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Label.Underline">
+            <summary>
+            字體是否加底線
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Label.Italic">
+            <summary>
+            字體是否斜體
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Label.Angle">
+            <summary>
+            字體旋轉角度
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Datlab.PositionList">
+            <summary>
+            微調的 Datlab 位置與屬性 List
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Datlab.DatlabType">
+            <summary>
+            設定 Datlab 要顯示哪種資訊，預設不顯示
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Datlab.LabelColumn">
+            <summary>
+            指定或取得 Datlab 要顯示的特定欄位
+            </summary>
+        </member>
+        <member name="T:Mtblib.Graph.Component.Datlab.DisplayType">
+            <summary>
+            Data label 顯示內容，Yvalue、Rownumber 或特定的欄位
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.MultiGraph.MPanel.PaneledBy">
+            <summary>
+            指定或取得 Panel 的分群變數，可輸入時可一(string)或多個(stirng[])欄位文字，以string[] 回傳
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.MultiGraph.MPanel.RowColumn">
+            <summary>
+            指定或取得 Panel 個分割列數和行數，依序為 row number(int) 和 column number(int)
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.MultiGraph.MPanel.Alternative">
+            <summary>
+            指定或取得 Panel 的座標軸顯示是否要交叉顯示
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Region.Legend.SetCoordinate(System.Object[])">
+            <summary>
+            設定 Legend 的位置 (4個座標值，依序為 xmin, xmax, ymin ymax)
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Region.Legend.GetCoordinate">
+            <summary>
+            取得 Legend 位置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Region.LegendSection.Clone">
+            <summary>
+            複製 Section 物件，不過 GetCommand 不會被複製
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Region.LegendSection.SetColHeader(System.Int32,System.String)">
+            <summary>
+            指定 Legend box 中欄位名稱
+            </summary>
+            <param name="colId">Column id in legend box</param>
+            <param name="text">指定的文字</param>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Region.LegendSection.SetBodyText(System.Int32,System.Int32,System.String)">
+            <summary>
+            指定 Legend box 內容的文字
+            </summary>
+            <param name="rowId">Row id in legend box</param>
+            <param name="colId">Column id in legend box</param>
+            <param name="text">指定的文字</param>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Region.LegendSection.STitle">
+            <summary>
+            指定或取得 Section 的 Title，只有在多個 Section 時有作用
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Region.LegendSection.HideSTitle">
+            <summary>
+            指定或取得是否要隱藏 Section title
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Region.LegendSection.HideColumnHeader">
+            <summary>
+            指定或取得是否要隱藏欄位名稱
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Region.LegendSection.RowHide">
+            <summary>
+            指定或取得 Legend box 中要隱藏的 row，合法的輸入為單一(int)或多個(int[])列數
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Region.LegendSection.ColumnHide">
+            <summary>
+            指定或取得 Legend box 中要隱藏的 col，合法的輸入為單一(int)或多個(int[])行數
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.AxLabel.MultiLables">
+            <summary>
+            在 Multi-level 下，設定或取得給個 level 的標籤，合法的輸入為單一(string)或多個文字(string[])。
+            使用 Get 取得 string[]。內容由第一個元素至最後一個分別代表最外層(level 1)至最內層標籤。
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.AxLabel.ScalePrimary">
+            <summary>
+            設定或取得 Axlab 要編輯的是主座標軸或次座標軸
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.AxLabel.Side">
+            <summary>
+            設定或取得 Axlab 要顯示的位置，1= low side, 2=high side
+            </summary>
+        </member>
+        <member name="T:Mtblib.Graph.Component.Scale.Scale">
+            <summary>
+            Minitab 座標軸的抽象介面
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Scale.Scale.SetDefault">
+            <summary>
+            將參數設置為預設值
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Scale.Scale.DefaultCommand">
+            <summary>
+            取得預設的 Scale 指令(需實作)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Scale.Min">
+            <summary>
+            Scale 的下限
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Scale.Max">
+            <summary>
+            Scale 的上限
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Scale.Ticks">
+            <summary>
+            Scale 上 Tick 的屬性
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Scale.Refes">
+            <summary>
+            Scale 上 Refe 屬性
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Scale.Label">
+            <summary>
+            Scale label 的屬性
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Scale.GetCommand">
+            <summary>
+            取得 Scale 指令
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Scale.LDisplay">
+            <summary>
+            設定或取得 Low side 的 Scale 元件顯示方式，合法的輸入方式為4個(0 或 1)的整數陣列 int[]，依序為
+            Axline, MajorTick, MajorTickLab, MinorTick；其中0=不顯示，1=顯示
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Scale.HDisplay">
+            <summary>
+            設定或取得 High side 的 Scale 元件顯示方式，合法的輸入方式為4個(0 或 1)的整數陣列 int[]，依序為
+            Axline, MajorTick, MajorTickLab, MinorTick；其中0=不顯示，1=顯示
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Scale.Direction">
+            <summary>
+            指定或取得 Scale 的方向
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.CateScale.Min">
+            <summary>
+            Scale 的下限
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.CateScale.Max">
+            <summary>
+            Scale 的上限
+            </summary>
+        </member>
+        <member name="T:Mtblib.Graph.Component.Scale.Tick">
+            <summary>
+            連續型圖形的 Tick
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Scale.Tick.SetTicks(System.Object)">
+            <summary>
+            設置連續型 Scale 要顯示的 Tick 位置
+            </summary>
+            <param name="ticks">代表位置的文字陣列</param>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Scale.Tick.GetTicks">
+            <summary>
+            取得連續型 Scale 要顯示的 Tick 位置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Scale.Tick.SetLabels(System.Object)">
+            <summary>
+            指定 Scale Tick 上要顯示標籤
+            </summary>
+            <param name="labels">欄位名稱(string)或是標籤內容(string[])，當輸入標籤內容時，如果是非純數字內容，需於欲顯示的內容前後加上雙引號(")</param>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Scale.Tick.GetLabels">
+            <summary>
+            取得 Scale Tick 上要顯示標籤
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Scale.Tick.SetDefault">
+            <summary>
+            將 Tick 屬性設置成預設值
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Scale.Tick.DefaultCommand">
+            <summary>
+            取得預設的 Tick 指令碼
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Scale.Tick.Clone">
+            <summary>
+            複製 Tick 的屬性
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Tick.Increament">
+            <summary>
+            <para>刻度的間距</para>
+            <para>在連續型刻度中沒有作用，但是提供在介面中保留彈性(例如: 給定間距生成特定刻度組，可在計算 NMAJOR 後回補得到接近的結果)</para>
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Tick.TShow">
+            <summary>
+            多水準 Tick 時指定或取得要顯示的 Tick 水準(int or int[])
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Tick.HideAllTick">
+            <summary>
+            Tick label 是否全部隱藏? 
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Tick.GetCommand">
+            <summary>
+            取得 Tick 的指令碼
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.ContScale.SecScale">
+            <summary>
+            指定或取得第二座標軸的物件
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.ContSecScale.Variable">
+            <summary>
+            設定或取得用於第二座標軸的變數，合法的輸入為單一(string)或多個欄位(string[])資訊。Get 時返回 string[]
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Scale.ContTick.SetTicks(System.Object)">
+            <summary>
+            設定連續 Scale 的 tick 位置
+            </summary>
+            <param name="ticks">可輸入 string (e.g. 欄位名稱 or 已處理過的位置) 或是 string[]</param>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Scale.ContTick.SetLabels(System.Object)">
+            <summary>
+            指定 Scale Tick 上要顯示標籤
+            </summary>
+            <param name="labels">欄位名稱(string)或是標籤內容(string[])，當輸入標籤內容時，如果是非純數字內容，需於欲顯示的內容前後加上雙引號(")</param>
+        </member>
+        <member name="T:Mtblib.Graph.Component.Region.DataRegion">
+            <summary>
+            Minitab 繪圖區的 Data region
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Region.DataRegion.SetCoordinate(System.Object[])">
+            <summary>
+            設定 Data region 的位置 (4個座標值，依序為 xmin, xmax, ymin ymax)
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Region.DataRegion.GetCoordinate">
+            <summary>
+            取得 Data region 位置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Mtblib.Graph.Component.Region.FigureRegion">
+            <summary>
+            Minitab 繪圖區的 Data region
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Region.FigureRegion.SetCoordinate(System.Object[])">
+            <summary>
+            設定 Figure region 的位置 (4個座標值，依序為 xmin, xmax, ymin ymax)
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Region.FigureRegion.GetCoordinate">
+            <summary>
+            取得 Data region 位置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Mtblib.Graph.Component.Region.GraphRegion">
+            <summary>
+            Minitab 繪圖區的 Graph region
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Region.GraphRegion.SetCoordinate(System.Object[])">
+            <summary>
+            設定 Graph 的尺寸 ( 2個值，依序為 width, heigh)
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Region.GraphRegion.GetCoordinate">
+            <summary>
+            取得 Data region 位置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Refe.Values">
+            <summary>
+            設定或取得 Reference 的值，合法的指定為一個欄位名稱(string)，或一(double)或多個(double[])數值。
+            回傳類型為 string[]
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Refe.Labels">
+            <summary>
+            指定或取得 Reference 要顯示的標籤，合法的指定為單一欄位名稱(string)、單一(string)或多個(string[])包含雙引號的標籤值        
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Refe.Direction">
+            <summary>
+            指定或取得 Reference 的方向
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Refe.Secondary">
+            <summary>
+            判斷該 Reference line 要使用主軸或副軸
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Refe.Side">
+            <summary>
+            設定 Reference line 的 label 要顯示的位置，1: low side; 2: high side
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Refe.Type">
+            <summary>
+            取得或回傳 Type 值 (string[])
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Refe.Size">
+            <summary>
+            取得或回傳 Size 值 (string[])
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Scale.Refe.Color">
+            <summary>
+            取得或回傳 Color 值 (string[])
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Annotation.Annotation.SetCoordinate(System.Object[])">
+            <summary>
+            設定 Annotation 的座標
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Annotation.Annotation.GetCoordinate">
+            <summary>
+            取得 Annotation 的座標資訊
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Annotation.Annotation.SetDefault">
+            <summary>
+            回覆預設值
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Annotation.Annotation.DefaultCommand">
+            <summary>
+            取得預設的 Annotation 的指令碼
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Annotation.Annotation.GetCommand">
+            <summary>
+            取得 Annotation 的指令碼
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Annotation.Annotation.Unit">
+            <summary>
+            指定或取得Annotation使用的單位，0: Figure unit, 1, 2, ...: 指定的Data unit
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Annotation.Annotation.Type">
+            <summary>
+            取得或回傳 Type 值 (int[])
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Annotation.Annotation.Size">
+            <summary>
+            取得或回傳 Size 值 (float[])
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Annotation.Annotation.Color">
+            <summary>
+            取得或回傳 Color 值 (int[])
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Annotation.Annotation.EType">
+            <summary>
+            取得或回傳 EType 值 (int[])
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Annotation.Annotation.ESize">
+            <summary>
+            取得或回傳 ESize 值 (float[])
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Annotation.Annotation.EColor">
+            <summary>
+            取得或回傳 EColor 值 (int[])
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Annotation.Annotation.Base">
+            <summary>
+            設定或取得 Bar 投影到 Y 軸的位置，合法 Set 為單一(double)或多個(double[])設定值。
+            Get 時丟出 double[]
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Annotation.Annotation.Offset">
+            <summary>
+            Moves a title away from the position specified alignment
+            輸入一個整數陣列 int[2]，第一個是水平位移(-1~1)、第二個是垂直位移(-1~1)
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.Annotation.Annotation.Placement">
+            <summary>
+            Moves a title away from the position specified alignment
+            輸入一個整數陣列 int[2]，第一個是水平位移(-1~1)、第二個是垂直位移(-1~1)
+            </summary>
+        </member>
+        <member name="T:Mtblib.Graph.Component.Annotation.Line">
+            <summary>
+            Minitab 圖形上標記用的線段
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Annotation.Line.SetCoordinate(System.Object[])">
+            <summary>
+            指定 Annotation line 的座標值
+            </summary>
+            <param name="args">可為 C C (Minitab column id，x 座標資料, y 座標資料) 或是 K K K K (double，起點 x, 起點 y, 終點 x, 終點  y) 的形式</param>
+        </member>
+        <member name="T:Mtblib.Graph.Component.Annotation.Marker">
+            <summary>
+            Minitab 圖形上標記用的點
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Annotation.Marker.SetCoordinate(System.Object[])">
+            <summary>
+            指定 Annotation marker 的座標值
+            </summary>
+            <param name="args">可為 C C (Minitab column id，x 座標資料, y 座標資料) 或是 K K K K (double，起點 x, 起點 y, 終點 x, 終點  y) 的形式</param>
+        </member>
+        <member name="T:Mtblib.Graph.Component.Annotation.Rectangle">
+            <summary>
+            Minitab 圖形上標記用的矩形
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Annotation.Rectangle.SetCoordinate(System.Object[])">
+            <summary>
+            指定 Annotation rectangle 的座標值
+            </summary>
+            <param name="args">可為 C C (Minitab column id，x 座標資料, y 座標資料) 或是 K K K K (double，起點 x, 起點 y, 終點 x, 終點  y) 的形式</param>
+        </member>
+        <member name="T:Mtblib.Graph.Component.Annotation.Textbox">
+            <summary>
+            Minitab 圖形上標記用的文字方塊
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Annotation.Textbox.SetCoordinate(System.Object[])">
+            <summary>
+            指定 Annotation rectangle 的座標值
+            </summary>
+            <param name="args">可為 C C (Minitab column id，x 座標資料, y 座標資料) 或是 K K K K (double，起點 x, 起點 y, 終點 x, 終點  y) 的形式</param>
+        </member>
+        <member name="P:Mtblib.Graph.Component.LabelPosition.Model">
+            <summary>
+            設定 Position 指令中要調整多組資料繪圖時的 Panel 群組(e.g. y1*x1 y2*x1 繪製於同一個 Graph window)
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.Component.LabelPosition.RowId">
+            <summary>
+            設定 Minitab Position 指令中要微調的資料位置
+            </summary>
+        </member>
+        <member name="T:Mtblib.Graph.Component.Title">
+            <summary>
+            Minitab 圖形上的標題
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.Component.Title.Clone">
+            <summary>
+            複製 Title 物件
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Graph.ScatterPlot.Plot.SetDefault">
+            <summary>
+            回復成預設狀態
+            </summary>
+        </member>
+        <member name="M:Mtblib.Graph.ScatterPlot.Plot.DefaultCommand">
+            <summary>
+            預設指令碼
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Mtblib.Graph.ScatterPlot.Plot.YVariables">
+            <summary>
+            指定或取得要繪製的欄位，合法的 Set 為一(string/Mtb.Column)或多個(string[]/Mtb.Column[])欄位，
+            也可使用連續輸入表示式(string)，如: C1-C3，可用單引號名稱或是 Column id。使用 Get 取得 Minitab
+            欄位陣列(Mtb.Column[])
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.ScatterPlot.Plot.XVariables">
+            <summary>
+            指定或取得要繪製的欄位，合法的 Set 為一(string/Mtb.Column)或多個(string[]/Mtb.Column[])欄位，
+            也可使用連續輸入表示式(string)，如: C1-C3，可用單引號名稱或是 Column id。使用 Get 取得 Minitab
+            欄位陣列(Mtb.Column[])
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.ScatterPlot.Plot.GroupingVariables">
+            <summary>
+            指定或取得要分群的欄位，合法的 Set 為一(string/Mtb.Column)或多個(string[]/Mtb.Column[])欄位，
+            最多4組，也可使用連續輸入表示式(string)，如: C1-C3，可用單引號名稱或是 Column id。使用 Get 取
+            得 Minitab 欄位陣列(Mtb.Column[])
+            </summary>
+        </member>
+        <member name="P:Mtblib.Graph.ScatterPlot.Plot.GraphType">
+            <summary>
+            設定或取得多變數輸入時，建立 Plot 指令的方式
+            </summary>
+        </member>
+        <member name="T:Mtblib.Graph.ScatterPlot.Plot.MultipleGraphType">
+            <summary>
+            多變數輸入時，建立 Plot 的方式
+            </summary>
+        </member>
+        <member name="F:Mtblib.Graph.ScatterPlot.Plot.MultipleGraphType.Regular">
+            <summary>一對一繪圖，X與Y的數量相同時</summary>
+        </member>
+        <member name="F:Mtblib.Graph.ScatterPlot.Plot.MultipleGraphType.Expanded">
+            <summary>XY變數任二個繪圖，X與Y的數量不需相同</summary>
+        </member>
+        <member name="F:Mtblib.Graph.ScatterPlot.Plot.MultipleGraphType.Overlay">
+            <summary>將所有變數合併一起繪圖，X與Y的數量不需相同</summary>
+        </member>
+        <member name="T:Mtblib.Stat.ChangePoints">
+            <summary>
+            <para>
+            Change-point analysis is used to determined whether a change has taken place.Using Method: Run(doulbe[]) to get the information of change-point
+            </para>
+            <para>
+            This method was proposed by Dr. Wayne A. Taylor
+            </para>
+            </summary>
+        </member>
+        <member name="M:Mtblib.Stat.ChangePoints.ChangePointOnSingleCase(System.Double[],System.Double,System.Int32)">
+            <summary>
+            回傳數列中最明顯的 Change Point。
+            </summary>
+            <param name="d">The numeric array which use to run change point procedure. Missing value (1.23456E+30) element is not allow in the array.</param>
+            <param name="conf">The confidence level used to test whether it is a significant change point</param>
+            <param name="N">Number of boostrap</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Stat.ChangePoints.MainProcedure(Mtblib.Stat.ChangePoints.Datas[],System.Double,System.Int32)">
+            <summary>
+            回傳數列中所有 Change Points 的 index
+            </summary>
+            <param name="d">數值數列</param>
+            <returns></returns>
+        </member>
+        <member name="T:Mtblib.Stat.ChangePoints.ChangePointInfo">
+            <summary>
+            Information of the result in each change point procedure
+            </summary>
+        </member>
+        <member name="T:Mtblib.Stat.ChangePoints.Datas">
+            <summary>
+            Structure of Data and the index
+            </summary>
+        </member>
+        <member name="M:Mtblib.Stat.MathTool.PartialSum(System.Double[])">
+            <summary>
+            計算數列各元素的累積和
+            </summary>
+            <param name="x">要處理的陣列，合法的輸入是 double[]</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Stat.MathTool.RandomSample(System.Object)">
+            <summary>
+            隨機排序陣列
+            </summary>
+            <param name="x">陣列，合法的輸入為string[] 或 double[]</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Stat.MathTool.GetNextInt32(System.Security.Cryptography.RNGCryptoServiceProvider)">
+            <summary>
+            指定隨機 index
+            </summary>
+            <param name="rnd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.Arithmetic.Sum(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            計算 double 數列中非 missing 的和
+            </summary>
+            <param name="array">欲處理之數列</param>
+            <returns></returns>        
+        </member>
+        <member name="M:Mtblib.Tools.Arithmetic.Mean(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            計算 double 數列中非 missing 的算數平均數
+            </summary>
+            <param name="array">欲處理之數列</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.Arithmetic.Max(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            計算 double 數列中非 missing 的最大值
+            </summary>
+            <param name="array">欲處理之數列</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.Arithmetic.Min(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            計算 double 數列中非 missing 的最小值
+            </summary>
+            <param name="array">欲處理之數列</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.Arithmetic.Count(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            計算 double 數列的個數
+            </summary>
+            <param name="array">欲處理之數列</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.Arithmetic.N(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            計算 double 數列中非 missing 的總數
+            </summary>
+            <param name="array">欲處理之數列</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.Arithmetic.NMiss(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            計算 double 數列中 missing 的總數
+            </summary>
+            <param name="array">欲處理之數列</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.Arithmetic.Median(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            計算 double 數列中非 missing 的中位數
+            </summary>
+            <param name="array">欲處理之數列</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.Arithmetic.StdDev(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            計算 double 數列中非 missing 的標準差
+            </summary>
+            <param name="array">欲處理之數列</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.Arithmetic.SSQ(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            計算 double 數列中非 missing 的平方和
+            </summary>
+            <param name="array">欲處理之數列</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.Arithmetic.Range(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            計算 double 數列中非 missing 的全距
+            </summary>
+            <param name="array">欲處理之數列</param>
+            <returns></returns>
+        </member>
+        <member name="F:Mtblib.Tools.MtbTools.MISSINGVALUE">
+            <summary>遺失值</summary>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.CreateVariableStrArray(Mtb.Worksheet,System.Int32,Mtblib.Tools.MtbVarType)">
+            <summary>
+            新增 Minitab 變數(Column, Constant, Matrix)
+            </summary>
+            <param name="ws">欲新增變數的工作表</param>
+            <param name="num">欲新增的數量</param>
+            <param name="mType">變數類型</param>
+            <returns>string[]:新增的變數ID</returns>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.GetAllColumnsName(Mtb.Worksheet)">
+            <summary>
+            取得當下工作表中所有的名稱(Label)
+            </summary>
+            <param name="ws"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.GetMatchColumns(System.String,Mtb.Worksheet)">
+            <summary>
+            將文字欄位內容轉換成 Minitab Columns
+            </summary>
+            <param name="colsText">來源文字, 包含欄位字串</param>
+            <param name="ws">用來核對文字的工作表</param>
+            <returns></returns>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.GetMatchColumns(System.Object,Mtb.Worksheet)">
+            <summary>
+            將輸入的資料(dynamic)轉換成 Minitab Columns，合法的輸入為一(string/Mtb.Column)或多
+            個(string[]/Mtb.Column[])欄位，也可使用連續輸入表示式(string)，如: C1-C3，
+            可用單引號名稱或是 Column id。
+            </summary>
+            <param name="value"></param>
+            <param name="ws"></param>
+            <returns></returns>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.ConvertToMacroCodedName(System.String[],Mtb.Column[],System.String[],Mtb.Worksheet)">
+            <summary>
+            指定工作表中特定的欄位名稱轉換成特定的 Local Macro variables。該功能用於建立 local variable，將
+            DataView 物件中 GroupingBy 的 variables 換成 macro variables，以取得合適的 code。
+            </summary>
+            <param name="convertCols">要轉換的欄位名稱</param>
+            <param name="originalCols">轉換前欄位名稱(col name or col id)</param>
+            <param name="codedCols">轉換後欄位名稱(macro variable name)</param>
+            <param name="ws">欄位所在的工作表</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.GetDataTableFromMtbCols(Mtb.Column[])">
+            <summary>
+            將指定的 Minitab Columns 轉換成 DataTable，方便資料處理和查詢(考量效率，不適用於大量的資料)
+            回傳的欄位名稱使用 Minitab SynthesizedName
+            </summary>
+            <param name="cols">Minitab Column 物件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.InsertDataTableToMtbWs(System.Data.DataTable,Mtb.Worksheet)">
+            <summary>
+            將指定的 DataTable 匯入至 Minitab Worksheet
+            </summary>
+            <param name="dt">欲匯入的 DataTable</param>
+            <param name="ws">存放資料的 Minitab Worksheet</param>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.BuildTemporaryMacro(System.String,System.String)">
+            <summary>
+            在暫存區建立臨時的暫存巨集
+            </summary>
+            <param name="fileName">輸入檔名、副檔名</param>
+            <param name="cmndStr">巨集指令內容</param>
+            <returns>string: 檔案路徑</returns>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.ConvertInputToIntArray(System.Object)">
+            <summary>
+            將輸入的變數轉換成整數陣列
+            </summary>
+            <param name="d">可為 null,單一(int)或多個(int[])可轉換整數的值</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.ConvertInputToFloatArray(System.Object)">
+            <summary>
+            將輸入的變數轉換成數值(float)陣列
+            </summary>
+            <param name="d">可為 null,單一(float)或多個(float[])可轉換浮點數的值</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.ConvertInputToDoubleArray(System.Object)">
+            <summary>
+            將輸入的變數轉換成數值(double)陣列
+            </summary>
+            <param name="d">可為 null,單一(double)或多個(double[])可轉為數值的值</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.ConvertInputToStringArray(System.Object)">
+            <summary>
+            將輸入的變數轉換成文字陣列
+            </summary>
+            <param name="d">可為 null,單一(string)或多個(string[])值</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.CopyArrayWithIndex(System.Array,System.Int32[])">
+            <summary>
+            取得陣列特定位置的元素
+            </summary>
+            <param name="array">來源陣列</param>
+            <param name="index">要複製的位置</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.VerifyGraphPath(System.String)">
+            <summary>
+            判斷輸入的圖形檔案路徑是否合法
+            </summary>
+            <param name="path">路徑= 位置 + 檔名 + 副檔名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.CreateDirectory(System.String)">
+            <summary>
+            判斷檔案路徑的資料夾是否存在，如果不存在就新增路徑，若已存在就不動作
+            </summary>
+            <param name="path">路徑= 位置 + 檔名 + 副檔名</param>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.GetMinitabGScaleInfo(Mtblib.Tools.DataSummaryInfo[],Mtb.Project,Mtb.Worksheet)">
+            <summary>
+            取得 Minitab 繪製座標軸的資訊
+            </summary>
+            <param name="info">要計算坐標軸資訊的資料彙整(最大最小)</param>
+            <param name="proj">Minitab Project</param>
+            <param name="ws">數據所在的工作表，需透過工作表存取資訊</param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Mtblib.Tools.MtbTools.GetMinitabGScaleInfo(System.Collections.Generic.List{System.Double[]},Mtb.Project,Mtb.Worksheet)" -->
+        <member name="M:Mtblib.Tools.MtbTools.GetMinitabGScaleInfo(System.Double[],Mtb.Project,Mtb.Worksheet)">
+            <summary>
+            取得 Minitab 繪製座標軸的資訊
+            </summary>
+            <param name="values">要計算的數據，合法的輸入為 double[]></param>
+            <param name="proj">Minitab Project</param>
+            <param name="ws">數據所在的工作表，需透過工作表存取資訊</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.GetDataScaleInBarChart(Mtb.Project,Mtb.Worksheet,Mtb.Column[],Mtb.Column[],Mtb.Column[],System.String,System.Func{System.Collections.Generic.IEnumerable{System.Double},System.Double},Mtblib.Graph.BarChart.Chart.ChartStackType,System.Int32,System.Double,System.Double)">
+            <summary>
+            取得BarChart的預設座標軸資訊
+            </summary>
+            <param name="proj">資料所在的 Minitab Project</param>
+            <param name="ws">資料所在的 Minitab 工作表</param>
+            <param name="vars">要繪製 Bar Chart 的變數，如果輸入多筆則視為 summarized data 進行堆疊後處理</param>
+            <param name="gps">用於分群的變數</param>
+            <param name="pane">用於畫面分割的變數</param>
+            <param name="conditionExpress">資料條件敘述</param>
+            <param name="fun">Bar Chart 的處理函數(不輸入則使用 Sum)</param>
+            <param name="stackType">Bar chart 是否堆疊</param>
+            <param name="colIngroupingLevel">輸入 summarized data 時，由 data column 
+            <param name="scaleMaximum">額外指定的最大值</param>
+            <param name="scaleMinimum">額外指定的最小值</param>
+            名稱堆疊成的欄位的分群水準，合法的輸入為1~4。預設放在最內層(4)。</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.GetDataScaleInCateChart(Mtb.Project,Mtb.Worksheet,Mtb.Column[],Mtb.Column[],Mtb.Column[],System.String,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Double,System.Double)">
+            <summary>
+            取得類別分布圖 (Boxplot, Individual value plot, Interval plot) 的預設座標軸資訊
+            <para>&lt;&lt;目前只考慮顯示 Individual point 的 case&gt;&gt;</para>
+            </summary>
+            <param name="proj">資料所在的 Minitab Project</param>
+            <param name="ws">資料所在的 Minitab 工作表</param>
+            <param name="vars">要繪製類別分布圖的變數，合法的輸入長度為 1，即 Stack data</param>
+            <param name="gps">用於分群的變數</param>
+            <param name="pane">用於畫面分割的變數</param>
+            <param name="conditionExpress">資料條件敘述</param>
+            <param name="indVisible">是否顯示單一點 individual</param>
+            <param name="oVisible">是否顯示異常值 outlier</param>
+            <param name="rangBoxVisible">是否顯示 Range box</param>
+            <param name="whiskVisible">是否顯示 Whisker </param>
+            <param name="ciVisible">是否顯示信賴區間</param>
+            <param name="iqrVisible">是否顯示 IQR Box</param>
+            <param name="meanVisible">是否顯示平均值點</param>
+            <param name="medVisible">是否顯示中位數點</param>
+            <param name="scaleMaximum">額外指定的最大值</param>
+            <param name="scaleMinimum">額外指定的最小值</param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Mtblib.Tools.MtbTools.GetSizeOfString(System.Object,System.Drawing.Font)" -->
+        <member name="M:Mtblib.Tools.MtbTools.GroupRank(System.Double[],System.String[],System.Boolean,Mtblib.Tools.MtbTools.RankType)">
+            <summary>
+            對一組包含群組的數據取各組 Rank
+            </summary>
+            <param name="values">要排序的數據</param>
+            <param name="groups">每個數據的群組資訊</param>
+            <param name="reverse">Rank 是否反向表示 1--> 最大，預設 false</param>
+            <param name="rtype">Rank 的類型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mtblib.Tools.MtbTools.Apply(System.String,System.Func{System.Collections.Generic.IEnumerable{System.Double},System.Double},System.String[],System.Data.DataTable)">
+            <summary>
+            對 DataTable的特定一個數值欄位by某些群組做數值Summary
+            </summary>
+            <param name="colAggregate">DataTable中要處理的資料欄位名稱，Stack data</param>
+            <param name="colGroups">DataTable中用於分群的資料欄位名稱</param>
+            <param name="datatable">包含所需資料的 DataTable</param>
+            <param name="fun">處理的函數</param>
+            <returns></returns>
+        </member>
+        <member name="T:Mtblib.Tools.MtbTools.RankType">
+            <summary>
+            計算 Rank 的準則
+            </summary>
+        </member>
+        <member name="F:Mtblib.Tools.MtbTools.RankType.RANK">
+            <summary>一般的rank, 例如: 3 2 2 4 1 => Rank: 4 2 2 5 1</summary>
+        </member>
+        <member name="F:Mtblib.Tools.MtbTools.RankType.TIED_RANK">
+            <summary>Minitab 使用 tied rank, 例如: 3 2 2 4 1 => Rank: 4 2.5 2.5 5 1</summary>
+        </member>
+        <member name="F:Mtblib.Tools.MtbTools.RankType.RANK_IN_ROW">
+            <summary>不考慮相同大小，依排序後的順序給 rank, 用於 Minitab Prob. Plot 例如: 3 2 2 4 1 => Rank: 4 2 3 5 1</summary>
+        </member>
+        <member name="T:Mtblib.Tools.GScale">
+            <summary>
+            Minitab 座標軸資訊
+            </summary>
+        </member>
+        <member name="P:Mtblib.Tools.GScale.SMin">
+            <summary>座標軸的最小值</summary>
+        </member>
+        <member name="P:Mtblib.Tools.GScale.SMax">
+            <summary>座標軸的最大值</summary>
+        </member>
+        <member name="P:Mtblib.Tools.GScale.NTicks">
+            <summary>座標軸的刻度數</summary>
+        </member>
+        <member name="P:Mtblib.Tools.GScale.TMinimum">
+            <summary>座標軸的最小刻度值</summary>
+        </member>
+        <member name="P:Mtblib.Tools.GScale.TMaximum">
+            <summary>座標軸的最大刻度值</summary>
+        </member>
+        <member name="P:Mtblib.Tools.GScale.TIncreament">
+            <summary>座標軸的刻度間距</summary>
+        </member>
+        <member name="T:Mtblib.Tools.DataSummaryInfo">
+            <summary>
+            基本敘述統計量
+            </summary>
+        </member>
+        <member name="P:Mtblib.Tools.DataSummaryInfo.Minimum">
+            <summary>最小值</summary>
+        </member>
+        <member name="P:Mtblib.Tools.DataSummaryInfo.Maximum">
+            <summary>最大值</summary>
+        </member>
+        <member name="P:Mtblib.Tools.DataSummaryInfo.Mean">
+            <summary>平均值</summary>
+        </member>
+        <member name="P:Mtblib.Tools.DataSummaryInfo.StdDev">
+            <summary>標準差</summary>
+        </member>
+        <member name="M:Mtblib.Tools.NTuple`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            <para>
+            將多個物件包起來，能做為 linq 或 lambda 動態 grouping 的依據
+            E.g. 
+            </para>
+            <para>IEnumerable&lt;string&gt; columnsToGroupBy = ...;</para>
+            <para>
+            var groups = dt.AsEnumerable().GroupBy(r =&gt; new NTuple&lt;object&gt;(from column in columnsToGroupBy select r[column]));
+            </para>        
+            <pare>
+            ref: http://stackoverflow.com/questions/26658978/c-sharp-linq-how-to-build-group-by-clause-dynamically
+            </pare>
+            </summary>
+            <param name="values"></param>
+        </member>
+    </members>
+</doc>
