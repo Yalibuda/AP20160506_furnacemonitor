@@ -104,6 +104,17 @@ namespace Dashboard.ViewModel
         }
         private bool _isCorrSelected = false;
 
+        public bool IsItemsCorrSelected
+        {
+            get { return _isItemsCorrSelected; }
+            private set
+            {
+                _isItemsCorrSelected = value;
+                RaisePropertyChanged("IsItemsCorrSelected");
+            }
+        }
+        private bool _isItemsCorrSelected = false;
+
         public bool IsPosiDiffSelected
         {
             get { return _isPosiDiffSelected; }
@@ -114,6 +125,21 @@ namespace Dashboard.ViewModel
             }
         }
         private bool _isPosiDiffSelected = false;
+
+        //test for WallTemp
+        public bool IsWallTempSelected
+        {
+            get
+            {
+                return _isWallTempSelected;
+            }
+            private set
+            {
+                _isWallTempSelected = value;
+                RaisePropertyChanged("IsWallTempSelected");
+            }
+        }
+        private bool _isWallTempSelected;
 
         private string _site = "";
         private string _dataFolderPath = "";
@@ -149,10 +175,19 @@ namespace Dashboard.ViewModel
                         IsCorrSelected = true;
                         CurrentPage = new View.BKCorrelationView();
                         break;
+                    case "ItemsCorrelation":
+                        IsItemsCorrSelected = true;
+                        CurrentPage = new View.ItemsCorrelationView();
+                        break;
                     case "DiffCompare":
                         IsPosiDiffSelected = true;
                         CurrentPage = new View.PosiDiffTestView();
                         break;
+                    case "WallTemp":
+                        IsWallTempSelected = true;
+                        CurrentPage = new View.WallTempView();
+                        break;
+
                     //case "Export":
                     //    BasicPage page = CurrentPage.DataContext as BasicPage;
                     //    if (page == null) return;
@@ -185,7 +220,8 @@ namespace Dashboard.ViewModel
             IsSPCSelected = false;
             IsCorrSelected = false;
             IsPosiDiffSelected = false;
-
+            IsItemsCorrSelected = false;
+            IsWallTempSelected = false;
         }
 
         public ICommand EditItemCommand
@@ -469,6 +505,7 @@ namespace Dashboard.ViewModel
         RealTime,
         TrendAnalysis,
         BkCorrelation,
+        ItemsCorrelation,
         PositionDifference
     }
 }
