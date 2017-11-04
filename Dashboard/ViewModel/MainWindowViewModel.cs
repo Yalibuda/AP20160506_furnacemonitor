@@ -115,6 +115,18 @@ namespace Dashboard.ViewModel
         }
         private bool _isPosiDiffSelected = false;
 
+        public bool IsPropertySelected
+        {
+            get { return _isPropertySelected; }
+            private set
+            {
+                _isPropertySelected = value;
+                RaisePropertyChanged("IsPropertySelected");
+            }
+
+        }
+        private bool _isPropertySelected = false;
+
         private string _site = "";
         private string _dataFolderPath = "";
 
@@ -152,6 +164,10 @@ namespace Dashboard.ViewModel
                     case "DiffCompare":
                         IsPosiDiffSelected = true;
                         CurrentPage = new View.PosiDiffTestView();
+                        break;
+                    case "PropTrend":
+                        IsPropertySelected = true;
+                        CurrentPage = new View.PropertyAnalysisView();
                         break;
                     //case "Export":
                     //    BasicPage page = CurrentPage.DataContext as BasicPage;

@@ -219,9 +219,9 @@
                         <TreeViewItem Header="紡位" Style="{StaticResource MyTreeViewItem}" Cursor="Arrow" IsExpanded="True">
                             <TreeViewItem x:Name="DiffCompare" Header="斷絲率差異" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding  IsPosiDiffSelected, UpdateSourceTrigger=PropertyChanged}"/>
                         </TreeViewItem>
-                        <!--<TreeViewItem Header="玻璃物性" Style="{StaticResource MyTreeViewItem}" Cursor="Arrow" IsExpanded="True">
+                        <TreeViewItem Header="物性" Style="{StaticResource MyTreeViewItem}" Cursor="Arrow" IsExpanded="True">
                         <TreeViewItem x:Name="PropTrend" Header="趨勢分析" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding  IsPropTrendSelected, UpdateSourceTrigger=PropertyChanged}"/>
-                    </TreeViewItem>-->
+                    </TreeViewItem>
                         <!--<TreeViewItem x:Name="Export" Header="匯出報表" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding IsExportSelected, UpdateSourceTrigger=PropertyChanged}"/>-->
                         <!--<TreeViewItem x:Name="ExportData" Header="取得資料" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding IsExportDataSelected, UpdateSourceTrigger=PropertyChanged}"/>-->
                     </TreeView>

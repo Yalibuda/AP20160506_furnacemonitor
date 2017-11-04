@@ -149,26 +149,26 @@ namespace Dashboard.ViewModel
                         _bgWorker.CancelAsync();
                     }
                     Project.CancelCommand();
-                }                    
+                }
                 catch (Exception ex)
                 {
                     // 0x800706BA -2147023174                    
                     // 這裡是一個不好的作法，因為直接使用 Minitab.Project 產生相依性，但是為了必成的即時更新報表的穩定性，出此下策
                     if (ex.HResult == -2147023174)
                     {
-                        Project = Minitab.Project; 
+                        Project = Minitab.Project;
                         Project.CancelCommand();
                     }
                     else
                     {
 
-                    }                    
+                    }
                 }
-                
+
             }
         }
 
-        
+
         #endregion
 
         #region 事件方法
@@ -214,14 +214,27 @@ namespace Dashboard.ViewModel
         public ImageSource Chart { set; get; }
         public string Summary { set; get; }
         public string Title { set; get; }
-        public DataTable RawData { set; get; }       
+        public DataTable RawData { set; get; }
     }
 
     public class CorrReportContent
     {
         public ImageSource TrendChart { set; get; }
+        public bool VisibilityOfTrendChart { set; get; }
         public ImageSource ScatterPlot { set; get; }
+        public bool VisibilityOfScatterPlot { set; get; }
         public DataTable CorrTable { set; get; }
+        public bool ShowTable { set; get; }
+        public string Title { set; get; }
+        public DataTable RawData { set; get; }
+    }
+
+    public class PropReportContent
+    {
+        public ImageSource Chart { set; get; }
+        public bool VisibilityOfChart { set; get; }
+        public DataTable Table { set; get; }
+        public bool ShowTable { set; get; }
         public string Title { set; get; }
         public DataTable RawData { set; get; }
     }

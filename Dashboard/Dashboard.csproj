@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack, Version=1.6.3.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.6.3\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MathNet.Numerics, Version=3.13.1.0, Culture=neutral, PublicKeyToken=cd8b63ad3d691a37, processorArchitecture=MSIL">
       <HintPath>..\packages\MathNet.Numerics.Signed.3.13.1\lib\net40\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
@@ -88,12 +92,14 @@
     </Compile>
     <Compile Include="IconHelper.cs" />
     <Compile Include="Model\BkCorrelation.cs" />
+    <Compile Include="Model\BKCorrelation2.cs" />
     <Compile Include="Model\IReport.cs" />
     <Compile Include="Model\IRptOutput.cs" />
     <Compile Include="Model\ISeletableItem.cs" />
     <Compile Include="Model\MultivariateReport.cs" />
     <Compile Include="Model\OverlayTrendReport.cs" />
     <Compile Include="Model\PosiDiffTest.cs" />
+    <Compile Include="Model\PropertyReport.cs" />
     <Compile Include="Model\Report.cs" />
     <Compile Include="Model\RptOutput.cs" />
     <Compile Include="Model\TSquareLimCalculation.cs" />
@@ -116,7 +122,9 @@
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\NotifyPropertyChanged.cs" />
     <Compile Include="ViewModel\PosiDiffTestViewModel.cs" />
+    <Compile Include="ViewModel\PropertyAnalysisViewModel.cs" />
     <Compile Include="ViewModel\RealTimeSPCViewModel.cs" />
+    <Compile Include="ViewModel\SelectItemViewModel.cs" />
     <Compile Include="ViewModel\SelectMulItemViewModel.cs" />
     <Compile Include="ViewModel\SelectTrendItemViewModel.cs" />
     <Compile Include="ViewModel\SPCItemInfo.cs" />
@@ -163,6 +171,9 @@
     </Compile>
     <Compile Include="View\SelectItemView.xaml.cs">
       <DependentUpon>SelectItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectItemView2.xaml.cs">
+      <DependentUpon>SelectItemView2.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SelectMultivariateItemDialogView.xaml.cs">
       <DependentUpon>SelectMultivariateItemDialogView.xaml</DependentUpon>
@@ -250,6 +261,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SelectItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SelectItemView2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

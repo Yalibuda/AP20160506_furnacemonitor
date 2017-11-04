@@ -2620,7 +2620,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>1028</td><td>Scientific Formosa, Inc</td><td>0</td><td/><td>455428496</td></row>
+		<row><td>COMPANY_NAME</td><td>1028</td><td>Scientific Formosa, Inc</td><td>0</td><td/><td>-1532683402</td></row>
 		<row><td>DN_AlwaysInstall</td><td>1028</td><td>總是安裝</td><td>0</td><td/><td>497323435</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>1028</td><td>系統顏色設定不足以執行 [ProductName]。</td><td>0</td><td/><td>497323435</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_OS</td><td>1028</td><td>作業系統不足以執行 [ProductName]。</td><td>0</td><td/><td>497323435</td></row>
@@ -3730,8 +3730,8 @@
 		<row><td>IDS__TargetReq_DESC_PROCESSOR</td><td>1028</td><td>對於執行 [ProductName] 處理器不足。</td><td>0</td><td/><td>497323435</td></row>
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1028</td><td>對於執行 [ProductName] 記憶體量不足。</td><td>0</td><td/><td>497323435</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1028</td><td>對於執行 [ProductName] 螢幕解析度不足。</td><td>0</td><td/><td>497323435</td></row>
-		<row><td>ID_STRING1</td><td>1028</td><td>http://www.minitab.com.tw</td><td>0</td><td/><td>-2069506800</td></row>
-		<row><td>ID_STRING2</td><td>1028</td><td>Scientific Formosa, Inc</td><td>0</td><td/><td>455428496</td></row>
+		<row><td>ID_STRING1</td><td>1028</td><td>http://www.minitab.com.tw</td><td>0</td><td/><td>631597302</td></row>
+		<row><td>ID_STRING2</td><td>1028</td><td>Scientific Formosa, Inc</td><td>0</td><td/><td>-1532683402</td></row>
 		<row><td>ID_STRING3</td><td>1028</td><td>歡迎安裝</td><td>0</td><td/><td>497315275</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>歡迎安裝</td><td>0</td><td/><td>497315275</td></row>
 		<row><td>ID_STRING4</td><td>1028</td><td>PFG Minitab Dashboard</td><td>0</td><td/><td>497339979</td></row>
@@ -3740,6 +3740,8 @@
 		<row><td>ID_STRING5</td><td>1033</td><td>Minitab PFG Dashboard</td><td>0</td><td/><td>497295596</td></row>
 		<row><td>ID_STRING6</td><td>1028</td><td>Minitab PFG Dashboard</td><td>0</td><td/><td>1982122656</td></row>
 		<row><td>ID_STRING6</td><td>1033</td><td>Minitab PFG Dashboard</td><td>0</td><td/><td>1982122656</td></row>
+		<row><td>ID_STRING7</td><td>1028</td><td>Minitab PFG Dashboard</td><td>0</td><td/><td>-1532679306</td></row>
+		<row><td>ID_STRING7</td><td>1033</td><td>Minitab PFG Dashboard</td><td>0</td><td/><td>-1532679306</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1028</td><td>系統將不安裝此功能。</td><td>0</td><td/><td>497323435</td></row>
 	</table>
 
@@ -3856,6 +3858,7 @@
 		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;ISProductFolder&gt;\redist\Language Independent\OS Independent\setupicon.ico</td><td>0</td></row>
 		<row><td>Dashboard.exe1_3D6B2297985A4B8887C0F39204B09F79.exe</td><td/><td>D:\Dropbox\Workspace\Pic\myicon\corp30x30.ico</td><td>0</td></row>
 		<row><td>Dashboard.exe1_6B2D04A77DF54BD3B5BA1B7BB137CB4F.exe</td><td/><td>D:\Dropbox\Workspace\Pic\myicon\corp30x30.ico</td><td>0</td></row>
+		<row><td>Dashboard.exe1_7608D5983D1846B3915BDBEE6B7A86A4.exe</td><td/><td>D:\Dropbox\Workspace\Pic\myicon\corp30x30.ico</td><td>0</td></row>
 		<row><td>Dashboard.exe_6D4D15F19E094BDE886CB61F39DA558C.exe</td><td/><td>&lt;ISProductFolder&gt;\redist\Language Independent\OS Independent\GenericExe.ico</td><td>0</td></row>
 		<row><td>Dashboard.exe_B95B5770FC4A425F8279BB3FDEB88CA0.exe</td><td/><td>D:\Dropbox\Workspace\Pic\myicon\corp30x30.ico</td><td>0</td></row>
 	</table>
@@ -4365,9 +4368,9 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
-		<row><td>ProductCode</td><td>{7FE7EE44-D397-4632-B01A-B43DF8E0A550}</td><td/></row>
+		<row><td>ProductCode</td><td>{27D6A58D-4B37-44C5-92F9-A6515AD9C55F}</td><td/></row>
 		<row><td>ProductName</td><td>PFG Minitab Dashboard</td><td/></row>
-		<row><td>ProductVersion</td><td>1.1.9</td><td/></row>
+		<row><td>ProductVersion</td><td>1.2.0</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
@@ -4529,6 +4532,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
 		<row><td>Dashboard.exe</td><td>pfgmin_1_pfg_minitab_dashboard1</td><td>##IDS_SHORTCUT_DISPLAY_NAME5##</td><td>Dashboard.exe</td><td>AlwaysInstall</td><td/><td/><td/><td>Dashboard.exe_B95B5770FC4A425F8279BB3FDEB88CA0.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>Dashboard.exe1</td><td>DesktopFolder</td><td>##IDS_SHORTCUT_DISPLAY_NAME5##</td><td>Dashboard.exe</td><td>AlwaysInstall</td><td/><td/><td/><td>Dashboard.exe1_7608D5983D1846B3915BDBEE6B7A86A4.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">

@@ -74,7 +74,10 @@ namespace Dashboard.Control
         public ImageSource ImgSource
         {
             get { return (ImageSource)GetValue(ImageSourceProperty); }
-            set { SetValue(ImageSourceProperty, value); }
+            set
+            {
+                SetValue(ImageSourceProperty, value);
+            }
         }
 
         /// <summary>
@@ -93,6 +96,11 @@ namespace Dashboard.Control
         {
             get { return (string)GetValue(GHeightProperty); }
             set { SetValue(GHeightProperty, value); }
+        }
+
+        private void Expander_Collapsed(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 

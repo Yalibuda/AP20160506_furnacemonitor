@@ -3722,7 +3722,7 @@
 		<row><td>IDS__TargetReq_DESC_PROCESSOR</td><td>1033</td><td>The processor is not adequate for running [ProductName].</td><td>0</td><td/><td>1847861783</td></row>
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>1847861783</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>1847861783</td></row>
-		<row><td>ID_STRING1</td><td>1033</td><td>http://www.minitab.com.tw</td><td>0</td><td/><td>455463312</td></row>
+		<row><td>ID_STRING1</td><td>1033</td><td>http://www.minitab.com.tw</td><td>0</td><td/><td>-1532646538</td></row>
 		<row><td>ID_STRING2</td><td>1033</td><td>Scientific Formosa, Inc</td><td>0</td><td/><td>1847863831</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>LAUNCH~1.EXE|Launch AccountManager.exe</td><td>0</td><td/><td>1847905111</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>1847861783</td></row>

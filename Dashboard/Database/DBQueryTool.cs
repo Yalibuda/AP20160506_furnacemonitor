@@ -16,12 +16,14 @@ namespace Dashboard.Database
         /// <summary>
         /// 根據設定檔回傳 Sql Client 的 Connection string
         /// </summary>
+        /// <param name="dbName">指定要連接的資料庫名稱</param>
         /// <returns></returns>
-        public static string GetConnString()
+        public static string GetConnString(string dbName = null)
         {
             string _srvname = DBServer.Default.ServerName;
             string _port = DBServer.Default.Port;
             string _db = DBServer.Default.DBName;
+            if (dbName != null) _db = dbName;
             string _uid = DBServer.Default.UserID;
             string _psw = DBServer.Default.Password;
             string connString =
@@ -283,17 +285,19 @@ namespace Dashboard.Database
             //query.AppendFormat("WHERE BK.GROUP_ID='0' AND BK.SITE_ID='{0}' AND BK.TIMESTAMP between '{1}' and '{2}'\r\n",
             //    site_id, start, end);
             //query.AppendLine("ORDER BY BK.TIMESTAMP");
-            query.AppendFormat("select a.GROUP_ID, a.TIMESTAMP, a.BK, {0} from vw_bkhour a\r\n", string.Join(",", pivotCol));
+            query.AppendFormat("select a.GROUP_ID, a.TIMESTAMP, a.BK, {0} from vw_bkhour a \r\n", string.Join(",", pivotCol));
             for (int i = 0; i < itemname.Length; i++)
             {
                 query.AppendLine("left join (");
                 query.AppendLine("select a.SITE_ID,[RPT_TIMEHOUR]= DATEADD(HOUR, ");
                 query.AppendFormat("(select isnull((select LAGHOUR from FURN_BK_LAG_INFO where FURN_ITEM_INDEX='{0}'),0)),RPT_TIMEHOUR),\r\n", items[i]);
-                query.AppendFormat("[{0}]= avg(a.VALUE) from vw_furnacedata a where a.FURN_ITEM_INDEX='{0}' group by SITE_ID, RPT_TIMEHOUR) x{1}\r\n"
+                query.AppendFormat("[{0}]= avg(a.VALUE) from vw_furnacedata a where a.FURN_ITEM_INDEX='{0}' group by SITE_ID, RPT_TIMEHOUR) x{1} \r\n"
                     , items[i], i + 1);
-                query.AppendFormat("on a.TIMESTAMP = x{0}.RPT_TIMEHOUR\r\n", i + 1);
+                query.AppendFormat("on a.TIMESTAMP = x{0}.RPT_TIMEHOUR \r\n", i + 1);
             }
-            query.AppendFormat("where a.SITE_ID='{0}' and a.GROUP_ID=0 and a.TIMESTAMP between '{1}' and '{2}'\r\n", site_id, start, end);
+
+            query.AppendFormat("where a.SITE_ID='{0}' and a.GROUP_ID=0 and a.TIMESTAMP between '{1}' and '{2}' \r\n", site_id, start, end);
+
             query.AppendFormat("order by TIMESTAMP");
 
             query.AppendLine();
@@ -302,6 +306,87 @@ namespace Dashboard.Database
             dt.TableName = site_id + string.Join("", items);
             return dt;
         }
+
+        /// <summary>
+        /// 給定項目與時間範圍，取得相關性分析的資料(Pivot data)，產出欄位 [TIMESTAMP]、[BK1]~[BK?]、[各項目]，
+        /// 並且 DataTable 名稱以 SITE_ID + 各ITEM_INDEX 串接而成 
+        /// </summary>
+        /// <param name="site_id"></param>
+        /// <param name="items"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public static DataTable GetPivotDataForMulBKCorrelation(string site_id, string[] items, string start, string end)
+        {
+            //Get information of item from db
+            StringBuilder query = new StringBuilder();
+            query.AppendLine("SELECT ITEM_NAME FROM FURN_ITEM_INFO");
+            query.AppendFormat("WHERE FURN_ITEM_INDEX IN ({0})\r\n", string.Join(",", items.Select(x => "'" + x + "'").ToArray()));
+            query.AppendLine("ORDER BY CONVERT(INT, FURN_ITEM_INDEX)");
+            string[] itemname
+                = GetData(query.ToString(), GetConnString()).AsEnumerable()
+                .Select(x => x.Field<string>("ITEM_NAME")).ToArray();
+            string[] pivotCol = itemname.Zip(items.OrderBy(x => x), (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
+            query.Clear();
+
+            query.AppendLine("select GROUP_ID from VW_BKHOUR");
+            query.AppendFormat("where SITE_ID={0} and TIMESTAMP between '{1}' and '{2}' and GROUP_ID<>0 \r\n", site_id, start, end); //exclude overall group_id
+            query.AppendLine("group by GROUP_ID order by GROUP_ID");
+            decimal[] bks
+                = GetData(query.ToString(), GetConnString()).AsEnumerable().Select(x => x.Field<decimal>("group_id")).ToArray();
+            string[] bkCols = bks.Select(x => "[BK" + x + "]=" + "[" + x + "]").ToArray();
+            query.Clear();
+
+            StringBuilder pivotBkqueryString = new StringBuilder();
+            pivotBkqueryString.AppendFormat("select SITE_ID, TIMESTAMP, {0} from ( \r\n", string.Join(",", bkCols));
+            pivotBkqueryString.AppendLine("select SITE_ID, TIMESTAMP, GROUP_ID, BK from vw_bkhour");
+            pivotBkqueryString.AppendFormat("where SITE_ID={0} and GROUP_ID<>0 and TIMESTAMP between '{1}' and '{2}' \r\n", site_id, start, end);
+            pivotBkqueryString.AppendLine(") aa ");
+            pivotBkqueryString.AppendLine("pivot (");
+            pivotBkqueryString.AppendFormat("AVG(BK) for GROUP_ID in ({0})", string.Join(",", bks.Select(x => "[" + x + "]")));
+            pivotBkqueryString.AppendLine(") pv");
+
+            query.AppendFormat("SELECT a.*, {0} FROM ({1}) a \r\n", string.Join(",", pivotCol), pivotBkqueryString);
+            for (int i = 0; i < itemname.Length; i++)
+            {
+                query.AppendLine("left join (");
+                query.AppendLine("select a.SITE_ID,[RPT_TIMEHOUR]= DATEADD(HOUR, ");
+                query.AppendFormat("(select isnull((select LAGHOUR from FURN_BK_LAG_INFO where FURN_ITEM_INDEX='{0}'),0)),RPT_TIMEHOUR),\r\n", items[i]);
+                query.AppendFormat("[{0}]= avg(a.VALUE) from vw_furnacedata a where a.FURN_ITEM_INDEX='{0}' group by SITE_ID, RPT_TIMEHOUR) x{1} \r\n"
+                    , items[i], i + 1);
+                query.AppendFormat("on a.TIMESTAMP = x{0}.RPT_TIMEHOUR and a.SITE_ID=x{0}.SITE_ID \r\n", i + 1);
+            }
+            query.AppendFormat("order by TIMESTAMP");
+
+            query.AppendLine();
+
+            DataTable dt = GetData(query.ToString(), GetConnString());
+            dt.TableName = site_id + string.Join("", items);
+            return dt;
+        }
+
+        /// <summary>
+        /// 給定項目與時間範圍，取得實驗室物性測試的結果
+        /// </summary>
+        /// <param name="items">測試項(PROP_INDEX)和成分(TEST_ITEM_INDEX)組成的陣列，e.g.{"12/38","13/45"}</param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public static DataTable GetPropertyTestData(string[] items, string start, string end)
+        {
+            StringBuilder query = new StringBuilder();
+            query.AppendLine("select b.PROD_NAME, c.ITEM_NAME,c.ITEM_UNIT,a.VALUE,a.TEST_DATE,a.PROP_INDEX, a.TEST_ITEM_INDEX ,a.MAT_INDEX,a.TEST_SAMPLE_ID from TEST_DETAIL a");
+            query.AppendLine("left join PROPERTY_INFO b on a.PROP_INDEX = b.PROP_INDEX");
+            query.AppendLine("left join TEST_ITEM_INFO c on a.TEST_ITEM_INDEX = c.TEST_ITEM_INDEX");
+            query.AppendFormat("where CONCAT(a.PROP_INDEX,'/',a.TEST_ITEM_INDEX) in ({0}) \r\n", string.Join(",", items.Select(x => "'" + x + "'")));
+            query.AppendFormat("and TEST_DATE between '{0}' and '{1}' \r\n", start, end);
+            query.AppendLine("order by a.PROP_INDEX, c.ITEM_NAME, a.TEST_DATE");
+
+            DataTable dt = GetData(query.ToString(), GetConnString("LIMS"));
+            dt.TableName = "PROP_ANALYSIS";
+            return dt;
+        }
+
 
         /// <summary>
         /// Read csv file to a System.Data.DataTable

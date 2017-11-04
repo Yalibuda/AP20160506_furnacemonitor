@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace Dashboard.ViewModel
 {
-    public class BKCorrelationViewModel: BasicPage
+    public class BKCorrelationViewModel : BasicPage
     {
         public BKCorrelationViewModel()
         {
@@ -35,7 +35,7 @@ namespace Dashboard.ViewModel
                 }
             }
         }
-        
+
         public string SelectedItemInfoString
         {
             get { return _selectItemInfoString; }
@@ -72,6 +72,18 @@ namespace Dashboard.ViewModel
                 return rptItems;
             }
         }
+
+        public bool IsByPosition
+        {
+            get { return _isByPosition; }
+            set
+            {
+                _isByPosition = value;
+                RaisePropertyChanged("IsByPosition");
+
+            }
+        }
+        private bool _isByPosition = false;
         #endregion
 
         #region 方法
@@ -98,7 +110,7 @@ namespace Dashboard.ViewModel
             _corrRptItems.CollectionChanged += _corrRptItems_CollectionChanged;
             CorrContent = new ObservableCollection<CorrReportContent>();
         }
-                
+
         /// <summary>
         /// 依據設定項更新報表頁面
         /// </summary>
@@ -138,7 +150,7 @@ namespace Dashboard.ViewModel
                     SelectedItemInfoString = lab;
                 }
             }
-        } 
+        }
 
         #endregion
 
@@ -148,8 +160,12 @@ namespace Dashboard.ViewModel
             _selectedItemViewModel = new SelectTrendItemViewModel(); // 如果更改廠別，整個選取項要取消
             _selectedItemViewModel.SITE_ID = this.SITE_ID;
             SelectedItemInfoString = "";
-            _itemInfoTable = null;            
-           
+            _itemInfoTable = null;
+
+        }
+        public void OnByPositionChanged()
+        {
+
         }
         protected override void _bgWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
@@ -158,14 +174,14 @@ namespace Dashboard.ViewModel
             {
                 if (e.Error is ArgumentNullException)
                 {
-                    System.Windows.MessageBox.Show(e.Error.Message,"", 
+                    System.Windows.MessageBox.Show(e.Error.Message, "",
                         System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 }
                 else
                 {
-                    System.Windows.MessageBox.Show(string.Format("**Error**\t{0}", e.Error.Message), "", 
+                    System.Windows.MessageBox.Show(string.Format("**Error**\t{0}", e.Error.Message), "",
                         System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                }                
+                }
             }
         }
         protected override void _bgWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
@@ -184,10 +200,23 @@ namespace Dashboard.ViewModel
                 string[] itemList = _itemInfoTable.Rows.Cast<DataRow>().Select(x => x.Field<string>("ITEM_LIST")).ToArray();
                 string start = string.Format("{0:yyyy-MM-dd} {1}", StartDate.Date, StartTimeValue);
                 string end = string.Format("{0:yyyy-MM-dd} {1}", EndDate.Date, EndTimeValue);
-                DataTable rawdata = Database.DBQueryTool.GetPivotDataForBKCorrelation(SITE_ID, itemList, start, end);
+                DataTable rawdata;
+                Model.BkCorrelation rpt;
+                if (IsByPosition)
+                {
+                    rawdata = Database.DBQueryTool.GetPivotDataForMulBKCorrelation(SITE_ID, itemList, start, end);
+                    rpt = new Model.BKCorrelation2();
+                }
+                else
+                {
+                    rawdata = Database.DBQueryTool.GetPivotDataForBKCorrelation(SITE_ID, itemList, start, end);
+                    rpt = new Model.BkCorrelation();
+                }
+
                 string tmpDir = System.IO.Path.Combine(Environment.GetEnvironmentVariable("tmp"), "Minitab");
                 Array.ForEach(System.IO.Directory.GetFiles(tmpDir), System.IO.File.Delete); //刪除暫存區所有檔案
-                Model.BkCorrelation rpt = new Model.BkCorrelation();
+
+
                 rpt.RawData = rawdata;
                 if (rpt.RawData != null && rpt.RawData.Rows.Count > 0)
                 {
@@ -207,7 +236,56 @@ namespace Dashboard.ViewModel
                     }
                     App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                     {
-                        _corrRptItems.Add(rpt);
+                        //List<Model.IReport> _rptLst = new List<Model.IReport>();
+
+                        if (rpt is Model.BKCorrelation2)
+                        {
+                            List<string> colNames = rawdata.Columns.Cast<DataColumn>()
+                                .Select(x => x.ColumnName).Where(x => x != "SITE_ID" & x != "TIMESTAMP" & x != "RPT_TIMEHOUR" & x != "GROUP_ID").ToList();
+
+                            /*
+                             * 為了讓 View 的 ItemControl 顯示所有的內容且保有彈性，最後決定將原來的 rpt 依內容分拆
+                             * 出多個 rpt 物件，每一個 rpt 只包含一個 IReport 物件，並且有獨立的 Title 名稱。
+                             * Raw data 就指定放到第一個分拆的 rpt，讓匯出資料表功能可正常運作。
+                             * 
+                             */ 
+                            Model.IRptOutput item;
+                            for (int i = 0; i < rpt.Contents.Count; i++)
+                            {
+                                item = rpt.Contents[i];
+                                Model.BKCorrelation2 _tmpRpt = new Model.BKCorrelation2();
+                                
+                                if (i == 0) _tmpRpt.RawData = rpt.RawData; 
+
+                                _tmpRpt.Flag = rpt.Flag;
+                                _tmpRpt.AddContent(item);
+                                //重新定義 Title
+                                if (item.Tag.ToString() == "Trend")
+                                {
+                                    _tmpRpt.Title = colNames[i] + "時間趨勢圖";
+                                }
+                                else if (item.Tag.ToString() == "Scatter")
+                                {
+                                    _tmpRpt.Title = "各紡位 vs" + rpt.Title + "散佈圖";
+                                }
+                                else
+                                {
+                                    _tmpRpt.Title = "各紡位 vs" + rpt.Title + "相關係數表";
+                                }
+
+                                _corrRptItems.Add(_tmpRpt);
+
+
+                            }
+
+                        }
+                        else
+                        {
+                            _corrRptItems.Add(rpt);
+                        }
+
+
+                        //
                     });
                 }
             }
@@ -250,14 +328,17 @@ namespace Dashboard.ViewModel
                                     if (output.Tag.ToString() == "Trend")
                                     {
                                         tmpContent.TrendChart = Tool.BinaryToWPFImage(output.OutputInByteArr);
+                                        tmpContent.VisibilityOfTrendChart = true;
                                     }
                                     else
                                     {
                                         tmpContent.ScatterPlot = Tool.BinaryToWPFImage(output.OutputInByteArr);
+                                        tmpContent.VisibilityOfScatterPlot = true;
                                     }
                                     break;
                                 case Dashboard.Model.MtbOType.TABLE:
                                     tmpContent.CorrTable = Tool.BinaryToDataTable(output.OutputInByteArr);
+                                    tmpContent.ShowTable = true;
                                     break;
                                 default:
                                     break;
@@ -334,8 +415,8 @@ namespace Dashboard.ViewModel
         public ICommand ShowItemSelectionDialogCommand
         {
             get { return new Command.RelayCommand(ShowItemSelectionDialog); }
-        } 
-        #endregion        
+        }
+        #endregion
     }
 
 }
