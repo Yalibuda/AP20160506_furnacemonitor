@@ -61,7 +61,7 @@ namespace Dashboard {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("SFI-127")]
+        [global::System.Configuration.DefaultSettingValueAttribute("10.115.141.54")]
         public string ServerName {
             get {
                 return ((string)(this["ServerName"]));

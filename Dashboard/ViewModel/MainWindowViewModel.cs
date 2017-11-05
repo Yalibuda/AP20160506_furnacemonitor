@@ -185,7 +185,16 @@ namespace Dashboard.ViewModel
                         break;
                     case "WallTemp":
                         IsWallTempSelected = true;
-                        CurrentPage = new View.WallTempView();
+                        try
+                        {
+                            CurrentPage = new View.WallTempView();
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Windows.MessageBox.Show(ex.Message);
+                            //throw new Exception("Error in WallTemp Load \r\n" + ex.Message);
+                        }
+                        
                         break;
 
                     //case "Export":

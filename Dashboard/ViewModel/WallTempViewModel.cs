@@ -19,10 +19,16 @@ namespace Dashboard.ViewModel
 {
     public class WallTempViewModel : BasicPage
     {
-        //public List<PlotModel> plotModels;
         public WallTempViewModel()
         {
-            Load();
+            try
+            {
+                Load();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in WallTemp Load \r\n" + ex.Message);
+            }
         }
 
         #region properties
@@ -54,6 +60,18 @@ namespace Dashboard.ViewModel
             }
         }
 
+        private ObservableCollection<WallMtbReportContent> _wallMtbContent = null;
+
+        public ObservableCollection<WallMtbReportContent> WallMtbContent
+        {
+            get { return _wallMtbContent; }
+            set
+            {
+                _wallMtbContent = value;
+                _wallMtbContent.CollectionChanged += _wallMtbContent_CollectionChanged;
+                RaisePropertyChanged("WallMtbContent");
+            }
+        }
         #endregion
 
         #region 方法
@@ -67,10 +85,11 @@ namespace Dashboard.ViewModel
 
             //基本變數初始值
             _siteId = null;
-            Sites = Database.DBQueryTool.GetWallSiteInfo(); // revise SQL
-            Sites.DefaultView.Sort = "Plant";
 
-            //Sites = Database.DBQueryTool.GetSiteInfo(); // revise SQL
+            Sites = Database.DBQueryTool.GetWallSiteInfo(); // revise SQL
+            if(Sites !=null) Sites.DefaultView.Sort = "Plant";
+            
+
             //Initialize variate
             _bgWorker = new BackgroundWorker();
             _bgWorker.DoWork += _bgWorker_DoWork;
@@ -83,9 +102,9 @@ namespace Dashboard.ViewModel
             WallContent = new ObservableCollection<WallReportContent>();
             WallMtbContent = new ObservableCollection<WallMtbReportContent>();
 
-            #region test chart
-            #region pieChart
-            
+            #region test chart(close)
+            #region pieChart(close)
+
             // OnPropertyChanged
 
             #region here is test one
@@ -108,7 +127,7 @@ namespace Dashboard.ViewModel
 
             #endregion
 
-            #region barChart
+            #region barChart(close)
             //bardt.Columns.Add("AreaNumber", typeof(int));
             //bardt.Columns.Add("MaxRange", typeof(double));
             //if (bardt != null)
@@ -125,9 +144,9 @@ namespace Dashboard.ViewModel
             //plotBarModel = barChart.Model;
             #endregion
 
-            #region lineSeries
+            #region lineSeries(close)
 
-            #region here is test 2
+            #region here is test 2(close)
             //barChart.IndexOfNearestBarChart = 1;
             //if (barChart.IndexOfNearestBarChart != -1)
             //{
@@ -152,7 +171,7 @@ namespace Dashboard.ViewModel
             //}
             #endregion
 
-            #region here is test 1 successful
+            #region here is test 1 successful (close)
             //linedt.Columns.Add("Date", typeof(DateTime));
             //linedt.Columns.Add("Value", typeof(double));
             //if (linedt != null)
@@ -173,10 +192,9 @@ namespace Dashboard.ViewModel
 
             #endregion
 
-            #region total time series plot
+            #region total time series plot(close)
 
             #endregion
-            //throw new NotImplementedException();
         }
 
         private void UpdatePage(object obj)
@@ -784,10 +802,16 @@ namespace Dashboard.ViewModel
             }
         }
 
+        void _wallMtbContent_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            RaisePropertyChanged("WallMtbContent");
+        }
         #endregion
         
         #region 變數
         public DataTable dtMR;
+
+        public DataTable dtOrderedAreaMR;
 
         public DataTable StatTable 
         {
@@ -803,7 +827,9 @@ namespace Dashboard.ViewModel
         }
 
         private DataTable _statTable;
-        
+
+        private ObservableCollection<Model.IReport> _wallRptItems = null;
+
         #region PieChart
         private PlotModel plotPieModel; // this is for testing pieChart, prefer to use list<plotmodel>
         public PlotModel PlotPieModel
@@ -930,12 +956,15 @@ namespace Dashboard.ViewModel
         private ObservableCollection<WallReportContent> _wallContent = null;
 
         #endregion
-        
-        public DataTable dtOrderedAreaMR;
 
-        private ObservableCollection<Model.IReport> _wallRptItems = null;
+        #region command
+        public override ICommand UpdatePageCommand
+        {
+            get { return new Command.RelayCommand(UpdatePage); }
+        }
+        #endregion
 
-        // wallreportcontent, considering to move to basic page
+        // wallreportcontent, considering to move it to basic page
         public class WallReportContent
         {
             public ImageSource PieChart { set; get; }
@@ -945,36 +974,11 @@ namespace Dashboard.ViewModel
             public DataTable RawData { set; get; }
         }
 
-        #region command
-        public override ICommand UpdatePageCommand
-        {
-            get { return new Command.RelayCommand(UpdatePage); }
-        }
-        #endregion
-
-        public class WallMtbReportContent //
+        public class WallMtbReportContent
         {
             public ImageSource TSPlot { set; get; }
             public string Title { set; get; }
             public DataTable RawData { set; get; }
-        }
-
-        private ObservableCollection<WallMtbReportContent> _wallMtbContent = null;
-
-        public ObservableCollection<WallMtbReportContent> WallMtbContent
-        {
-            get { return _wallMtbContent; }
-            set
-            {
-                _wallMtbContent = value;
-                _wallMtbContent.CollectionChanged += _wallMtbContent_CollectionChanged;
-                RaisePropertyChanged("WallMtbContent");
-            }
-        }
-
-        void _wallMtbContent_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            RaisePropertyChanged("WallMtbContent");
         }
     }
 }

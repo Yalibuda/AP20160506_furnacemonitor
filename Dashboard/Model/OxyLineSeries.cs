@@ -77,7 +77,7 @@ namespace Dashboard.Model
         }
         public override void Execute(Mtb.Project project)
         {
-            // throw new NotImplementedException();
+            // not be used in the class
         }
         public override void Execute()
         {
@@ -189,7 +189,5 @@ namespace Dashboard.Model
         private string _tag="";
 
         public DataTable statTable;
-
-
     }
 }

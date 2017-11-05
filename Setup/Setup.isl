@@ -2620,7 +2620,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>1028</td><td>Scientific Formosa, Inc</td><td>0</td><td/><td>2099589684</td></row>
+		<row><td>COMPANY_NAME</td><td>1028</td><td>Scientific Formosa, Inc</td><td>0</td><td/><td>-718985205</td></row>
 		<row><td>DN_AlwaysInstall</td><td>1028</td><td>總是安裝</td><td>0</td><td/><td>497323435</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>1028</td><td>系統顏色設定不足以執行 [ProductName]。</td><td>0</td><td/><td>497323435</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_OS</td><td>1028</td><td>作業系統不足以執行 [ProductName]。</td><td>0</td><td/><td>497323435</td></row>
@@ -3726,8 +3726,8 @@
 		<row><td>IDS__TargetReq_DESC_PROCESSOR</td><td>1028</td><td>對於執行 [ProductName] 處理器不足。</td><td>0</td><td/><td>497323435</td></row>
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1028</td><td>對於執行 [ProductName] 記憶體量不足。</td><td>0</td><td/><td>497323435</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1028</td><td>對於執行 [ProductName] 螢幕解析度不足。</td><td>0</td><td/><td>497323435</td></row>
-		<row><td>ID_STRING1</td><td>1028</td><td>http://www.ScientificFormosa,Inc.com</td><td>0</td><td/><td>2099589684</td></row>
-		<row><td>ID_STRING2</td><td>1028</td><td>Scientific Formosa, Inc</td><td>0</td><td/><td>2099589684</td></row>
+		<row><td>ID_STRING1</td><td>1028</td><td>http://www.ScientificFormosa,Inc.com</td><td>0</td><td/><td>-718985205</td></row>
+		<row><td>ID_STRING2</td><td>1028</td><td>Scientific Formosa, Inc</td><td>0</td><td/><td>-718985205</td></row>
 		<row><td>ID_STRING3</td><td>1028</td><td>歡迎安裝</td><td>0</td><td/><td>497315275</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>歡迎安裝</td><td>0</td><td/><td>497315275</td></row>
 		<row><td>ID_STRING4</td><td>1028</td><td>PFG Minitab Dashboard</td><td>0</td><td/><td>497339979</td></row>

@@ -24,7 +24,6 @@
 //   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,8 +40,6 @@ using System.Windows;//
 
 using System.IO;
 using System.Threading;
-
-//using OxyPlot.Wpf;
 
 namespace Dashboard.Model
 {
@@ -83,7 +80,7 @@ namespace Dashboard.Model
 
         public override void Execute(Mtb.Project project)
         {
-            // throw new NotImplementedException();
+            // not be used in the class
         }
 
         public override void Execute()
@@ -197,10 +194,10 @@ namespace Dashboard.Model
             {
                 indexOfNearestBarChart = value;
                 RaisePropertyChanged("IndexOfNearestBarChart");
-                //raise prop changed
             }
         }
         private int indexOfNearestBarChart = -1;
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void RaisePropertyChanged(string propertyName)
         {

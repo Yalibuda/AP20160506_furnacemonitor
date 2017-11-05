@@ -79,7 +79,7 @@ namespace Dashboard.Model
 
         public override void Execute(Mtb.Project project)
         {
-            // throw new NotImplementedException();
+            // not be used in the class
         }
 
         public override void Execute()
@@ -153,7 +153,7 @@ namespace Dashboard.Model
                 //查無資料 construct
             #endregion
 
-            #region fail method, sometimes successful, interesting
+            #region Thread to solve
             //var stream = new MemoryStream();
             var stream = new MemoryStream();
             var pngExporter = new OxyPlot.Wpf.PngExporter { Width = 600, Height = 400, Background = OxyColors.White };

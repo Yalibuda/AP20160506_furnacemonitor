@@ -43,7 +43,7 @@
     </Reference>
     <Reference Include="Mtblib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\00.GeneralTool\Mtblib_v16\Mtblib\bin\Release\Mtblib.dll</HintPath>
+      <HintPath>C:\Users\Andrew\Documents\GitHub\Mtblib\Mtblib\bin\Release\Mtblib.dll</HintPath>
     </Reference>
     <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
       <HintPath>..\packages\OxyPlot.Core.1.0.0\lib\net45\OxyPlot.dll</HintPath>

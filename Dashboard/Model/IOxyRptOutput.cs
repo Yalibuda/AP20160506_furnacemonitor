@@ -26,10 +26,7 @@ namespace Dashboard.Model
         GRAPH,
         /// <summary>表格 </summary>
         TABLE,
-
-        /// <summary>
-        /// 互動式圖形
-        /// </summary>
-        OBJECT //?
+        /// <summary>互動式圖形</summary>
+        OBJECT 
     }
 }

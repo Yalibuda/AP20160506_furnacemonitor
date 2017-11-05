@@ -421,9 +421,7 @@ namespace Dashboard.Database
         public static DataTable GetWallSiteInfo()
         {
             StringBuilder query = new StringBuilder();
-            //query.Append("SELECT DISTINCT SITE_ID FROM WallTemperature");
             query.Append("SELECT DISTINCT Plant FROM WallTemperature");
-            //query.Append("SELECT DISTINCT SITE_ID FROM FURN_ITEM_INFO");
             DataTable dt = GetData(query.ToString(), GetWallConnString());
             return dt;
         }
@@ -436,8 +434,6 @@ namespace Dashboard.Database
         {
             string _srvname = DBServer.Default.ServerName;
             string _port = DBServer.Default.Port;
-            //string _db = DBServer.Default.DBName;
-            //string _db = "furnacemonitor";
             string _db = "furnace";
             string _uid = DBServer.Default.UserID;
             string _psw = DBServer.Default.Password;
@@ -466,7 +462,7 @@ namespace Dashboard.Database
         }
 
         /// <summary>
-        /// get furnace distinct area data
+        /// get furnace wall distinct area data
         /// </summary>
         /// <returns></returns>
         public static DataTable GetWallAreaData(string site_id, string start, string end)

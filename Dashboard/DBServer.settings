@@ -15,7 +15,7 @@
       <Value Profile="(Default)">mtbdashboard</Value>
     </Setting>
     <Setting Name="ServerName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">SFI-127</Value>
+      <Value Profile="(Default)">10.115.141.54</Value>
     </Setting>
   </Settings>
 </SettingsFile>
