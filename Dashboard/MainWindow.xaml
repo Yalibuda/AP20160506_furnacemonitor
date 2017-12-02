@@ -215,12 +215,17 @@
                         <TreeViewItem Header="熔爐" Style="{StaticResource MyTreeViewItem}" Cursor="Arrow" IsExpanded="True">
                             <TreeViewItem x:Name="SPC" Header="趨勢分析" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding IsSPCSelected, UpdateSourceTrigger=PropertyChanged}"/>
                             <TreeViewItem x:Name="Correlation" Header="斷絲率相關性" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding IsCorrSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TreeViewItem x:Name="ItemsCorrelation" Header="相關性" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding IsItemsCorrSelected, UpdateSourceTrigger=PropertyChanged}"/>
                         </TreeViewItem>
                         <TreeViewItem Header="紡位" Style="{StaticResource MyTreeViewItem}" Cursor="Arrow" IsExpanded="True">
                             <TreeViewItem x:Name="DiffCompare" Header="斷絲率差異" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding  IsPosiDiffSelected, UpdateSourceTrigger=PropertyChanged}"/>
                         </TreeViewItem>
+                        <TreeViewItem Header="熔爐外壁" Style="{StaticResource MyTreeViewItem}" Cursor="Arrow" IsExpanded="True">
+                            <TreeViewItem x:Name="WallTemp" Header="溫度監控" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding IsWallTempSelected, UpdateSourceTrigger=PropertyChanged}" />
+                        </TreeViewItem>
                         <TreeViewItem Header="物性" Style="{StaticResource MyTreeViewItem}" Cursor="Arrow" IsExpanded="True">
                         <TreeViewItem x:Name="PropTrend" Header="趨勢分析" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding  IsPropTrendSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                        
                     </TreeViewItem>
                         <!--<TreeViewItem x:Name="Export" Header="匯出報表" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding IsExportSelected, UpdateSourceTrigger=PropertyChanged}"/>-->
                         <!--<TreeViewItem x:Name="ExportData" Header="取得資料" Style="{StaticResource MyTreeViewItem}" IsSelected="{Binding IsExportDataSelected, UpdateSourceTrigger=PropertyChanged}"/>-->

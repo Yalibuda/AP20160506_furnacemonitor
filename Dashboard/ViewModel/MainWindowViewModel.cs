@@ -114,6 +114,30 @@ namespace Dashboard.ViewModel
             }
         }
         private bool _isPosiDiffSelected = false;
+        public bool IsItemsCorrSelected
+        {
+            get { return _isItemsCorrSelected; }
+            private set
+            {
+                _isItemsCorrSelected = value;
+                RaisePropertyChanged("IsItemsCorrSelected");
+            }
+        }
+        private bool _isItemsCorrSelected = false;
+
+        public bool IsWallTempSelected
+        {
+            get
+            {
+                return _isWallTempSelected;
+            }
+            private set
+            {
+                _isWallTempSelected = value;
+                RaisePropertyChanged("IsWallTempSelected");
+            }
+        }
+        private bool _isWallTempSelected;
 
         public bool IsPropertySelected
         {
@@ -161,6 +185,10 @@ namespace Dashboard.ViewModel
                         IsCorrSelected = true;
                         CurrentPage = new View.BKCorrelationView();
                         break;
+                    case "ItemsCorrelation":
+                        IsItemsCorrSelected = true;
+                        CurrentPage = new View.ItemsCorrelationView();
+                        break;
                     case "DiffCompare":
                         IsPosiDiffSelected = true;
                         CurrentPage = new View.PosiDiffTestView();
@@ -168,6 +196,17 @@ namespace Dashboard.ViewModel
                     case "PropTrend":
                         IsPropertySelected = true;
                         CurrentPage = new View.PropertyAnalysisView();
+                        break;
+                    case "WallTemp":
+                        IsWallTempSelected = true;
+                        try
+                        {
+                            CurrentPage = new View.WallTempView();
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Windows.MessageBox.Show(ex.Message);
+                        }
                         break;
                     //case "Export":
                     //    BasicPage page = CurrentPage.DataContext as BasicPage;
@@ -201,6 +240,8 @@ namespace Dashboard.ViewModel
             IsSPCSelected = false;
             IsCorrSelected = false;
             IsPosiDiffSelected = false;
+            IsItemsCorrSelected = false;
+            IsWallTempSelected = false;
 
         }
 
@@ -485,6 +526,7 @@ namespace Dashboard.ViewModel
         RealTime,
         TrendAnalysis,
         BkCorrelation,
+        ItemsCorrelation,
         PositionDifference
     }
 }

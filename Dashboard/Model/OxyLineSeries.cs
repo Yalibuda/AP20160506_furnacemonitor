@@ -99,10 +99,9 @@ namespace Dashboard.Model
                 MarkerFill = OxyColor.FromRgb(121, 168, 225),
             };
             lineSeries.Color = OxyColor.FromRgb(121, 168, 225);
-
             foreach (DataRow row in RawData.Rows)
             {
-                lineSeries.Points.Add(new DataPoint(DateTimeAxis.ToDouble(row[0]), System.Convert.ToDouble(row[1])));
+                lineSeries.Points.Add(new DataPoint(DateTimeAxis.ToDouble(row[0]), Math.Round(System.Convert.ToDouble(row[1]), 2)));
             }
             Model.Series.Add(lineSeries);
             #endregion
@@ -110,12 +109,12 @@ namespace Dashboard.Model
             #region setting for Axes
             var xAxis = new DateTimeAxis 
             {   
-                StringFormat = "yyyy/dd/MM", 
+                StringFormat = "yyyy/MM/dd", 
                 Title = XTitle,
                 MinorIntervalType = DateTimeIntervalType.Days,
                 IntervalType = DateTimeIntervalType.Days,
                 IsZoomEnabled = false,
-                //IntervalLength = 60
+                TitleFontSize = 14,
             };
 
             //test LinearAxis to y-axis for fixed max and min
@@ -128,6 +127,7 @@ namespace Dashboard.Model
                 Title = YTitle,
                 IntervalLength = 10,
                 IsZoomEnabled = false,
+                TitleFontSize = 14,
             };
             Model.Axes.Add(yAxis);
             Model.Axes.Add(xAxis);
@@ -157,6 +157,17 @@ namespace Dashboard.Model
             stream.Close();
             #endregion
 
+            #region mouse click close
+            lineSeries.MouseDown += (s, e) =>
+            {
+                if (e.ChangedButton == OxyMouseButton.Left)
+                {
+                    e.Handled = true;//
+                }
+                else { }
+            };
+
+            #endregion
 
             //pngExporter.
             //將檔案轉為二進位陣列
@@ -189,5 +200,62 @@ namespace Dashboard.Model
         private string _tag="";
 
         public DataTable statTable;
+
+        public int N
+        {
+            get
+            {
+                return _rawdata.Rows.Count;
+            }
+        }
+
+        public double stDev
+        {
+            get
+            {
+                double stdev;
+                stdev = (double)_rawdata.Compute("Stdev(Value)", string.Empty);
+                return Math.Round(stdev, 3);
+            }
+        }
+
+        public double Max 
+        {
+            get
+            {
+                double maxAccountLevel = double.MinValue;
+                foreach (DataRow dr in _rawdata.Rows)
+                {
+                    double accountLevel = dr.Field<double>("Value");
+                    maxAccountLevel = Math.Max(maxAccountLevel, accountLevel);
+                }
+                return Math.Round(maxAccountLevel, 2);
+            }
+        }
+
+        public double Min
+        {
+            get
+            {
+                double minAccountLevel = double.MaxValue;
+                foreach (DataRow dr in _rawdata.Rows)
+                {
+                    double accountLevel = dr.Field<double>("Value");
+                    minAccountLevel = Math.Min(minAccountLevel, accountLevel);
+                }
+                return Math.Round(minAccountLevel, 2);
+            }
+        }
+
+        public double Mean
+        {
+            get
+            {
+                double avg = _rawdata.AsEnumerable().Average(r =>
+                    r.Field<double>("Value"));
+                return Math.Round(avg, 2);
+            }
+        }
+
     }
 }

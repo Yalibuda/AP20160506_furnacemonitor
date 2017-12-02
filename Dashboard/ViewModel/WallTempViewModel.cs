@@ -243,6 +243,9 @@ namespace Dashboard.ViewModel
             string start = string.Format("{0:yyyy-MM-dd} {1}", StartDate.Date, StartTimeValue);
             string end = string.Format("{0:yyyy-MM-dd} {1}", EndDate.Date, EndTimeValue);
             dtRaw = Database.DBQueryTool.GetWallData(SITE_ID, start, end);
+
+            Areas = Database.DBQueryTool.GetWallAreaData(SITE_ID, start, end);
+            if (Areas != null) Areas.DefaultView.Sort = "Area";
             if (dtRaw.Rows.Count == 0) return;
             #endregion
 
@@ -288,9 +291,9 @@ namespace Dashboard.ViewModel
             int tmpAreaCount = pieChart.AreaCount;
             for (int i = 0; i < pieChart.AreaCount; i++)
             {
-                string indexRow =
+                string indexRowtmp =
                     (i < 9) ? string.Format("0{0}", i + 1) : string.Format("{0}", i + 1);
-                DataRow[] rows = dtRaw.Select(string.Format("Area = {0}", indexRow));
+                DataRow[] rows = dtRaw.Select(string.Format("Area = {0}", indexRowtmp));
                 double tmpMaxMR = 0;
                 for (int j = 0; j < (rows.Count() - 1); j++)
                 {
@@ -310,7 +313,7 @@ namespace Dashboard.ViewModel
                     dtMR.Rows.Add(drMR);
                 }
                 DataRow dr = dtAreaMR.NewRow();
-                dr[0] = indexRow; dr[1] = tmpMaxMR;
+                dr[0] = indexRowtmp; dr[1] = tmpMaxMR;
                 dtAreaMR.Rows.Add(dr);
 
                 if (tmpMaxMR >= 10) drdtPieOver10[1] = Convert.ToInt32(drdtPieOver10[1]) + 1;
@@ -375,9 +378,10 @@ namespace Dashboard.ViewModel
             #region Tsplot renew
             string tmpDir = System.IO.Path.Combine(Environment.GetEnvironmentVariable("tmp"), "Minitab");
             Array.ForEach(System.IO.Directory.GetFiles(tmpDir), System.IO.File.Delete); //刪除暫存區所有檔案
+            int sizeOfTSPlot = 16;
 
-            int forCount = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(tmpAreaCount) / 25));
-            int forCountMod = tmpAreaCount - 25 * (forCount - 1);
+            int forCount = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(tmpAreaCount) / sizeOfTSPlot));
+            int forCountMod = tmpAreaCount - sizeOfTSPlot * (forCount - 1);
             List<string> _areaArray;
             //forCount = 2; // for testing
             for (int i = 0; i < forCount; i++)
@@ -389,10 +393,10 @@ namespace Dashboard.ViewModel
                 _areaArray = new List<string>();
 
                 #region logic to include the area for graphs
-                if (i < forCount - 1) // here handle 25 area graph
+                if (i < forCount - 1) // here handle sizeOfTSPlot area graph
                 {
-                    
-                    rpt.CountPlotArea = 25;
+
+                    rpt.CountPlotArea = sizeOfTSPlot;
                     if (i == 0)
                     {
                         for (int j = 0; j < 9; j++)
@@ -400,7 +404,7 @@ namespace Dashboard.ViewModel
                             criteria.Add(string.Format("0{0}", j + 1));
                             _areaArray.Add(string.Format("爐區-0{0}", j + 1));
                         }
-                        for (int j = 9; j < 25; j++)
+                        for (int j = 9; j < sizeOfTSPlot; j++)
                         {
                             criteria.Add((j + 1).ToString());
                             _areaArray.Add(string.Format("爐區-{0}", j + 1));
@@ -408,10 +412,10 @@ namespace Dashboard.ViewModel
                     }
                     else
                     {
-                        for (int j = 0; j < 25; j++)
+                        for (int j = 0; j < sizeOfTSPlot; j++)
                         {
-                            criteria.Add((25 * i + j + 1).ToString());
-                            _areaArray.Add(string.Format("爐區-{0}", 25 * i + j + 1));
+                            criteria.Add((sizeOfTSPlot * i + j + 1).ToString());
+                            _areaArray.Add(string.Format("爐區-{0}", sizeOfTSPlot * i + j + 1));
                         }
                     }
 
@@ -421,8 +425,8 @@ namespace Dashboard.ViewModel
                     rpt.CountPlotArea = forCountMod;
                     for (int j = 0; j < forCountMod; j++)
                     {
-                        criteria.Add((25 * i + j + 1).ToString());
-                        _areaArray.Add(string.Format("爐區-{0}", 25 * i + j + 1));
+                        criteria.Add((sizeOfTSPlot * i + j + 1).ToString());
+                        _areaArray.Add(string.Format("爐區-{0}", sizeOfTSPlot * i + j + 1));
                     }
                 }
                 rpt.AreaArray = _areaArray;
@@ -728,77 +732,9 @@ namespace Dashboard.ViewModel
         {
             if (barChart.IndexOfNearestBarChart != -1)
             {
-                #region here is individual chart
-                
-                    //["Area"]
                 DataTable dtOrderedAreaMRtmp = dtOrderedAreaMR;
                 string indexRow = (dtOrderedAreaMRtmp.Rows[barChart.IndexOfNearestBarChart])[0].ToString();
-
-                    //(barChart.IndexOfNearestBarChart < 9) ?
-                    //string.Format("0{0}", barChart.IndexOfNearestBarChart + 1) : string.Format("{0}", barChart.IndexOfNearestBarChart + 1);
-                DataRow[] rows = dtRaw.Select(string.Format("Area = {0}", indexRow));
-                //DataRow[] rows = dtMR.Select(string.Format("Area = {0}", indexRow));
-                linedt = new DataTable();
-                linedt.Columns.Add("DateTime", typeof(DateTime));
-                linedt.Columns.Add("Value", typeof(double));
-                foreach (DataRow row in rows)
-                {
-                    DataRow tmpdr = linedt.NewRow();
-                    tmpdr[0] = row[2]; tmpdr[1] = row[3];
-                    linedt.Rows.Add(tmpdr);
-                }
-                lineChart.RawData = linedt;
-                lineChart.Title = string.Format("{0}號爐區-溫度趨勢圖", indexRow);
-                lineChart.XTitle = "時間";
-                lineChart.YTitle = "溫度";
-                lineChart.Execute();
-                _wallRptItems.Add(lineChart);
-                PlotLineModel = lineChart.Model;
-                   
-                #endregion
-
-                #region here is MR chart
-                //DataRow[] rows = dtRaw.Select(string.Format("Area = {0}", indexRow));
-                DataRow[] rowsMR = dtMR.Select(string.Format("Area = {0}", indexRow));
-                linedtMR = new DataTable();
-                linedtMR.Columns.Add("DateTime", typeof(DateTime));
-                linedtMR.Columns.Add("Value", typeof(double));
-                foreach (DataRow row in rowsMR)
-                {
-                    DataRow tmpdr = linedtMR.NewRow();
-                    tmpdr[0] = row[2]; tmpdr[1] = row[3];
-                    linedtMR.Rows.Add(tmpdr);
-                }
-                lineChartMR.RawData = linedtMR;
-                lineChartMR.Title = "移動全距趨勢圖";
-                lineChartMR.XTitle = "時間";
-                lineChartMR.YTitle = "溫度移動全距";
-
-                lineChartMR.Tag = "MR"; // tag MR will compute stat table
-                StatTable = new DataTable();
-                StatTable.Columns.Add("Area", typeof(string));
-                StatTable.Columns.Add("Mean", typeof(double));
-                //StatTable.Columns.Add("全距", typeof(double));
-                //StatTable.Columns.Add("標準差", typeof(double));
-                //StatTable.Columns.Add("變異係數", typeof(double));
-                //StatTable.Columns.Add("變異係數%", typeof(double));
-                //StatTable.Columns.Add("最大值", typeof(double));
-                //StatTable.Columns.Add("最小值", typeof(double));
-
-                DataRow drStatTable = StatTable.NewRow();
-                drStatTable[0] = indexRow;
-                drStatTable[1] = 12.3456789;
-
-                // call Minitab to compute it or other method to do this
-                //drStatTable[1] = Convert.ToDouble(linedt.Columns.IndexOf("Value"));
-                StatTable.Rows.Add(drStatTable);
-                lineChartMR.statTable = StatTable;
-                
-                lineChartMR.Execute();
-                _wallRptItems.Add(lineChartMR);
-                PlotLineMRModel = lineChartMR.Model;
-
-                #endregion
+                IndexRowClone = indexRow;
             }
         }
 
@@ -807,8 +743,114 @@ namespace Dashboard.ViewModel
             RaisePropertyChanged("WallMtbContent");
         }
         #endregion
-        
+
+        void _selectIndexChanged(string index)
+        {
+
+            #region here is individual chart
+
+            string indexRow = index;
+            DataRow[] rows = dtRaw.Select(string.Format("Area = {0}", indexRow));
+            linedt = new DataTable();
+            linedt.Columns.Add("DateTime", typeof(DateTime));
+            linedt.Columns.Add("Value", typeof(double));
+            foreach (DataRow row in rows)
+            {
+                DataRow tmpdr = linedt.NewRow();
+                tmpdr[0] = row[2]; tmpdr[1] = row[3];
+                linedt.Rows.Add(tmpdr);
+            }
+            lineChart.RawData = linedt;
+            lineChart.Title = string.Format("{0}號爐區-溫度趨勢圖", indexRow);
+            lineChart.XTitle = "時間";
+            lineChart.YTitle = "溫度";
+
+            #region new statTable handler
+            lineChart.Tag = "MR"; // tag MR will compute stat table
+            StatTableRaw = new DataTable();
+            StatTableRaw.Columns.Add("爐區", typeof(string));
+            StatTableRaw.Columns.Add("樣本數", typeof(int));
+            StatTableRaw.Columns.Add("平均", typeof(double));
+            StatTableRaw.Columns.Add("標準差", typeof(double));
+            StatTableRaw.Columns.Add("最大值", typeof(double));
+            StatTableRaw.Columns.Add("最小值", typeof(double));
+            DataRow drStatTableRaw = StatTableRaw.NewRow();
+            drStatTableRaw[0] = indexRow;
+            drStatTableRaw[1] = lineChart.N;
+            drStatTableRaw[2] = lineChart.Mean;
+            drStatTableRaw[3] = lineChart.stDev;
+            drStatTableRaw[4] = lineChart.Max;
+            drStatTableRaw[5] = lineChart.Min;
+            StatTableRaw.Rows.Add(drStatTableRaw);
+            lineChart.statTable = StatTableRaw;
+            #endregion
+
+            lineChart.Execute();
+            _wallRptItems.Add(lineChart);
+            PlotLineModel = lineChart.Model;
+            
+            #endregion
+
+            #region here is MR chart
+            DataRow[] rowsMR = dtMR.Select(string.Format("Area = {0}", indexRow));
+            linedtMR = new DataTable();
+            linedtMR.Columns.Add("DateTime", typeof(DateTime));
+            linedtMR.Columns.Add("Value", typeof(double));
+            foreach (DataRow row in rowsMR)
+            {
+                DataRow tmpdr = linedtMR.NewRow();
+                tmpdr[0] = row[2]; tmpdr[1] = row[3];
+                linedtMR.Rows.Add(tmpdr);
+            }
+            lineChartMR.RawData = linedtMR;
+            lineChartMR.Title = "移動全距趨勢圖";
+            lineChartMR.XTitle = "時間";
+            lineChartMR.YTitle = "溫度移動全距";
+
+            #region new statTable handler
+            lineChartMR.Tag = "MR"; // tag MR will compute stat table
+            StatTable = new DataTable();
+            StatTable.Columns.Add("爐區R", typeof(string));
+            StatTable.Columns.Add("樣本數", typeof(int));
+            StatTable.Columns.Add("平均", typeof(double));
+            StatTable.Columns.Add("標準差", typeof(double));
+            StatTable.Columns.Add("最大值", typeof(double));
+            StatTable.Columns.Add("最小值", typeof(double));
+            DataRow drStatTable = StatTable.NewRow();
+            drStatTable[0] = indexRow;
+            drStatTable[1] = lineChartMR.N;
+            drStatTable[2] = lineChartMR.Mean;
+            drStatTable[3] = lineChartMR.stDev;
+            drStatTable[4] = lineChartMR.Max;
+            drStatTable[5] = lineChartMR.Min;
+            StatTable.Rows.Add(drStatTable);
+            lineChartMR.statTable = StatTable;
+            #endregion
+
+            lineChartMR.Execute();
+            _wallRptItems.Add(lineChartMR);
+            PlotLineMRModel = lineChartMR.Model;
+            //PlotLineMRModel2 = lineChartMR.Model;
+            Console.Write("");
+            #endregion
+        }
+
+
         #region 變數
+        //public PlotModel PlotLineMRModel2
+        //{
+        //    get
+        //    {
+        //        return plotLineMRModel2;
+        //    }
+        //    set
+        //    {
+        //        plotLineMRModel2 = value;
+        //        RaisePropertyChanged("PlotLineMRModel2");
+        //    }
+        //}
+        //private PlotModel plotLineMRModel2;
+
         public DataTable dtMR;
 
         public DataTable dtOrderedAreaMR;
@@ -827,6 +869,21 @@ namespace Dashboard.ViewModel
         }
 
         private DataTable _statTable;
+
+        public DataTable StatTableRaw
+        {
+            get
+            {
+                return _statTableRaw;
+            }
+            set
+            {
+                _statTableRaw = value;
+                RaisePropertyChanged("StatTableRaw");
+            }
+        }
+
+        private DataTable _statTableRaw;
 
         private ObservableCollection<Model.IReport> _wallRptItems = null;
 
@@ -853,6 +910,7 @@ namespace Dashboard.ViewModel
         #region barChart
 
         private PlotModel plotBarModel;
+
         public PlotModel PlotBarModel
         {
             get
@@ -865,7 +923,9 @@ namespace Dashboard.ViewModel
                 RaisePropertyChanged("PlotBarModel");
             }
         }
+
         public DataTable bardt = new DataTable();
+
         public OxyBarChart barChart = new OxyBarChart();
 
         DataTable dtOrderedAreaMR10th;
@@ -879,11 +939,47 @@ namespace Dashboard.ViewModel
                 RaisePropertyChanged("AllAreaVisible");
             }
         }
+
         private bool _allAreaVisible = false;
+
+        public string IndexRowClone
+        {
+            get { return _indexRowClone; }
+            set
+            {
+                _indexRowClone = value;
+                DataTable dtOrderedAreaMRtmp = dtOrderedAreaMR;
+                _selectIndexChanged(_indexRowClone);
+                RaisePropertyChanged("IndexRowClone");
+            }
+        }
+
+        private string _indexRowClone;
 
         #endregion
 
         #region lineSeries
+
+
+        /// <summary>
+        /// 取得爐區資訊
+        /// </summary>
+        public DataTable Areas
+        {
+            get { return _dtAreaInfo; }
+            protected set
+            {
+                if (!Database.DBQueryTool.CompareDataTableRow(_dtAreaInfo, value))
+                {
+                    _dtAreaInfo = value;
+                    //RaisePropertyChanged("SiteInfo"); // this one is no use? 20171002
+                    RaisePropertyChanged("Areas"); // this one is added 20171002
+                }
+            }
+        }
+
+        private DataTable _dtAreaInfo = null;
+
         #region this one is for Individual chart
         private PlotModel plotLineModel;
         public PlotModel PlotLineModel

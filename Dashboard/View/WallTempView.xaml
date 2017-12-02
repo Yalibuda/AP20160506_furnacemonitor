@@ -112,7 +112,9 @@
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="300"/>
+                                <RowDefinition />
                                 <RowDefinition Height="300"/>
+                                <RowDefinition />
                                 <RowDefinition Height="300"/>
                                 <RowDefinition />
                             </Grid.RowDefinitions>
@@ -123,15 +125,62 @@
                                 <oxy:PlotView Model="{Binding PlotPieModel}"/>
                             </Grid>
                             <Separator Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="0,5,0,5"/>
-                            <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,10,0">
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,0,0,10">
+                                <Label Content="爐區:"/>
+                                 <ComboBox x:Name="cbAreas" ItemsSource="{Binding Areas , UpdateSourceTrigger=PropertyChanged}" 
+                                  Width="150" DisplayMemberPath="Area" SelectedValuePath="Area"  
+                                  SelectedValue="{Binding IndexRowClone, Mode=TwoWay}"/>
+                            </StackPanel>
+                            <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,0,10,0">
                                 <oxy:PlotView Model="{Binding PlotLineModel}"/>
                             </Grid>
-                            <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,0,10,0">
+                            <Grid Grid.Row="3" Grid.ColumnSpan="2">
+                                <DataGrid ItemsSource="{Binding StatTableRaw,UpdateSourceTrigger=PropertyChanged}" 
+                                          Margin="55,0,0,30"
+                                          MaxHeight="200"
+                                          Height="Auto"                                          
+                                          MinWidth="200"
+                                          CanUserResizeColumns="True"
+                                          AutoGenerateColumns="False"
+                                          HorizontalAlignment="Left"
+                                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                          HeadersVisibility="Column" 
+                                          CanUserAddRows="False">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding Path=爐區}" 
+                                                    Header="爐區" Width="60"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=樣本數, StringFormat=\{0:n3\}}"
+                                                    Header="樣本數" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=平均, StringFormat=\{0:n3\}}"
+                                                    Header="平均值" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=標準差, StringFormat=\{0:n3\}}"
+                                                    Header="標準差" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=最大值, StringFormat=\{0:n3\}}"
+                                                    Header="最大值" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=最小值, StringFormat=\{0:n3\}}"
+                                                    Header="最小值" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+
+                                        </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                            <Grid Grid.Row="4" Grid.ColumnSpan="2" Margin="0,0,10,0">
                                 <oxy:PlotView Model="{Binding PlotLineMRModel}"/>
                             </Grid>
-                            <Grid Grid.Row="3" Grid.ColumnSpan="2">
-                                <DataGrid ItemsSource="{Binding StatTable,UpdateSourceTrigger=PropertyChanged}" 
-                                          Margin="5,10,0,0"
+                            <Grid Grid.Row="5" Grid.ColumnSpan="2">
+                            <DataGrid ItemsSource="{Binding StatTable,UpdateSourceTrigger=PropertyChanged}" 
+                                          Margin="55,0,0,30"
                                           MaxHeight="200"
                                           Height="Auto"                                          
                                           MinWidth="200"
@@ -143,16 +192,32 @@
                                           HeadersVisibility="Column" 
                                           CanUserAddRows="False">
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Binding="{Binding Path=Area}" 
-                                                    Header="爐區" Width="300"
+                                        <DataGridTextColumn Binding="{Binding Path=爐區R}" 
+                                                    Header="爐區" Width="60"
                                                     CanUserSort="False" IsReadOnly="True"/>
-                                        <DataGridTextColumn Binding="{Binding Path=Mean, StringFormat=\{0:n3\}}"
-                                                    Header="平均" Width="100" 
+                                            <DataGridTextColumn Binding="{Binding Path=樣本數, StringFormat=\{0:n3\}}"
+                                                    Header="樣本數" Width="60" 
                                                     CanUserResize="True"
                                                     CanUserSort="False" IsReadOnly="True"/>
-                                    </DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding Path=平均, StringFormat=\{0:n3\}}"
+                                                    Header="平均值" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=標準差, StringFormat=\{0:n3\}}"
+                                                    Header="標準差" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=最大值, StringFormat=\{0:n3\}}"
+                                                    Header="最大值" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=最小值, StringFormat=\{0:n3\}}"
+                                                    Header="最小值" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+
+                                        </DataGrid.Columns>
                                 </DataGrid>
-                                
                             </Grid>
                         </Grid>
                     
@@ -160,28 +225,134 @@
 
                 </TabItem>
                 <TabItem Header="Trend" Margin="1,0,0,0">
-                        <ItemsControl ItemsSource="{Binding WallMtbContent, UpdateSourceTrigger=PropertyChanged}"
+                        <ScrollViewer>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition Height="300"/>
+                                    <RowDefinition />
+                                    <RowDefinition Height="300"/>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <ItemsControl Grid.Row="0" ItemsSource="{Binding WallMtbContent, UpdateSourceTrigger=PropertyChanged}"
                                       SnapsToDevicePixels="True">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                                        <ctr:GraphWindow HorizontalAlignment="Left" Margin="5"
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                                            <ctr:GraphWindow HorizontalAlignment="Left" Margin="5"
                                                  Title="{Binding Path=Title, Converter={StaticResource GetSubString}}"
                                                  TitleToolTip="{Binding Title}"
                                                  IconPath="..\images\trend26x26_black.png"
                                                  GHeight="{Binding TSPlot.Height}"
                                                  GWidth="{Binding TSPlot.Width}"
                                                  ImgSource="{Binding TSPlot}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                </TabItem>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                                <!--<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,0,0,10">
+                                    <Label Content="爐區:"/>
+                                    <ComboBox x:Name="cbAreas2" ItemsSource="{Binding Areas , UpdateSourceTrigger=PropertyChanged}" 
+                                  Width="150" DisplayMemberPath="Area" SelectedValuePath="Area"  
+                                  SelectedValue="{Binding IndexRowClone, Mode=TwoWay}"/>
+                                </StackPanel>-->
+                                <!--<Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,0,10,0">
+                                    <oxy:PlotView Model="{Binding PlotLineModel}"/>
+                                </Grid>-->
+                                <!--<Grid Grid.Row="3" Grid.ColumnSpan="2">
+                                    <DataGrid ItemsSource="{Binding StatTableRaw,UpdateSourceTrigger=PropertyChanged}" 
+                                          Margin="5,10,0,0"
+                                          MaxHeight="200"
+                                          Height="Auto"                                          
+                                          MinWidth="200"
+                                          CanUserResizeColumns="True"
+                                          AutoGenerateColumns="False"
+                                          HorizontalAlignment="Left"
+                                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                          HeadersVisibility="Column" 
+                                          CanUserAddRows="False">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding Path=爐區}" 
+                                                    Header="爐區" Width="60"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=樣本數, StringFormat=\{0:n3\}}"
+                                                    Header="樣本數" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=平均, StringFormat=\{0:n3\}}"
+                                                    Header="平均值" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=標準差, StringFormat=\{0:n3\}}"
+                                                    Header="標準差" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=最大值, StringFormat=\{0:n3\}}"
+                                                    Header="最大值" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=最小值, StringFormat=\{0:n3\}}"
+                                                    Header="最小值" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>-->
+                                <!--<Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,10,0">
+                                    <oxy:PlotView Model="{Binding PlotLineMRModel2}"/>
+                                </Grid>-->
+                                <!--<Grid Grid.Row="5" Grid.ColumnSpan="2">
+                                    <DataGrid ItemsSource="{Binding StatTable,UpdateSourceTrigger=PropertyChanged}" 
+                                          Margin="5,10,0,0"
+                                          MaxHeight="200"
+                                          Height="Auto"                                          
+                                          MinWidth="200"
+                                          CanUserResizeColumns="True"
+                                          AutoGenerateColumns="False"
+                                          HorizontalAlignment="Left"
+                                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                          HeadersVisibility="Column" 
+                                          CanUserAddRows="False">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding Path=爐區R}" 
+                                                    Header="爐區" Width="60"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=樣本數, StringFormat=\{0:n3\}}"
+                                                    Header="樣本數" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=平均, StringFormat=\{0:n3\}}"
+                                                    Header="平均值" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=標準差, StringFormat=\{0:n3\}}"
+                                                    Header="標準差" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=最大值, StringFormat=\{0:n3\}}"
+                                                    Header="最大值" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Path=最小值, StringFormat=\{0:n3\}}"
+                                                    Header="最小值" Width="60" 
+                                                    CanUserResize="True"
+                                                    CanUserSort="False" IsReadOnly="True"/>
+
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>-->
+                            </Grid>
+                        </ScrollViewer>
+                 </TabItem>
             </TabControl>
         </Grid>
         </ScrollViewer>

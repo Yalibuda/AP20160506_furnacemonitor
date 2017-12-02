@@ -144,7 +144,7 @@ namespace Dashboard.Database
             string[] itemname
                 = GetData(query.ToString(), GetConnString()).AsEnumerable()
                 .Select(x => x.Field<string>("ITEM_NAME")).ToArray();
-            string[] pivotCol = itemname.Zip(items, (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
+            string[] pivotCol = itemname.Zip(items.OrderBy(x => x), (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
 
             query.Clear();
             query.AppendFormat("SELECT [TIMESTAMP],{0}, MAX(CHART_PARA_INDEX) AS CHART_PARA_INDEX FROM (\r\n", string.Join(",", pivotCol));
@@ -266,7 +266,7 @@ namespace Dashboard.Database
             string[] itemname
                 = GetData(query.ToString(), GetConnString()).AsEnumerable()
                 .Select(x => x.Field<string>("ITEM_NAME")).ToArray();
-            string[] pivotCol = itemname.Zip(items, (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
+            string[] pivotCol = itemname.Zip(items.OrderBy(x => x), (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
             query.Clear();
             //query.AppendFormat("SELECT BK.GROUP_ID, BK.TIMESTAMP, FURN.RPT_TIMEHOUR ,BK.BK, {0} FROM vw_bkhour BK LEFT JOIN (\r\n",
             //    string.Join(",", itemname.Select(x => "FURN.[" + x + "]")));
@@ -553,7 +553,7 @@ namespace Dashboard.Database
         public static DataTable GetWallAreaData(string site_id, string start, string end)
         {
             StringBuilder query = new StringBuilder();
-            query.AppendLine("SELECT DISTINCT AREA FROM WallTemperature a");
+            query.AppendLine("SELECT DISTINCT Area FROM WallTemperature a");
             query.AppendFormat("where a.Plant='{0}' and a.DateTime between '{1}' and '{2}'\r\n", site_id, start, end);
             query.AppendLine();
 
