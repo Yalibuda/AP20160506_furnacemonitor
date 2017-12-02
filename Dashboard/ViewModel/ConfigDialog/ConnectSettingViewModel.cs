@@ -21,10 +21,12 @@ namespace Dashboard.ViewModel.ConfigDialog
             set
             {
                 _srvName = value;
+                //_srvName = "SFI-127";
                 RaisePropertyChanged("ServerName");
             }
         }
-        private string _srvName = "";
+        //private string _srvName = "";
+        private string _srvName = "10.115.141.54";
 
         private void Load()
         {

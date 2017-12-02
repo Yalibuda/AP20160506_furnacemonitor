@@ -47,7 +47,15 @@
     </Reference>
     <Reference Include="Mtblib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Mtblib\Mtblib\bin\Release\Mtblib.dll</HintPath>
+      <HintPath>C:\Users\Andrew\Documents\GitHub\Mtblib\Mtblib\bin\Release\Mtblib.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Core.1.0.0\lib\net45\OxyPlot.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.1.0.0\lib\net45\OxyPlot.Wpf.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -67,6 +75,18 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\IOxyReport.cs" />
+    <Compile Include="Model\IOxyRptOutput.cs" />
+    <Compile Include="Model\OxyBarChart.cs" />
+    <Compile Include="Model\OxyLineSeries.cs" />
+    <Compile Include="Model\OxyPieChart.cs" />
+    <Compile Include="Model\OxyReport.cs" />
+    <Compile Include="Model\OxyRptOutput.cs" />
+    <Compile Include="Model\TSPlot.cs" />
+    <Compile Include="ViewModel\WallTempViewModel.cs" />
+    <Compile Include="View\WallTempView.xaml.cs">
+      <DependentUpon>WallTempView.xaml</DependentUpon>
+    </Compile>
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -96,6 +116,7 @@
     <Compile Include="Model\IReport.cs" />
     <Compile Include="Model\IRptOutput.cs" />
     <Compile Include="Model\ISeletableItem.cs" />
+    <Compile Include="Model\ItemsCorrelation.cs" />
     <Compile Include="Model\MultivariateReport.cs" />
     <Compile Include="Model\OverlayTrendReport.cs" />
     <Compile Include="Model\PosiDiffTest.cs" />
@@ -119,6 +140,7 @@
     <Compile Include="ViewModel\Converter\StepToEnable.cs" />
     <Compile Include="ViewModel\Converter\StepToVisibility.cs" />
     <Compile Include="ViewModel\Converter\StringToSubstitute.cs" />
+    <Compile Include="ViewModel\ItemsCorrelationViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\NotifyPropertyChanged.cs" />
     <Compile Include="ViewModel\PosiDiffTestViewModel.cs" />
@@ -160,11 +182,11 @@
       <DependentUpon>RealtimeItemManagerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\IFuncPage.cs" />
+    <Compile Include="View\ItemsCorrelationView.xaml.cs">
+      <DependentUpon>ItemsCorrelationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\PosiDiffTestView.xaml.cs">
       <DependentUpon>PosiDiffTestView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\PropertyAnalysisView.xaml.cs">
-      <DependentUpon>PropertyAnalysisView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\RealTimeSPCView.xaml.cs">
       <DependentUpon>RealTimeSPCView.xaml</DependentUpon>
@@ -248,11 +270,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PosiDiffTestView.xaml">
+    <Page Include="View\ItemsCorrelationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PropertyAnalysisView.xaml">
+    <Page Include="View\PosiDiffTestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -277,6 +299,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\TrendAnalysisView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WallTempView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -350,7 +376,9 @@
   <ItemGroup>
     <Resource Include="images\sfilogo.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

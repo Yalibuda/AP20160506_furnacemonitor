@@ -144,7 +144,7 @@ namespace Dashboard.Database
             string[] itemname
                 = GetData(query.ToString(), GetConnString()).AsEnumerable()
                 .Select(x => x.Field<string>("ITEM_NAME")).ToArray();
-            string[] pivotCol = itemname.Zip(items.OrderBy(x => x), (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
+            string[] pivotCol = itemname.Zip(items, (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
 
             query.Clear();
             query.AppendFormat("SELECT [TIMESTAMP],{0}, MAX(CHART_PARA_INDEX) AS CHART_PARA_INDEX FROM (\r\n", string.Join(",", pivotCol));
@@ -266,7 +266,7 @@ namespace Dashboard.Database
             string[] itemname
                 = GetData(query.ToString(), GetConnString()).AsEnumerable()
                 .Select(x => x.Field<string>("ITEM_NAME")).ToArray();
-            string[] pivotCol = itemname.Zip(items.OrderBy(x => x), (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
+            string[] pivotCol = itemname.Zip(items, (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
             query.Clear();
             //query.AppendFormat("SELECT BK.GROUP_ID, BK.TIMESTAMP, FURN.RPT_TIMEHOUR ,BK.BK, {0} FROM vw_bkhour BK LEFT JOIN (\r\n",
             //    string.Join(",", itemname.Select(x => "FURN.[" + x + "]")));
@@ -365,6 +365,67 @@ namespace Dashboard.Database
             return dt;
         }
 
+        #region
+
+        /// <summary>
+        /// 給定項目與時間範圍，取得相關性分析的資料(Pivot data)，產出欄位 [TIMESTAMP]、[BK]、[各項目]，
+        /// 並且 DataTable 名稱以 SITE_ID + 各ITEM_INDEX 串接而成
+        /// </summary>
+        /// <param name="site_id">廠別</param>
+        /// <param name="items">項目列表(FURN_ITEM_INDEX)，不需要加引號</param>
+        /// <param name="start">起始時間</param>
+        /// <param name="end">結束時間</param>
+        /// <returns></returns>
+        public static DataTable GetPivotDataForItemsCorrelation(string site_id, string[] items, string start, string end)
+        {
+            StringBuilder query = new StringBuilder();
+            query.AppendLine("SELECT ITEM_NAME FROM FURN_ITEM_INFO");
+            query.AppendFormat("WHERE FURN_ITEM_INDEX IN ({0})\r\n", string.Join(",", items.Select(x => "'" + x + "'").ToArray()));
+            query.AppendLine("ORDER BY CONVERT(INT, FURN_ITEM_INDEX)");
+            string[] itemname
+                = GetData(query.ToString(), GetConnString()).AsEnumerable()
+                .Select(x => x.Field<string>("ITEM_NAME")).ToArray();
+            string[] pivotCol = itemname.Zip(items, (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
+            query.Clear();
+            //query.AppendFormat("SELECT BK.GROUP_ID, BK.TIMESTAMP, FURN.RPT_TIMEHOUR ,BK.BK, {0} FROM vw_bkhour BK LEFT JOIN (\r\n",
+            //    string.Join(",", itemname.Select(x => "FURN.[" + x + "]")));
+            //query.AppendFormat("SELECT {0}, RPT_TIME, RPT_TIMEHOUR, SITE_ID FROM (\r\n",
+            //    string.Join(",", pivotCol));
+            //query.AppendLine("SELECT A.SITE_ID, A.FURN_ITEM_INDEX, A.RPT_TIMEHOUR, RPT_TIME=DATEADD(HOUR,8, A.RPT_TIMEHOUR), VALUE=AVG(A.VALUE) FROM (");
+            //query.AppendLine("SELECT Y.SITE_ID, Y.FURN_ITEM_INDEX, X.VALUE, RPT_TIMEHOUR= DATEADD(HOUR,DATEDIFF(HOUR,0, X.RPT_DATETIME),0) FROM FURN_DETAIL X INNER JOIN FURN_ITEM_INFO Y ");
+            //query.AppendLine("ON X.FURN_ITEM_INDEX = Y.FURN_ITEM_INDEX) A");
+            //query.AppendLine("GROUP BY A.SITE_ID, A.FURN_ITEM_INDEX, A.RPT_TIMEHOUR");
+            //query.AppendLine(") GPTABLE");
+            //query.AppendLine("PIVOT (");
+            //query.AppendFormat("AVG(GPTABLE.VALUE) FOR GPTABLE.FURN_ITEM_INDEX IN ({0})\r\n",
+            //    string.Join(",", items.Select(x => "[" + x + "]").ToArray()));
+            //query.AppendLine(") AS PVT");
+            //query.AppendLine(") FURN on FURN.RPT_TIME=BK.TIMESTAMP and BK.SITE_ID=FURN.SITE_ID");
+            //query.AppendFormat("WHERE BK.GROUP_ID='0' AND BK.SITE_ID='{0}' AND BK.TIMESTAMP between '{1}' and '{2}'\r\n",
+            //    site_id, start, end);
+            //query.AppendLine("ORDER BY BK.TIMESTAMP");
+            query.AppendFormat("select a.GROUP_ID, a.TIMESTAMP, a.BK, {0} from vw_bkhour a\r\n", string.Join(",", pivotCol));
+            for (int i = 0; i < itemname.Length; i++)
+            {
+                query.AppendLine("left join (");
+                query.AppendLine("select a.SITE_ID,[RPT_TIMEHOUR]= DATEADD(HOUR, ");
+                query.AppendFormat("(select isnull((select LAGHOUR from FURN_BK_LAG_INFO where FURN_ITEM_INDEX='{0}'),0)),RPT_TIMEHOUR),\r\n", items[i]);
+                query.AppendFormat("[{0}]= avg(a.VALUE) from vw_furnacedata a where a.FURN_ITEM_INDEX='{0}' group by SITE_ID, RPT_TIMEHOUR) x{1}\r\n"
+                    , items[i], i + 1);
+                query.AppendFormat("on a.TIMESTAMP = x{0}.RPT_TIMEHOUR\r\n", i + 1);
+            }
+            query.AppendFormat("where a.SITE_ID='{0}' and a.GROUP_ID=0 and a.TIMESTAMP between '{1}' and '{2}'\r\n", site_id, start, end);
+            query.AppendFormat("order by TIMESTAMP");
+
+            query.AppendLine();
+
+            DataTable dt = GetData(query.ToString(), GetConnString());
+            dt.TableName = site_id + string.Join("", items);
+            return dt;
+        }
+
+        #endregion
+
         /// <summary>
         /// 給定項目與時間範圍，取得實驗室物性測試的結果
         /// </summary>
@@ -436,6 +497,70 @@ namespace Dashboard.Database
         }
 
 
+        #region Furnace Wall DBtool
 
+        /// <summary>
+        /// 取得爐壁廠別的資訊
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable GetWallSiteInfo()
+        {
+            StringBuilder query = new StringBuilder();
+            query.Append("SELECT DISTINCT Plant FROM WallTemperature");
+            DataTable dt = GetData(query.ToString(), GetWallConnString());
+            return dt;
+        }
+
+        /// <summary>
+        /// 根據設定檔回傳 Sql Client 的 Connection string
+        /// </summary>
+        /// <returns></returns>
+        public static string GetWallConnString()
+        {
+            string _srvname = DBServer.Default.ServerName;
+            string _port = DBServer.Default.Port;
+            string _db = "furnace";
+            string _uid = DBServer.Default.UserID;
+            string _psw = DBServer.Default.Password;
+            string connString =
+                string.Format("Server={0},{1};Initial Catalog={2};Persist Security Info=True;UID={3};PWD={4};Connection Timeout=10",
+                _srvname, _port, _db, _uid, _psw);
+            return connString;
+        }
+
+
+        /// <summary>
+        /// get furnace wall data
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable GetWallData(string site_id, string start, string end)
+        {
+            StringBuilder query = new StringBuilder();
+            query.AppendLine("SELECT * FROM WallTemperature a");
+            query.AppendFormat("where a.Plant='{0}' and a.DateTime between '{1}' and '{2}'\r\n", site_id, start, end);
+            query.AppendFormat("order by a.Area, a.DateTime");
+            query.AppendLine();
+
+            DataTable dt = GetData(query.ToString(), GetWallConnString());
+            dt.TableName = site_id + "rawdata";
+            return dt;
+        }
+
+        /// <summary>
+        /// get furnace wall distinct area data
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable GetWallAreaData(string site_id, string start, string end)
+        {
+            StringBuilder query = new StringBuilder();
+            query.AppendLine("SELECT DISTINCT AREA FROM WallTemperature a");
+            query.AppendFormat("where a.Plant='{0}' and a.DateTime between '{1}' and '{2}'\r\n", site_id, start, end);
+            query.AppendLine();
+
+            DataTable dt = GetData(query.ToString(), GetWallConnString());
+            dt.TableName = "Distinct Area" + site_id;
+            return dt;
+        }
+        #endregion
     }
 }
