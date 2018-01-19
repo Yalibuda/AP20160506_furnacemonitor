@@ -33,109 +33,112 @@
          />
         <ScrollViewer>
             <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="7*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Vertical" Margin="10,10,10,0">
-                <Expander Header="" VerticalAlignment="Top" 
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="7*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Vertical" Margin="10,10,10,0">
+                    <Expander Header="" VerticalAlignment="Top" 
                           HorizontalAlignment="Left"                           
                           IsExpanded="True" Width="Auto">
-                    <Grid>
-                        
-            <Grid.RowDefinitions>
-                            <RowDefinition Height="23*"/>
-                            <RowDefinition Height="5*"/>
-                        </Grid.RowDefinitions>
-            
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" BorderThickness="0" Grid.RowSpan="2">
-                            <StackPanel Orientation="Vertical">
-                                <StackPanel Orientation="Horizontal" Margin="10,0,0,10">
-                                    <Label Content="廠別:"/>
-                                    <ComboBox x:Name="cbSite" ItemsSource="{Binding Sites , UpdateSourceTrigger=PropertyChanged}" 
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="23*"/>
+                                <RowDefinition Height="5*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" BorderThickness="0" Grid.RowSpan="2">
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal" Margin="10,0,0,10">
+                                        <Label Content="廠別:"/>
+                                        <ComboBox x:Name="cbSite" ItemsSource="{Binding Sites , UpdateSourceTrigger=PropertyChanged}" 
                                       Width="150" DisplayMemberPath="Plant" SelectedValuePath="Plant"  
                                       SelectedValue="{Binding SITE_ID, Mode=TwoWay}"                                             
                                       />
-                                </StackPanel>
-                                <CheckBox x:Name="cbArea" Content="顯示所有爐區" IsChecked="{Binding AllAreaVisible, Mode=TwoWay}"/>
-                                <Label Content="時間範圍" FontSize="12" Margin="10,15,5,5"
+                                        <Label Content="警戒線:" Margin="10,0,10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                        <TextBox MinWidth="50" Text="{Binding WarningLine, Mode=TwoWay}"/>
+
+                                    </StackPanel>
+                                    <CheckBox x:Name="cbArea" Content="顯示所有爐區" IsChecked="{Binding AllAreaVisible, Mode=TwoWay}"/>
+                                    <Label Content="時間範圍" FontSize="12" Margin="10,15,5,5"
                                        Foreground="DimGray" >
-                                </Label>
-                                <WrapPanel Orientation="Horizontal" Margin="10,0,0,0">
-                                    <Label Content="起" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                                    <DatePicker Margin="0,5,5,5" FirstDayOfWeek="Monday" VerticalContentAlignment="Bottom"
+                                    </Label>
+                                    <WrapPanel Orientation="Horizontal" Margin="10,0,0,0">
+                                        <Label Content="起" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                        <DatePicker Margin="0,5,5,5" FirstDayOfWeek="Monday" VerticalContentAlignment="Bottom"
                                                 SelectedDate="{Binding StartDate,UpdateSourceTrigger=PropertyChanged}"/>
-                                    <TextBox Width="70" VerticalContentAlignment="Center" Margin="0,5,0,5"
+                                        <TextBox Width="70" VerticalContentAlignment="Center" Margin="0,5,0,5"
                                              Text="{Binding StartTimeValue,UpdateSourceTrigger=PropertyChanged}"
                                              />
-                                    <Label Content="迄" Margin="20,5,5,5"/>
-                                    <DatePicker Margin="0,5,5,5" FirstDayOfWeek="Monday"  VerticalContentAlignment="Bottom"
+                                        <Label Content="迄" Margin="20,5,5,5"/>
+                                        <DatePicker Margin="0,5,5,5" FirstDayOfWeek="Monday"  VerticalContentAlignment="Bottom"
                                                 SelectedDate="{Binding EndDate,UpdateSourceTrigger=PropertyChanged}"/>
-                                    <TextBox Width="70" VerticalContentAlignment="Center" Margin="0,5,0,5"
+                                        <TextBox Width="70" VerticalContentAlignment="Center" Margin="0,5,0,5"
                                              Text="{Binding EndTimeValue,UpdateSourceTrigger=PropertyChanged}"/>
-                                    <DockPanel MinWidth="200">
-                                        <Button x:Name="btDoWork" Content="執行..."  Margin="100,5,0,5"
+                                        <DockPanel MinWidth="200">
+                                            <Button x:Name="btDoWork" Content="執行..."  Margin="100,5,0,5"
                                                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Visible"
                                                 Width="50" Height="25" Command="{Binding UpdatePageCommand}"/>
-                                    </DockPanel>
+                                        </DockPanel>
 
-                                </WrapPanel>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Expander>
-                
-            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                    <TextBlock Text="熔爐外壁分析" FontSize="15" FontWeight="Bold" VerticalAlignment="Bottom" Margin="0,0,10,0"/>
-                    <TextBlock Text="溫度監控儀表板" FontSize="12" Foreground="#FFA4A4A4" VerticalAlignment="Bottom"/>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Expander>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                        <TextBlock Text="熔爐外壁分析" FontSize="15" FontWeight="Bold" VerticalAlignment="Bottom" Margin="0,0,10,0"/>
+                        <TextBlock Text="溫度監控儀表板" FontSize="12" Foreground="#FFA4A4A4" VerticalAlignment="Bottom"/>
+                    </StackPanel>
+                    <Separator/>
+
                 </StackPanel>
-            <Separator/>
-            
-            </StackPanel>
-            <TabControl Grid.Row="1" Grid.ColumnSpan="2" Margin="5,10,5,5">
-                <TabItem Header="SPC">
-                    
-            <ScrollViewer>
-            
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="300"/>
-                                <RowDefinition />
-                                <RowDefinition Height="300"/>
-                                <RowDefinition />
-                                <RowDefinition Height="300"/>
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
+                <TabControl Grid.Row="1" Grid.ColumnSpan="2" Margin="5,10,5,5">
+                    <TabItem Header="SPC">
+
+                        <ScrollViewer>
+
                             <Grid>
-                                <oxy:PlotView Model="{Binding PlotBarModel}"/>
-                            </Grid>
-                            <Grid Grid.Column="1">
-                                <oxy:PlotView Model="{Binding PlotPieModel}"/>
-                            </Grid>
-                            <Separator Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="0,5,0,5"/>
-                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,0,0,10">
-                                <Label Content="爐區:"/>
-                                 <ComboBox x:Name="cbAreas" ItemsSource="{Binding Areas , UpdateSourceTrigger=PropertyChanged}" 
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="300"/>
+                                    <RowDefinition />
+                                    <RowDefinition Height="300"/>
+                                    <RowDefinition />
+                                    <RowDefinition Height="300"/>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <oxy:PlotView Model="{Binding PlotBarModel}"/>
+                                </Grid>
+                                <Grid Grid.Column="1">
+                                    <oxy:PlotView Model="{Binding PlotPieModel}"/>
+                                </Grid>
+                                <Separator Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="0,5,0,5"/>
+                                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,0,0,10">
+                                    <Label Content="爐區:"/>
+                                    <ComboBox x:Name="cbAreas" ItemsSource="{Binding Areas , UpdateSourceTrigger=PropertyChanged}" 
                                   Width="150" DisplayMemberPath="Area" SelectedValuePath="Area"  
                                   SelectedValue="{Binding IndexRowClone, Mode=TwoWay}"/>
-                            </StackPanel>
-                            <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,0,10,0">
-                                <oxy:PlotView Model="{Binding PlotLineModel}"/>
-                            </Grid>
-                            <Grid Grid.Row="3" Grid.ColumnSpan="2">
-                                <DataGrid ItemsSource="{Binding StatTableRaw,UpdateSourceTrigger=PropertyChanged}" 
+                                </StackPanel>
+                                <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,0,10,0">
+                                    <oxy:PlotView Model="{Binding PlotLineModel}"/>
+                                </Grid>
+                                <Grid Grid.Row="3" Grid.ColumnSpan="2">
+                                    <DataGrid ItemsSource="{Binding StatTableRaw,UpdateSourceTrigger=PropertyChanged}" 
                                           Margin="55,0,0,30"
                                           MaxHeight="200"
                                           Height="Auto"                                          
@@ -151,7 +154,7 @@
                                             <DataGridTextColumn Binding="{Binding Path=爐區}" 
                                                     Header="爐區" Width="60"
                                                     CanUserSort="False" IsReadOnly="True"/>
-                                            <DataGridTextColumn Binding="{Binding Path=樣本數, StringFormat=\{0:n3\}}"
+                                            <DataGridTextColumn Binding="{Binding Path=樣本數}"
                                                     Header="樣本數" Width="60" 
                                                     CanUserResize="True"
                                                     CanUserSort="False" IsReadOnly="True"/>
@@ -173,13 +176,13 @@
                                                     CanUserSort="False" IsReadOnly="True"/>
 
                                         </DataGrid.Columns>
-                                </DataGrid>
-                            </Grid>
-                            <Grid Grid.Row="4" Grid.ColumnSpan="2" Margin="0,0,10,0">
-                                <oxy:PlotView Model="{Binding PlotLineMRModel}"/>
-                            </Grid>
-                            <Grid Grid.Row="5" Grid.ColumnSpan="2">
-                            <DataGrid ItemsSource="{Binding StatTable,UpdateSourceTrigger=PropertyChanged}" 
+                                    </DataGrid>
+                                </Grid>
+                                <Grid Grid.Row="4" Grid.ColumnSpan="2" Margin="0,0,10,0">
+                                    <oxy:PlotView Model="{Binding PlotBarModelMR}"/>
+                                </Grid>
+                                <Grid Grid.Row="5" Grid.ColumnSpan="2">
+                                    <DataGrid ItemsSource="{Binding StatTable,UpdateSourceTrigger=PropertyChanged}" 
                                           Margin="55,0,0,30"
                                           MaxHeight="200"
                                           Height="Auto"                                          
@@ -191,11 +194,11 @@
                                           ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                           HeadersVisibility="Column" 
                                           CanUserAddRows="False">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Binding="{Binding Path=爐區R}" 
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding Path=爐區R}" 
                                                     Header="爐區" Width="60"
                                                     CanUserSort="False" IsReadOnly="True"/>
-                                            <DataGridTextColumn Binding="{Binding Path=樣本數, StringFormat=\{0:n3\}}"
+                                            <DataGridTextColumn Binding="{Binding Path=樣本數}"
                                                     Header="樣本數" Width="60" 
                                                     CanUserResize="True"
                                                     CanUserSort="False" IsReadOnly="True"/>
@@ -217,14 +220,14 @@
                                                     CanUserSort="False" IsReadOnly="True"/>
 
                                         </DataGrid.Columns>
-                                </DataGrid>
+                                    </DataGrid>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    
-            </ScrollViewer>
 
-                </TabItem>
-                <TabItem Header="Trend" Margin="1,0,0,0">
+                        </ScrollViewer>
+
+                    </TabItem>
+                    <TabItem Header="Trend" Margin="1,0,0,0">
                         <ScrollViewer>
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -237,25 +240,25 @@
                                 </Grid.RowDefinitions>
                                 <ItemsControl Grid.Row="0" ItemsSource="{Binding WallMtbContent, UpdateSourceTrigger=PropertyChanged}"
                                       SnapsToDevicePixels="True">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Vertical"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                                            <ctr:GraphWindow HorizontalAlignment="Left" Margin="5"
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                                                <ctr:GraphWindow HorizontalAlignment="Left" Margin="5"
                                                  Title="{Binding Path=Title, Converter={StaticResource GetSubString}}"
                                                  TitleToolTip="{Binding Title}"
                                                  IconPath="..\images\trend26x26_black.png"
                                                  GHeight="{Binding TSPlot.Height}"
                                                  GWidth="{Binding TSPlot.Width}"
                                                  ImgSource="{Binding TSPlot}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                                 <!--<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,0,0,10">
                                     <Label Content="爐區:"/>
                                     <ComboBox x:Name="cbAreas2" ItemsSource="{Binding Areas , UpdateSourceTrigger=PropertyChanged}" 
@@ -352,9 +355,9 @@
                                 </Grid>-->
                             </Grid>
                         </ScrollViewer>
-                 </TabItem>
-            </TabControl>
-        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
         </ScrollViewer>
     </Grid>
 </Page>

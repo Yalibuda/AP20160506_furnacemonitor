@@ -87,8 +87,8 @@ namespace Dashboard.ViewModel
             _siteId = null;
 
             Sites = Database.DBQueryTool.GetWallSiteInfo(); // revise SQL
-            if(Sites !=null) Sites.DefaultView.Sort = "Plant";
-            
+            if (Sites != null) Sites.DefaultView.Sort = "Plant";
+
 
             //Initialize variate
             _bgWorker = new BackgroundWorker();
@@ -247,6 +247,17 @@ namespace Dashboard.ViewModel
             Areas = Database.DBQueryTool.GetWallAreaData(SITE_ID, start, end);
             if (Areas != null) Areas.DefaultView.Sort = "Area";
             if (dtRaw.Rows.Count == 0) return;
+            double _tmpWarningLine;
+            try
+            {
+                _tmpWarningLine = double.Parse(WarningLine);
+            }
+            catch
+            {
+                System.Windows.MessageBox.Show("警戒線必須為數值");
+                return;
+            }
+
             #endregion
 
             #region clear the old graph
@@ -254,6 +265,8 @@ namespace Dashboard.ViewModel
             PlotPieModel = null;
             PlotLineMRModel = null;
             PlotLineModel = null;
+
+            PlotBarModelMR = null;
             #endregion
 
             #region new region, this is for output data and graph
@@ -272,9 +285,9 @@ namespace Dashboard.ViewModel
             dtPie.Columns.Add("count", typeof(int));
             DataRow drdtPieOver10 = dtPie.NewRow();
             DataRow drdtPieUnder10 = dtPie.NewRow();
-            drdtPieOver10[0] = "高於 10"; drdtPieOver10[1] = 0;
-            drdtPieUnder10[0] = "低於 10"; drdtPieUnder10[1] = 0;
-            
+            drdtPieOver10[0] = string.Format("高於 {0}", _tmpWarningLine); drdtPieOver10[1] = 0;
+            drdtPieUnder10[0] = string.Format("低於 {0}", _tmpWarningLine); drdtPieUnder10[1] = 0;
+
             pieChart.RawData = dtRaw;
 
             //if (pieChart.AreaCount == 0) return; // if there is no data, return, use rawdata.rows.count to replacement
@@ -293,7 +306,7 @@ namespace Dashboard.ViewModel
             {
                 string indexRowtmp =
                     (i < 9) ? string.Format("0{0}", i + 1) : string.Format("{0}", i + 1);
-                DataRow[] rows = dtRaw.Select(string.Format("Area = {0}", indexRowtmp));
+                DataRow[] rows = dtRaw.Select(string.Format("Area = '{0}'", indexRowtmp));
                 double tmpMaxMR = 0;
                 for (int j = 0; j < (rows.Count() - 1); j++)
                 {
@@ -301,7 +314,7 @@ namespace Dashboard.ViewModel
                     if (j == 0)
                     {
                         tmpMaxMR = Math.Abs(Convert.ToDouble(rows[j + 1][3]) - Convert.ToDouble(rows[j][3]));
-                    } 
+                    }
                     else
                     {
                         tmpMaxMR = Math.Max(tmpMaxMR, Convert.ToDouble(rows[j + 1][3]) - Convert.ToDouble(rows[j][3]));
@@ -316,7 +329,7 @@ namespace Dashboard.ViewModel
                 dr[0] = indexRowtmp; dr[1] = tmpMaxMR;
                 dtAreaMR.Rows.Add(dr);
 
-                if (tmpMaxMR >= 10) drdtPieOver10[1] = Convert.ToInt32(drdtPieOver10[1]) + 1;
+                if (tmpMaxMR >= _tmpWarningLine) drdtPieOver10[1] = Convert.ToInt32(drdtPieOver10[1]) + 1;
                 else drdtPieUnder10[1] = Convert.ToInt32(drdtPieUnder10[1]) + 1;
             }
             dtPie.Rows.Add(drdtPieOver10);
@@ -326,49 +339,27 @@ namespace Dashboard.ViewModel
 
             pieChart.Title = "爐外壁溫度概況";
             pieChart.Execute();
-            
+
             _wallRptItems.Add(pieChart);
             PlotPieModel = pieChart.Model;
             #endregion end of PieChart renew
 
             #region Bar Chart renew
-
-            // rearrange the order of rawdata
-            //dtAreaMR.DefaultView.Sort = "MaxMR";
             DataView dv = new DataView(dtAreaMR);
             dv.Sort = "MaxMR DESC";
-            //DataTable dtOrderedAreaMR = dv.ToTable();
             dtOrderedAreaMR = dv.ToTable();
-            //Sites.DefaultView.Sort = "Plant"; //datatable sort
             if (AllAreaVisible) barChart.RawData = dtOrderedAreaMR;
-            else 
-            { 
-                //dt.Rows.Cast<System.Data.DataRow>().Take(n)
-                //dtOrderedAreaMR10th = new DataTable();
+            else
+            {
                 dtOrderedAreaMR10th = dtOrderedAreaMR.AsEnumerable().Take(10).CopyToDataTable();
-                //dtOrderedAreaMR10th.Columns.Add("Area", typeof(string));
-                //dtOrderedAreaMR10th.Columns.Add("MaxMR", typeof(double));
-                //dtOrderedAreaMR10th.Rows.Add(dtOrderedAreaMR.Rows.Cast<System.Data.DataRow>().Take(10));
                 barChart.RawData = dtOrderedAreaMR10th;
-                // only plot the 10th max MR
             }
 
-            barChart.Title = "爐外壁移動全距>10爐區";
+            barChart.Warningline = _tmpWarningLine;
+            barChart.Title = string.Format("爐外壁移動全距>{0}爐區", _tmpWarningLine);
             barChart.XTitle = "爐區";
             barChart.YTitle = "最大移動全距";
 
-            //bardt.Columns.Add("AreaNumber", typeof(int));
-            //bardt.Columns.Add("MaxRange", typeof(double));
-            //if (bardt != null)
-            //{
-            //    DataRow r1 = bardt.NewRow();
-            //    DataRow r2 = bardt.NewRow();
-            //    r1[0] = 1; r1[1] = 13;
-            //    bardt.Rows.Add(r1);
-            //    r2[0] = 2; r2[1] = 17;
-            //    bardt.Rows.Add(r2);
-            //    barChart.RawData = bardt;
-            //}
             barChart.Execute();
             _wallRptItems.Add(barChart);
             PlotBarModel = barChart.Model;
@@ -464,22 +455,22 @@ namespace Dashboard.ViewModel
 
             #region MR Chart renew
 
-                //linedt.Columns.Add("Date", typeof(DateTime));
-                //linedt.Columns.Add("Value", typeof(double));
-                //if (linedt != null)
-                //{
-                //    DataRow r1 = linedt.NewRow();
-                //    DataRow r2 = linedt.NewRow();
-                //    r1[0] = new DateTime(2016, 6, 18, 12, 0, 0); r1[1] = 5;
-                //    linedt.Rows.Add(r1);
-                //    r2[0] = new DateTime(2016, 6, 19, 12, 0, 0); r2[1] = 8;
-                //    linedt.Rows.Add(r2);
-                //    lineChart.RawData = linedt;
-                //}
-                //lineChart.Execute();
-                //PlotLineModel = lineChart.Model;
+            //linedt.Columns.Add("Date", typeof(DateTime));
+            //linedt.Columns.Add("Value", typeof(double));
+            //if (linedt != null)
+            //{
+            //    DataRow r1 = linedt.NewRow();
+            //    DataRow r2 = linedt.NewRow();
+            //    r1[0] = new DateTime(2016, 6, 18, 12, 0, 0); r1[1] = 5;
+            //    linedt.Rows.Add(r1);
+            //    r2[0] = new DateTime(2016, 6, 19, 12, 0, 0); r2[1] = 8;
+            //    linedt.Rows.Add(r2);
+            //    lineChart.RawData = linedt;
+            //}
+            //lineChart.Execute();
+            //PlotLineModel = lineChart.Model;
 
-                barChart.PropertyChanged += barChart_PropertyChanged;
+            barChart.PropertyChanged += barChart_PropertyChanged;
             #endregion
         }
 
@@ -788,7 +779,7 @@ namespace Dashboard.ViewModel
             lineChart.Execute();
             _wallRptItems.Add(lineChart);
             PlotLineModel = lineChart.Model;
-            
+
             #endregion
 
             #region here is MR chart
@@ -802,6 +793,7 @@ namespace Dashboard.ViewModel
                 tmpdr[0] = row[2]; tmpdr[1] = row[3];
                 linedtMR.Rows.Add(tmpdr);
             }
+            lineChartMR.Warningline = double.Parse(WarningLine);
             lineChartMR.RawData = linedtMR;
             lineChartMR.Title = "移動全距趨勢圖";
             lineChartMR.XTitle = "時間";
@@ -828,12 +820,43 @@ namespace Dashboard.ViewModel
             #endregion
 
             lineChartMR.Execute();
-            _wallRptItems.Add(lineChartMR);
+            //_wallRptItems.Add(lineChartMR);
             PlotLineMRModel = lineChartMR.Model;
             //PlotLineMRModel2 = lineChartMR.Model;
             Console.Write("");
+
+            #endregion
+
+            #region for MR bar
+            barChartMR.RawData = linedtMR;
+            barChartMR.Title = string.Format("{0}號爐區-移動全距趨勢圖", indexRow);
+            barChartMR.XTitle = "時間";
+            barChartMR.YTitle = "移動全距";
+            barChartMR.statTable = StatTable;
+            barChartMR.Execute();
+            _wallRptItems.Add(barChartMR);
+            PlotBarModelMR = barChartMR.Model;
             #endregion
         }
+
+        #region MR bar test
+        private PlotModel plotBarModelMR;
+
+        public PlotModel PlotBarModelMR
+        {
+            get
+            {
+                return plotBarModelMR;
+            }
+            set
+            {
+                plotBarModelMR = value;
+                RaisePropertyChanged("PlotBarModelMR");
+            }
+        }
+
+        public OxyBarChartMR barChartMR = new OxyBarChartMR();
+        #endregion
 
 
         #region 變數
@@ -855,7 +878,7 @@ namespace Dashboard.ViewModel
 
         public DataTable dtOrderedAreaMR;
 
-        public DataTable StatTable 
+        public DataTable StatTable
         {
             get
             {
@@ -886,6 +909,18 @@ namespace Dashboard.ViewModel
         private DataTable _statTableRaw;
 
         private ObservableCollection<Model.IReport> _wallRptItems = null;
+
+        private string warningLine = "10";
+
+        public string WarningLine
+        {
+            get { return warningLine; }
+            set
+            {
+                warningLine = value;
+                RaisePropertyChanged("WarningLine");
+            }
+        }
 
         #region PieChart
         private PlotModel plotPieModel; // this is for testing pieChart, prefer to use list<plotmodel>
@@ -930,10 +965,10 @@ namespace Dashboard.ViewModel
 
         DataTable dtOrderedAreaMR10th;
 
-        public bool AllAreaVisible 
+        public bool AllAreaVisible
         {
             get { return _allAreaVisible; }
-            set 
+            set
             {
                 _allAreaVisible = value;
                 RaisePropertyChanged("AllAreaVisible");

@@ -92,7 +92,7 @@ namespace Dashboard.Model
 
             _oxyrptLst = new List<IOxyRptOutput>();
 
-            #region 
+            #region
             Model = new PlotModel();
             Model.Title = Title;
 
@@ -106,7 +106,7 @@ namespace Dashboard.Model
             barChart.FillColor = OxyColor.FromRgb(121, 168, 225); // the rgb of minitab default
             #endregion
 
-            #region y-axis setting 
+            #region y-axis setting
             LinearAxis yAxis = new LinearAxis()
             {
                 IsZoomEnabled = false,
@@ -125,14 +125,14 @@ namespace Dashboard.Model
             #endregion
 
             #region mouse click on bar
-            barChart.MouseDown += (s , e)=>
+            barChart.MouseDown += (s, e) =>
             {
                 if (e.ChangedButton == OxyMouseButton.Left)
                 {
 
                     if ((int)Math.Round(e.HitTestResult.Index) != indexOfNearestBarChart) IndexOfNearestBarChart = (int)Math.Round(e.HitTestResult.Index);
                     //int indexOfNearestBarChart = (int)Math.Round(e.HitTestResult.Index);
-                    
+
                     // var nearestBarChart = series.Transform(series.Items[indexOfNearestBarChart]);
                     //bool tmpa = series.IsItemSelected(indexOfNearestBarChart);
                     //barChart.Items.ElementAt(indexOfNearestBarChart); //move
@@ -146,7 +146,7 @@ namespace Dashboard.Model
             #region add warning line at y = 10
             Model.Axes.Add(categoriesAxis);
             Model.Series.Add(barChart);
-            var la = new LineAnnotation { Type = LineAnnotationType.Horizontal, Y = 10, Color = OxyColors.Red };
+            var la = new LineAnnotation { Type = LineAnnotationType.Horizontal, Y = Warningline, Color = OxyColors.Red };
             Model.Annotations.Add(la);
             #endregion
 
@@ -171,7 +171,7 @@ namespace Dashboard.Model
             stream.Close();
             //stream.Seek(0, SeekOrigin.Begin);
             #endregion
-            
+
 
             //pngExporter.
             //將檔案轉為二進位陣列
@@ -186,11 +186,11 @@ namespace Dashboard.Model
 
         public int IndexOfNearestBarChart
         {
-            get 
+            get
             {
                 return indexOfNearestBarChart;
             }
-            set 
+            set
             {
                 indexOfNearestBarChart = value;
                 RaisePropertyChanged("IndexOfNearestBarChart");
@@ -208,6 +208,19 @@ namespace Dashboard.Model
             }
         }
 
+        private double warningline = 10;
+
+        public double Warningline
+        {
+            get
+            {
+                return warningline;
+            }
+            set
+            {
+                warningline = value;
+            }
+        }
 
     }
 }

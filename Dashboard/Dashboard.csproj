@@ -78,6 +78,7 @@
     <Compile Include="Model\IOxyReport.cs" />
     <Compile Include="Model\IOxyRptOutput.cs" />
     <Compile Include="Model\OxyBarChart.cs" />
+    <Compile Include="Model\OxyBarChartMR.cs" />
     <Compile Include="Model\OxyLineSeries.cs" />
     <Compile Include="Model\OxyPieChart.cs" />
     <Compile Include="Model\OxyReport.cs" />

@@ -35,13 +35,15 @@ using OxyPlot;
 using OxyPlot.Series;
 using OxyPlot.Axes;
 using OxyPlot.Annotations;
+using System.ComponentModel;
+using System.Windows;//
 
 using System.IO;
 using System.Threading;
 
 namespace Dashboard.Model
 {
-    public class OxyLineSeries : OxyReport
+    public class OxyBarChartMR : OxyReport
     {
         public override DataTable RawData
         {
@@ -75,82 +77,85 @@ namespace Dashboard.Model
             }
 
         }
+
         public override void Execute(Mtb.Project project)
         {
             // not be used in the class
         }
+
         public override void Execute()
         {
             if (_rawdata == null || _rawdata.Rows.Count == 0)
             {
-                System.Windows.MessageBox.Show("部分爐區資料數不足,請重新確認時間範圍");
-                //throw new ArgumentNullException("查無對應資料");
+                throw new ArgumentNullException("查無對應資料");
             }
 
             _oxyrptLst = new List<IOxyRptOutput>();
 
+            #region
             Model = new PlotModel();
-            Model.Title = base.Title;
+            Model.Title = Title;
 
-            #region basic setting for LineSeries
-            LineSeries lineSeries = new LineSeries()
+            #region x-axis setting
+
+            //var xAxis = new DateTimeAxis
+            //{
+            //    StringFormat = "yyyy/MM/dd",
+            //    Title = XTitle,
+            //    MinorIntervalType = DateTimeIntervalType.Days,
+            //    IntervalType = DateTimeIntervalType.Days,
+            //    IsZoomEnabled = false,
+            //    TitleFontSize = 14,
+            //};
+            //Model.Axes.Add(xAxis);
+            CategoryAxis categoriesAxis = new CategoryAxis()
             {
-                //LabelFormatString = "{0:.00}",
-                MarkerType = OxyPlot.MarkerType.Circle,
-                MarkerSize = 4,
-                MarkerFill = OxyColor.FromRgb(121, 168, 225),
-                //TrackerFormatString = "{0} " + Environment.NewLine + "{1}: {2} " + Environment.NewLine + "{3}: {4:0.00} ",
-                TrackerFormatString = "{4:0.00}",
-                CanTrackerInterpolatePoints = false,
-                //LabelFormatString = "{4:0.00 }",
+                Position = AxisPosition.Bottom,
+                IsZoomEnabled = false,
             };
-            lineSeries.Color = OxyColor.FromRgb(121, 168, 225);
-            foreach (DataRow row in RawData.Rows)
-            {
-                lineSeries.Points.Add(new DataPoint(DateTimeAxis.ToDouble(row[0]), Math.Round(System.Convert.ToDouble(row[1]), 2)));
-            }
-            Model.Series.Add(lineSeries);
+            ColumnSeries barChart = new ColumnSeries();
+            barChart.FillColor = OxyColor.FromRgb(121, 168, 225); // the rgb of minitab default
             #endregion
 
-            #region setting for Axes
-            var xAxis = new DateTimeAxis
+            #region y-axis setting
+            LinearAxis yAxis = new LinearAxis()
             {
-                StringFormat = "yyyy/MM/dd",
-                Title = XTitle,
-                MinorIntervalType = DateTimeIntervalType.Days,
-                IntervalType = DateTimeIntervalType.Days,
                 IsZoomEnabled = false,
-                TitleFontSize = 14,
-            };
-
-            //test LinearAxis to y-axis for fixed max and min
-            //Model.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = 200, Maximum = 600, IsAxisVisible = true });
-
-            // test LinearAxis to y-axis for appearance interval
-            var yAxis = new LinearAxis
-            {
                 Position = AxisPosition.Left,
-                Title = YTitle,
-                IntervalLength = 10,
-                IsZoomEnabled = false,
-                TitleFontSize = 14,
-                Maximum = Max * 1.1,
-                Minimum = Min * 0.9,
-                //LabelFormatter = ValueAxisLabelFormatter,
-                //StringFormat = "0.00",
-                //LabelFormatString = "{0:.00}",
             };
             Model.Axes.Add(yAxis);
-            Model.Axes.Add(xAxis);
             #endregion
 
-            #region add warning line
-            var la = new LineAnnotation { Type = LineAnnotationType.Horizontal, Y = warningline, Color = OxyColors.Red };
+            #region add each data point to bar chart items
+            foreach (DataRow row in _rawdata.Rows)
+            {
+                categoriesAxis.ActualLabels.Add(row[0].ToString());
+                barChart.Items.Add(new ColumnItem(Convert.ToDouble(row[1])));
+            };
+            #endregion
+
+            #region mouse click on bar
+            barChart.MouseDown += (s, e) =>
+            {
+                if (e.ChangedButton == OxyMouseButton.Left)
+                {
+                    //if ((int)Math.Round(e.HitTestResult.Index) != indexOfNearestBarChart) IndexOfNearestBarChart = (int)Math.Round(e.HitTestResult.Index);
+                    e.Handled = true;//
+                }
+                else { }
+            };
+            #endregion
+
+            #region add warning line at y = 10
+            Model.Axes.Add(categoriesAxis);
+            Model.Series.Add(barChart);
+            var la = new LineAnnotation { Type = LineAnnotationType.Horizontal, Y = Warningline, Color = OxyColors.Red };
             Model.Annotations.Add(la);
             #endregion
 
+            #endregion
+
             #region fail method, sometimes successful, interesting
-            //var stream = new MemoryStream();
             var stream = new MemoryStream();
             var pngExporter = new OxyPlot.Wpf.PngExporter { Width = 600, Height = 400, Background = OxyColors.White };
             var thread = new Thread(()
@@ -168,47 +173,45 @@ namespace Dashboard.Model
             stream.Close();
             #endregion
 
-            #region mouse click close
-            lineSeries.MouseDown += (s, e) =>
-            {
-                if (e.ChangedButton == OxyMouseButton.Left)
-                {
-                    e.Handled = true;//
-                }
-                else { }
-            };
-
-            #endregion
-
-            //pngExporter.
             //將檔案轉為二進位陣列
             this.OxyContents.Add(new OxyRptOutput()
             {
                 OxyOType = OxyOType.GRAPH,
                 OutputInByteArr = bytes,
-                Tag = this.Tag,
+                Tag = "Bar",
             });
 
-            #region if MR, compute stat table
-            if (Tag == "MR")
+            this.OxyContents.Add(new OxyRptOutput()
             {
-
-
-                this.OxyContents.Add(new OxyRptOutput()
-                {
-                    OxyOType = OxyOType.TABLE,
-                    OutputInByteArr = Tool.ConvertDataSetToByteArray(statTable),
-                });
-            }
-            #endregion
+                OxyOType = OxyOType.TABLE,
+                OutputInByteArr = Tool.ConvertDataSetToByteArray(statTable),
+            });
         }
-        public string Tag
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void RaisePropertyChanged(string propertyName)
         {
-            get { return _tag; }
-            set { _tag = value; }
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
-        private string _tag = "";
+        private double warningline = 10;
+
+        public double Warningline
+        {
+            get
+            {
+                return warningline;
+            }
+            set
+            {
+                warningline = value;
+            }
+        }
 
         public DataTable statTable;
 
@@ -281,24 +284,6 @@ namespace Dashboard.Model
 
             }
         }
-
-        private double warningline = 10;
-
-        public double Warningline
-        {
-            get
-            {
-                return warningline;
-            }
-            set
-            {
-                warningline = value;
-            }
-        }
-        //private string ValueAxisLabelFormatter(double input)
-        //{
-        //    return string.Format("{0}", Math.Round(input, 2));
-        //}
 
     }
 }
