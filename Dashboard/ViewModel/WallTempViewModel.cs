@@ -304,8 +304,19 @@ namespace Dashboard.ViewModel
             int tmpAreaCount = pieChart.AreaCount;
             for (int i = 0; i < pieChart.AreaCount; i++)
             {
-                string indexRowtmp =
-                    (i < 9) ? string.Format("0{0}", i + 1) : string.Format("{0}", i + 1);
+                string indexRowtmp;
+                if (i < 9)
+                {
+                    indexRowtmp = string.Format("00{0}", i + 1);
+                }
+                else if (i < 99)
+                {
+                    indexRowtmp = string.Format("0{0}", i + 1);
+                }
+                else
+                {
+                    indexRowtmp = string.Format("{0}", i + 1);
+                }
                 DataRow[] rows = dtRaw.Select(string.Format("Area = '{0}'", indexRowtmp));
                 double tmpMaxMR = 0;
                 for (int j = 0; j < (rows.Count() - 1); j++)
@@ -385,36 +396,47 @@ namespace Dashboard.ViewModel
 
                 #region logic to include the area for graphs
                 if (i < forCount - 1) // here handle sizeOfTSPlot area graph
-                {
-
                     rpt.CountPlotArea = sizeOfTSPlot;
-                    if (i == 0)
-                    {
-                        for (int j = 0; j < 9; j++)
-                        {
-                            criteria.Add(string.Format("0{0}", j + 1));
-                            _areaArray.Add(string.Format("爐區-0{0}", j + 1));
-                        }
-                        for (int j = 9; j < sizeOfTSPlot; j++)
-                        {
-                            criteria.Add((j + 1).ToString());
-                            _areaArray.Add(string.Format("爐區-{0}", j + 1));
-                        }
-                    }
-                    else
-                    {
-                        for (int j = 0; j < sizeOfTSPlot; j++)
-                        {
-                            criteria.Add((sizeOfTSPlot * i + j + 1).ToString());
-                            _areaArray.Add(string.Format("爐區-{0}", sizeOfTSPlot * i + j + 1));
-                        }
-                    }
-
-                }
                 else // handle the last graph
-                {
                     rpt.CountPlotArea = forCountMod;
-                    for (int j = 0; j < forCountMod; j++)
+
+                if (i == 0)
+                {
+                    for (int j = 0; j < 9; j++)
+                    {
+                        criteria.Add(string.Format("00{0}", j + 1));
+                        _areaArray.Add(string.Format("爐區-00{0}", j + 1));
+                    }
+                    for (int j = 9; j < sizeOfTSPlot; j++)
+                    {
+                        criteria.Add(string.Format("0{0}", j + 1));
+                        _areaArray.Add(string.Format("爐區-0{0}", j + 1));
+                    }
+                }
+                else if (0 < i && i < 6)
+                {
+                    for (int j = 0; j < sizeOfTSPlot; j++)
+                    {
+                        criteria.Add(string.Format("0{0}", (sizeOfTSPlot * i + j + 1)));
+                        _areaArray.Add(string.Format("爐區-0{0}", sizeOfTSPlot * i + j + 1));
+                    }
+                }
+                else if (i == 6)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        criteria.Add(string.Format("0{0}", j + 1));
+                        _areaArray.Add(string.Format("爐區-0{0}", j + 1));
+                    }
+                    for (int j = 3; j < sizeOfTSPlot; j++)
+                    {
+                        criteria.Add((sizeOfTSPlot * i + j + 1).ToString());
+                        _areaArray.Add(string.Format("爐區-{0}", sizeOfTSPlot * i + j + 1));
+                    }
+                }
+                else
+                {
+                    for (int j = 0; j < sizeOfTSPlot; j++)
                     {
                         criteria.Add((sizeOfTSPlot * i + j + 1).ToString());
                         _areaArray.Add(string.Format("爐區-{0}", sizeOfTSPlot * i + j + 1));
