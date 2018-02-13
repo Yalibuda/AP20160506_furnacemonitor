@@ -127,7 +127,7 @@ namespace Dashboard.Database
         }
 
         /// <summary>
-        /// 給定項目與時間範圍，取得多變量管制圖的資料(Pivot data)，產出欄位 [TIMESTAMP]、[各項目]、[CHART_PARA_INDEX]，
+        /// 給定項目與時間範圍，取得多變量管制圖的資料(Pivot data)，itemname.Zip(items.OrderBy產出欄位 [TIMESTAMP]、[各項目]、[CHART_PARA_INDEX]，
         /// 並且 DataTable 名稱以 SITE_ID+ 各ITEM_INDEX 串接而成
         /// </summary>
         /// <param name="site_id">廠別</param>
@@ -144,7 +144,7 @@ namespace Dashboard.Database
             string[] itemname
                 = GetData(query.ToString(), GetConnString()).AsEnumerable()
                 .Select(x => x.Field<string>("ITEM_NAME")).ToArray();
-            string[] pivotCol = itemname.Zip(items.OrderBy(x => x), (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
+            string[] pivotCol = itemname.Zip(items.OrderBy(x => Convert.ToInt32(x)), (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
 
             query.Clear();
             query.AppendFormat("SELECT [TIMESTAMP],{0}, MAX(CHART_PARA_INDEX) AS CHART_PARA_INDEX FROM (\r\n", string.Join(",", pivotCol));
@@ -266,7 +266,7 @@ namespace Dashboard.Database
             string[] itemname
                 = GetData(query.ToString(), GetConnString()).AsEnumerable()
                 .Select(x => x.Field<string>("ITEM_NAME")).ToArray();
-            string[] pivotCol = itemname.Zip(items.OrderBy(x => x), (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
+            string[] pivotCol = itemname.Zip(items.OrderBy(x => Convert.ToInt32(x)), (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
             query.Clear();
             //query.AppendFormat("SELECT BK.GROUP_ID, BK.TIMESTAMP, FURN.RPT_TIMEHOUR ,BK.BK, {0} FROM vw_bkhour BK LEFT JOIN (\r\n",
             //    string.Join(",", itemname.Select(x => "FURN.[" + x + "]")));
@@ -326,7 +326,7 @@ namespace Dashboard.Database
             string[] itemname
                 = GetData(query.ToString(), GetConnString()).AsEnumerable()
                 .Select(x => x.Field<string>("ITEM_NAME")).ToArray();
-            string[] pivotCol = itemname.Zip(items.OrderBy(x => x), (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
+            string[] pivotCol = itemname.Zip(items.OrderBy(x => Convert.ToInt32(x)), (x, y) => "[" + x + "]" + "=[" + y + "]").ToArray();
             query.Clear();
 
             query.AppendLine("select GROUP_ID from VW_BKHOUR");

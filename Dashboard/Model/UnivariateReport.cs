@@ -115,7 +115,7 @@ namespace Dashboard.Model
             }
             else
             {
-                cmnd.AppendFormat("tsplot {0} {1} {2} {3};\r\n", valueCol, lclCol, uclCol, clCol);
+                cmnd.AppendFormat("tsplot {0} {1} {2} {3};\r\n", lclCol, uclCol, clCol, valueCol);
                 cmnd.AppendFormat("gsave \"{0}\";\r\n", gpath);
                 cmnd.AppendLine("repl;");
                 cmnd.AppendLine("jpeg;");
@@ -123,17 +123,23 @@ namespace Dashboard.Model
                 cmnd.AppendFormat("symb {0};\r\n", oocCol);
                 cmnd.AppendLine("type &");
                 double[] oocData = ws.Columns.Item(oocCol).GetData();
+
+                if (oocData.Any(x => x == 0) && oocData.Any(x => x == 1)) cmnd.AppendLine("0 0 0 0 0 0 &");
+                else cmnd.AppendLine("0 0 0 &");
                 if (oocData.Any(x => x == 0)) cmnd.AppendLine("6 &");
                 if (oocData.Any(x => x == 1)) cmnd.AppendLine("12 &");
-                cmnd.AppendLine("0 0 0 0 0 0;");
+
+                cmnd.AppendLine(";");
                 cmnd.AppendLine("size 1;");
                 cmnd.AppendLine("color &");
+                if (oocData.Any(x => x == 0) && oocData.Any(x => x == 1)) cmnd.AppendLine("0 0 0 0 0 0 &");
+                else cmnd.AppendLine("0 0 0 &");
                 if (oocData.Any(x => x == 0)) cmnd.AppendLine("1 &"); //r17 color 64
                 if (oocData.Any(x => x == 1)) cmnd.AppendLine("2 &");
                 cmnd.AppendLine(";");
                 cmnd.AppendLine("conn;");
                 cmnd.AppendLine("type 1 1 1 1;");
-                cmnd.AppendLine("color 1 2 2 120;"); //r17 conn:64 cl: 9, climit:8
+                cmnd.AppendLine("color 2 2 120 1;"); //r17 conn:64 cl: 9, climit:8
                 //cmnd.AppendLine("graph;");
                 //cmnd.AppendLine("color 22;");
                 cmnd.AppendLine("nole;");

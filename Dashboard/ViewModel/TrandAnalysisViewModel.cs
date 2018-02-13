@@ -351,6 +351,7 @@ namespace Dashboard.ViewModel
                     string sTime = string.Format("{0:yyyy-MM-dd hh:mm:ss}", start);
                     string eTime = string.Format("{0:yyyy-MM-dd hh:mm:ss}", end);
                     rpt.RawData = Database.DBQueryTool.GetPivotDataForMultivariateChart(SITE_ID, item, sTime, eTime);
+
                     if (rpt.RawData != null && rpt.RawData.Rows.Count > 0)
                     {
                         rpt.Title = "整體趨勢圖";

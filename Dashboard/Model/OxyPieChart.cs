@@ -208,6 +208,7 @@ namespace Dashboard.Model
                     //int a=0;
                     //a +=
                     //(1 == 2) ? 0 : 1;
+                    if (i==0 &&_rawdata.Rows[i]["Area"].ToString() != null) _areaCount += 1;
                     _areaCount +=
                         (string.Compare(_rawdata.Rows[i]["Area"].ToString(), _rawdata.Rows[i + 1]["Area"].ToString()) == 0) ? 0 : 1;
                     //(string.Compare(_rawdata.Rows[i]["Area"],_rawdata.Rows[i+1]["Area"])) ?? 0:1;

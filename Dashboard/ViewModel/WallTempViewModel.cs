@@ -425,8 +425,8 @@ namespace Dashboard.ViewModel
                 {
                     for (int j = 0; j < 3; j++)
                     {
-                        criteria.Add(string.Format("0{0}", j + 1));
-                        _areaArray.Add(string.Format("爐區-0{0}", j + 1));
+                        criteria.Add(string.Format("0{0}", sizeOfTSPlot * i + j + 1));
+                        _areaArray.Add(string.Format("爐區-0{0}", sizeOfTSPlot * i + j + 1));
                     }
                     for (int j = 3; j < sizeOfTSPlot; j++)
                     {
