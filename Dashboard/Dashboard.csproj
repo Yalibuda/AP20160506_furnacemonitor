@@ -48,7 +48,7 @@
       <HintPath>..\..\..\AP20160506_furnacemonitor-master (1)\AP20160506_furnacemonitor-master\Dashboard\bin\Debug\Microsoft.Office.Interop.Word.dll</HintPath>
     </Reference>
     <Reference Include="Mtblib">
-      <HintPath>..\..\..\AP20160506_furnacemonitor-master (1)\AP20160506_furnacemonitor-master\Dashboard\bin\Debug\Mtblib.dll</HintPath>
+      <HintPath>..\..\Mtblib\Mtblib\bin\Release\Mtblib.dll</HintPath>
     </Reference>
     <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
       <HintPath>..\packages\OxyPlot.Core.1.0.0\lib\net45\OxyPlot.dll</HintPath>

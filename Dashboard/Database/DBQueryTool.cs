@@ -365,7 +365,119 @@ namespace Dashboard.Database
             return dt;
         }
 
-        #region
+        /// <summary>
+        /// 取得與 vw_furnacedata 相同的查詢指令, 讓接續查詢使用 @tmpfurnacedata
+        /// 避免使用 view，提升查詢效率 
+        /// </summary>
+        /// <param name="site_id">廠別</param>
+        /// <param name="items">熔爐項目陣列</param>
+        /// <param name="start">起始時間</param>
+        /// <param name="end">結束時間</param>
+        /// <returns></returns>
+        public static string GetSQLString_Furnacedata(string site_id, string[] items, string start, string end)
+        {
+            StringBuilder sqlstring = new StringBuilder();
+            //宣告虛擬表格
+            sqlstring.AppendLine(
+                @"declare @tmpfurnacedata table(
+                SITE_ID varchar(10),
+                FURN_ITEM_INDEX varchar(32), 
+                ITEM_NAME varchar(32), 
+                VALUE numeric(18,9), 
+                UNIT varchar(32), 
+                RPT_DATETIME datetime, 
+                RPT_TIMEHOUR datetime,
+                LCL numeric(18,9),
+                UCL numeric(18,9),
+                LSL numeric(18,9),
+                USL numeric(18,9),
+                APPLY_DATE datetime
+                );"
+                );
+            //串出 vw_furnacedata 
+            sqlstring.AppendFormat(
+                @"with fdata
+                as (
+	                select b.SITE_ID, a.FURN_ITEM_INDEX, b.ITEM_NAME, a.VALUE, b.UNIT, a.RPT_DATETIME from FURN_DETAIL a
+	                left join FURN_ITEM_INFO b on a.FURN_ITEM_INDEX = b.FURN_ITEM_INDEX
+	                where b.SITE_ID = '{0}' and a.RPT_DATETIME between '{2}' and '{3}'
+	                and b.FURN_ITEM_INDEX in ({1})
+                ), summ as(
+                select SITE_ID, FURN_ITEM_INDEX, ITEM_NAME, VALUE, UNIT, RPT_DATETIME,
+                rpt_timehour = DATEADD(HOUR, DATEDIFF(HOUR,0,RPT_DATETIME),0),
+                FIRST_VALUE(LCL) over (PARTITION BY FURN_ITEM_INDEX, RPT_DATETIME ORDER BY APPLY_DATE DESC) AS LCL,
+                FIRST_VALUE(UCL) over (PARTITION BY FURN_ITEM_INDEX, RPT_DATETIME ORDER BY APPLY_DATE DESC) AS UCL,
+                FIRST_VALUE(LSL) over (PARTITION BY FURN_ITEM_INDEX, RPT_DATETIME ORDER BY APPLY_DATE DESC) AS LSL,
+                FIRST_VALUE(USL) over (PARTITION BY FURN_ITEM_INDEX, RPT_DATETIME ORDER BY APPLY_DATE DESC) AS USL,
+                FIRST_VALUE(APPLY_DATE) over (PARTITION BY FURN_ITEM_INDEX, RPT_DATETIME ORDER BY APPLY_DATE DESC) AS APPLY_DATE
+                from 
+                (
+	                select a.SITE_ID, a.FURN_ITEM_INDEX, a.ITEM_NAME, a.VALUE, a.UNIT,a.RPT_DATETIME, b.LCL,b.UCL,b.LSL, b.USL, b.APPLY_DATE from fdata a
+	                left join FURN_ITEM_LIMIT_INFO b on a.FURN_ITEM_INDEX = b.FURN_ITEM_INDEX and 
+	                b.APPLY_DATE <=a.RPT_DATETIME 
+                ) a 
+                )
+                insert into @tmpfurnacedata(SITE_ID, FURN_ITEM_INDEX, ITEM_NAME, VALUE, UNIT, 
+                RPT_DATETIME, RPT_TIMEHOUR, LCL, UCL, LSL, USL, APPLY_DATE)
+                select SITE_ID, FURN_ITEM_INDEX, ITEM_NAME, VALUE, UNIT, RPT_DATETIME, RPT_TIMEHOUR,
+		                MAX(LCL) LCL, MAX(UCL) UCL, MAX(LSL) LSL, MAX(USL) USL,
+		                MAX(APPLY_DATE) APPLY_DATE from summ
+		                GROUP BY SITE_ID,FURN_ITEM_INDEX, ITEM_NAME, VALUE, UNIT, RPT_DATETIME,RPT_TIMEHOUR
+		                order by ITEM_NAME, RPT_DATETIME, APPLY_DATE"
+                , site_id, string.Join(",", items), start, end);
+            return sqlstring.ToString();
+        }
+
+        /// <summary>
+        /// 取得與 vw_furnacedatainspc 相同的查詢指令, 讓接續查詢使用 @tmpfurnacedatainspc
+        /// 避免使用 view，提升查詢效率
+        /// </summary>
+        /// <param name="site_id"></param>
+        /// <param name="items"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public static string GetSQLString_FurnacedataInSPC(string site_id, string[] items, string start, string end)
+        {
+            StringBuilder sqlstring = new StringBuilder();
+            sqlstring.AppendLine(GetSQLString_Furnacedata(site_id, items, start, end) +";");
+            sqlstring.AppendLine(
+                @"declare @tmpfurnacedatainspc table(
+	            SITE_ID varchar(10),
+	            FURN_ITEM_INDEX varchar(32), 
+	            ITEM_NAME varchar(32), 
+	            VALUE numeric(18,9), 
+	            UNIT varchar(32), 
+	            RPT_DATETIME datetime, 
+	            RPT_TIMEHOUR datetime,
+	            LCL numeric(18,9),
+	            UCL numeric(18,9),
+	            LSL numeric(18,9),
+	            USL numeric(18,9),
+	            APPLY_DATE datetime,
+	            BYVAL int,
+	            STDDEV float)"
+                );
+            sqlstring.AppendLine(
+                @"insert into @tmpfurnacedatainspc (SITE_ID, FURN_ITEM_INDEX, ITEM_NAME, VALUE, UNIT, 
+                RPT_DATETIME, RPT_TIMEHOUR ,LCL,UCL,LSL,USL,APPLY_DATE, BYVAL, STDDEV)
+                SELECT C.SITE_ID, C.FURN_ITEM_INDEX, C.ITEM_NAME, C.VALUE, C.UNIT, 
+                C.RPT_DATETIME, C.RPT_TIMEHOUR ,C.LCL,C.UCL,C.LSL,C.USL,C.APPLY_DATE, BYVAL=C.GP_ID, STDDEV = STDEV(C.VALUE) OVER (PARTITION BY C.SITE_ID,C.FURN_ITEM_INDEX, C.GP_ID) FROM
+                (
+                SELECT B.*, GP_ID = SUM(BYVAL) OVER (PARTITION BY B.SITE_ID, B.FURN_ITEM_INDEX ORDER BY B.RPT_DATETIME ROWS UNBOUNDED PRECEDING)
+                FROM(
+                SELECT A.*, 
+                BYVAL=
+                CASE WHEN A.LSL <> LAG(A.LSL) OVER (PARTITION BY SITE_ID, FURN_ITEM_INDEX  ORDER BY RPT_DATETIME) OR 
+                A.USL <> LAG(A.USL) OVER (PARTITION BY SITE_ID, FURN_ITEM_INDEX  ORDER BY RPT_DATETIME)  THEN 1 ELSE 0 END
+                FROM @tmpfurnacedata A
+                ) AS B
+                ) AS C");
+            return sqlstring.ToString();
+
+        }
+
+        #region 物性
 
         /// <summary>
         /// 給定項目與時間範圍，取得相關性分析的資料(Pivot data)，產出欄位 [TIMESTAMP]、[BK]、[各項目]，
@@ -424,7 +536,7 @@ namespace Dashboard.Database
             return dt;
         }
 
-        #endregion
+
 
         /// <summary>
         /// 給定項目與時間範圍，取得實驗室物性測試的結果
@@ -448,6 +560,7 @@ namespace Dashboard.Database
             return dt;
         }
 
+        #endregion
 
         /// <summary>
         /// Read csv file to a System.Data.DataTable
