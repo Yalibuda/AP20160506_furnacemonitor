@@ -177,13 +177,28 @@ namespace Dashboard.ViewModel
         {
             foreach (var item in ItemToAddList)
             {
-                if (!SelectedUnivariateSPCItems.Contains(item)) SelectedUnivariateSPCItems.Add(item);
+
+                //if (SelectedUnivariateSPCItems.Count() > 0)
+                //{
+                //    var a = SelectedUnivariateSPCItems.Select(x => x.ItemList);
+                //    a = a as IEnumerable<string>;
+                //    if (!a.Contains(item.ItemList))
+                //    {
+                //        SelectedUnivariateSPCItems.Add(item);
+                //    }
+                //}
+                //else
+                //{
+                //    SelectedUnivariateSPCItems.Add(item);
+                //}
+                if (!SelectedUnivariateSPCItems.Contains(item)) SelectedUnivariateSPCItems.Add(item); // original one
+
             }
         }
 
         private void RemoveSelectedItem(object obj)
         {
-            for (int i = SelectedUnivariateSPCItems.Count; i-- > 0; )
+            for (int i = SelectedUnivariateSPCItems.Count; i-- > 0;)
             {
                 SPCItemInfo item = SelectedUnivariateSPCItems[i];
                 if (item.IsSelected) SelectedUnivariateSPCItems.RemoveAt(i);
@@ -351,6 +366,75 @@ namespace Dashboard.ViewModel
         {
             RaisePropertyChanged("SelectedMultivariateSPCItems");
         }
+
+        /// <summary>
+        /// 處理滑鼠左鍵連點在可選/已選項
+        /// </summary>
+        public void AddClickedItem(object obj)
+        {
+            System.Windows.Controls.TextBlock itemTextBlock = obj as System.Windows.Controls.TextBlock;
+            if (itemTextBlock == null) return;
+            DataTable availableItemsDataTable = Database.DBQueryTool.GetFurnItemInfo(SITE_ID);
+
+            foreach (DataRow row in availableItemsDataTable.Rows.Cast<DataRow>())
+            {
+                if (row["ITEM_NAME"].ToString() == itemTextBlock.Text)
+                {
+                    SPCItemInfo info = new SPCItemInfo()
+                    {
+                        ItemList = row["FURN_ITEM_INDEX"].ToString(),
+                        Flag = "I",
+                        Description = row["ITEM_NAME"].ToString(),
+                        Title = row["ITEM_NAME"].ToString()
+                    };
+                    if (SelectedUnivariateSPCItems.Count() > 0)
+                    {
+                        var a = SelectedUnivariateSPCItems.Select(x => x.ItemList == info.ItemList);
+                        a = a as IEnumerable<bool>;
+                        if (!a.Contains(true))
+                        {
+                            SelectedUnivariateSPCItems.Add(info);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        SelectedUnivariateSPCItems.Add(info);
+                        return;
+                    }
+                }
+            }
+        }
+
+        public void RemoveClickedItem(object obj)
+        {
+            System.Windows.Controls.TextBlock itemTextBlock = obj as System.Windows.Controls.TextBlock;
+            DataTable availableItemsDataTable = Database.DBQueryTool.GetFurnItemInfo(SITE_ID);
+            foreach (DataRow row in availableItemsDataTable.Rows.Cast<DataRow>())
+            {
+                if (row["ITEM_NAME"].ToString() == itemTextBlock.Text)
+                {
+                    SPCItemInfo info = new SPCItemInfo()
+                    {
+                        ItemList = row["FURN_ITEM_INDEX"].ToString(),
+                        Flag = "I",
+                        Description = row["ITEM_NAME"].ToString(),
+                        Title = row["ITEM_NAME"].ToString()
+                    };
+
+                    for (int i = SelectedUnivariateSPCItems.Count; i-- > 0;)
+                    {
+                        SPCItemInfo item = SelectedUnivariateSPCItems[i];
+                        if (item.ItemList == info.ItemList)
+                        {
+                            SelectedUnivariateSPCItems.RemoveAt(i);
+                            return;
+                        }
+                    }
+                }
+            }
+
+        }
         #endregion
 
         #region 變數
@@ -415,7 +499,6 @@ namespace Dashboard.ViewModel
         #endregion
 
 
-
     }
-    
+
 }

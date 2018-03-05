@@ -80,7 +80,8 @@ namespace Dashboard.ViewModel
             DateTime datetime = DateTime.Now;
             EndDate = datetime.Date;
             StartDate = datetime.AddDays(-1).Date;
-            EndTimeValue = string.Format("{0:HH:mm}", datetime);
+            //EndTimeValue = string.Format("{0:HH:mm}", datetime);
+            EndTimeValue = string.Format("00:00");
             StartTimeValue = EndTimeValue;
 
             //基本變數初始值

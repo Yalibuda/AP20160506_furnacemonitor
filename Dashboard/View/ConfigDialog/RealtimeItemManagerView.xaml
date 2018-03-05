@@ -14,12 +14,12 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <CollectionViewSource Source="{Binding AvailableItems, UpdateSourceTrigger=PropertyChanged}" x:Key="sortedAvailableItems">
             <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="IntItemList"/>
+                <scm:SortDescription PropertyName="Description"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
         <CollectionViewSource Source="{Binding SelectedItems, UpdateSourceTrigger=PropertyChanged}" x:Key="sortedSelItems">
             <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="IntItemList"/>
+                <scm:SortDescription PropertyName="Description"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </Page.Resources>
@@ -43,6 +43,7 @@
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="{x:Type ListBoxItem}">
                                     <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
+                                    <EventSetter Event="MouseDoubleClick" Handler="AvailableItemListBoxItem_MouseDoubleClick"/>
                                 </Style>
                             </ListBox.ItemContainerStyle>
                         </ListBox>
@@ -64,6 +65,7 @@
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="{x:Type ListBoxItem}">
                                     <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
+                                    <EventSetter Event="MouseDoubleClick" Handler="SelectedItemListBoxItem_MouseDoubleClick"/>
                                 </Style>
                             </ListBox.ItemContainerStyle>
                         </ListBox>

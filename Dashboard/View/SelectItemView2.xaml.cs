@@ -39,5 +39,15 @@ namespace Dashboard.View
             ((ViewModel.SelectItemViewModel)this.DataContext).Initialize();
             ((ViewModel.SelectItemViewModel)this.DataContext).CloseAction = new Action(() => this.Close());
         }
+
+        private void AvailableItemListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ((ViewModel.SelectItemViewModel)this.DataContext).AddClickedItem(e.OriginalSource);
+        }
+
+        private void SelectedItemListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ((ViewModel.SelectItemViewModel)this.DataContext).RemoveClickedItem(e.OriginalSource);
+        }
     }
 }

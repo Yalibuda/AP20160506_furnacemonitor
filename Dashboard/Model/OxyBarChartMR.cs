@@ -129,7 +129,8 @@ namespace Dashboard.Model
             #region add each data point to bar chart items
             foreach (DataRow row in _rawdata.Rows)
             {
-                categoriesAxis.ActualLabels.Add(row[0].ToString());
+                int emptyIndex = row[0].ToString().IndexOf(" ");
+                categoriesAxis.ActualLabels.Add(row[0].ToString().Substring(0, emptyIndex));
                 barChart.Items.Add(new ColumnItem(Convert.ToDouble(row[1])));
             };
             #endregion

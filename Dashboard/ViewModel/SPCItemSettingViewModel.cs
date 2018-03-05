@@ -270,6 +270,76 @@ namespace Dashboard.ViewModel
             }
         }
 
+        /// <summary>
+        /// 處理滑鼠左鍵連點在可選/已選項
+        /// </summary>
+        /// <param name="obj"></param>
+        public void AddClickedItem(object obj)
+        {
+            System.Windows.Controls.TextBlock itemTextBlock = obj as System.Windows.Controls.TextBlock;
+            if (itemTextBlock == null) return;
+            DataTable availableItemsDataTable = Database.DBQueryTool.GetFurnItemInfo(SITE_ID);
+
+            foreach (DataRow row in availableItemsDataTable.Rows.Cast<DataRow>())
+            {
+                if (row["ITEM_NAME"].ToString() == itemTextBlock.Text)
+                {
+                    SPCItemInfo info = new SPCItemInfo()
+                    {
+                        ItemList = row["FURN_ITEM_INDEX"].ToString(),
+                        Flag = "I",
+                        Description = row["ITEM_NAME"].ToString(),
+                        Title = row["ITEM_NAME"].ToString()
+                    };
+                    if (SelectedItems.Count() > 0)
+                    {
+                        var a = SelectedItems.Select(x => x.ItemList == info.ItemList);
+                        a = a as IEnumerable<bool>;
+                        if (!a.Contains(true))
+                        {
+                            SelectedItems.Add(info);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        SelectedItems.Add(info);
+                        return;
+                    }
+                }
+            }
+
+        }
+
+        public void RemoveClickedItem(object obj)
+        {
+            System.Windows.Controls.TextBlock itemTextBlock = obj as System.Windows.Controls.TextBlock;
+            DataTable availableItemsDataTable = Database.DBQueryTool.GetFurnItemInfo(SITE_ID);
+            foreach (DataRow row in availableItemsDataTable.Rows.Cast<DataRow>())
+            {
+                if (row["ITEM_NAME"].ToString() == itemTextBlock.Text)
+                {
+                    SPCItemInfo info = new SPCItemInfo()
+                    {
+                        ItemList = row["FURN_ITEM_INDEX"].ToString(),
+                        Flag = "I",
+                        Description = row["ITEM_NAME"].ToString(),
+                        Title = row["ITEM_NAME"].ToString()
+                    };
+
+                    for (int i = SelectedItems.Count; i-- > 0;)
+                    {
+                        SPCItemInfo item = SelectedItems[i];
+                        if (item.ItemList == info.ItemList)
+                        {
+                            SelectedItems.RemoveAt(i);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
         public ICommand AddSelectedItemCommand
         {
             get
@@ -437,5 +507,6 @@ namespace Dashboard.ViewModel
                     );
             }
         }
+
     }
 }

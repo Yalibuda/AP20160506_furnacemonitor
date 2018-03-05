@@ -41,5 +41,15 @@ namespace Dashboard.View
         {
             GC.Collect();
         }
+
+        private void AvailableItemListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ((ViewModel.SelectMulItemViewModel)this.DataContext).AddClickedItem(e.OriginalSource);
+        }
+
+        private void SelectedItemListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ((ViewModel.SelectMulItemViewModel)this.DataContext).RemoveClickedItem(e.OriginalSource);
+        }
     }
 }

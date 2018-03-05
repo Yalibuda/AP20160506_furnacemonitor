@@ -76,13 +76,13 @@
                                         <Label Content="起" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                         <DatePicker Margin="0,5,5,5" FirstDayOfWeek="Monday" VerticalContentAlignment="Bottom"
                                                 SelectedDate="{Binding StartDate,UpdateSourceTrigger=PropertyChanged}"/>
-                                        <TextBox Width="70" VerticalContentAlignment="Center" Margin="0,5,0,5"
+                                        <TextBox Width="70" VerticalContentAlignment="Center" Margin="0,5,0,5" Visibility="Hidden"
                                              Text="{Binding StartTimeValue,UpdateSourceTrigger=PropertyChanged}"
                                              />
                                         <Label Content="迄" Margin="20,5,5,5"/>
                                         <DatePicker Margin="0,5,5,5" FirstDayOfWeek="Monday"  VerticalContentAlignment="Bottom"
                                                 SelectedDate="{Binding EndDate,UpdateSourceTrigger=PropertyChanged}"/>
-                                        <TextBox Width="70" VerticalContentAlignment="Center" Margin="0,5,0,5"
+                                        <TextBox Width="70" VerticalContentAlignment="Center" Margin="0,5,0,5" Visibility="Hidden"
                                              Text="{Binding EndTimeValue,UpdateSourceTrigger=PropertyChanged}"/>
                                         <DockPanel MinWidth="200">
                                             <Button x:Name="btDoWork" Content="執行..."  Margin="100,5,0,5"

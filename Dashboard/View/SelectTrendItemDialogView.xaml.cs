@@ -48,6 +48,15 @@ namespace Dashboard.View
             base.OnSourceInitialized(e);
             IconHelper.RemoveIcon(this);
         }
-       
+
+        private void AvailableItemListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ((ViewModel.SelectTrendItemViewModel)this.DataContext).AddClickedItem(e.OriginalSource);
+        }
+
+        private void SelectedItemListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ((ViewModel.SelectTrendItemViewModel)this.DataContext).RemoveClickedItem(e.OriginalSource);
+        }
     }
 }

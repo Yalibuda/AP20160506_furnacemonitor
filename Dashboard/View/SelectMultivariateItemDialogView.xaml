@@ -16,12 +16,12 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <CollectionViewSource Source="{Binding AvailableUnivariateSPCItems, UpdateSourceTrigger=PropertyChanged}" x:Key="sortedAvailableUniSPCItem">
             <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="IntItemList"/>
+                <scm:SortDescription PropertyName="Description"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
         <CollectionViewSource Source="{Binding SelectedUnivariateSPCItems, UpdateSourceTrigger=PropertyChanged}" x:Key="sortedSelUniSPCItem">
             <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="IntItemList"/>
+                <scm:SortDescription PropertyName="Description"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
         <Style x:Key="NoChromeButton" TargetType="{x:Type Button}">
@@ -65,6 +65,7 @@
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}">
                                 <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
+                                <EventSetter Event="MouseDoubleClick" Handler="AvailableItemListBox_MouseDoubleClick"/>
                             </Style>
                         </ListBox.ItemContainerStyle>
                     </ListBox>
@@ -86,6 +87,7 @@
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}">
                                 <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
+                                <EventSetter Event="MouseDoubleClick" Handler="SelectedItemListBox_MouseDoubleClick"/>
                             </Style>
                         </ListBox.ItemContainerStyle>
                     </ListBox>

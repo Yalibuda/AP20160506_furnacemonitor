@@ -373,6 +373,60 @@ namespace Dashboard.ViewModel.ConfigDialog
                     break;
             }
         }
+
+        /// <summary>
+        /// 處理滑鼠左鍵連點在可選/已選項
+        /// </summary>
+        public void AddClickedItem(object obj)
+        {
+            System.Windows.Controls.TextBlock itemTextBlock = obj as System.Windows.Controls.TextBlock;
+            if (itemTextBlock == null) return;
+
+            foreach (var item in FurnItemsSrc)
+            {
+                if (item.Description == itemTextBlock.Text)
+                {
+                    if (SelectedFurnItems.Count() > 0)
+                    {
+                        var a = SelectedFurnItems.Select(x => x.ItemList == item.ItemList);
+                        a = a as IEnumerable<bool>;
+                        if (!a.Contains(true))
+                        {
+                            SelectedFurnItems.Add(item);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        SelectedFurnItems.Add(item);
+                        return;
+                    }
+                }
+            }
+        }
+
+        public void RemoveClickedItem(object obj)
+        {
+            System.Windows.Controls.TextBlock itemTextBlock = obj as System.Windows.Controls.TextBlock;
+            if (itemTextBlock == null) return;
+
+            foreach (var item in FurnItemsSrc)
+            {
+                if (item.Description == itemTextBlock.Text)
+                {
+                    for (int i = SelectedFurnItems.Count; i-- > 0;)
+                    {
+                        SPCItemInfo info = SelectedFurnItems[i];
+                        if (item.ItemList == info.ItemList)
+                        {
+                            SelectedFurnItems.RemoveAt(i);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// 取得參數清單(只取最新的 APPLY_DATE )
         /// </summary>
@@ -1110,7 +1164,7 @@ namespace Dashboard.ViewModel.ConfigDialog
                 return new Command.RelayCommand(
                     param =>
                     {
-                        for (int i = SelectedFurnItems.Count; i-- > 0; )
+                        for (int i = SelectedFurnItems.Count; i-- > 0;)
                         {
                             SPCItemInfo item = SelectedFurnItems[i];
                             if (item.IsSelected) SelectedFurnItems.RemoveAt(i);
@@ -1130,19 +1184,19 @@ namespace Dashboard.ViewModel.ConfigDialog
             public int SubgroupSize;
         }
 
+
     }
-
-    /// <summary>
-    /// 編輯頁面中常用的行為列舉
-    /// </summary>
-    public enum UserActionMode
-    {
-        Add,
-        BatchAdd,
-        Edit
-    }
-
+        /// <summary>
+        /// 編輯頁面中常用的行為列舉
+        /// </summary>
+        public enum UserActionMode
+        {
+            Add,
+            BatchAdd,
+            Edit
+        }
 
 
 
+    
 }

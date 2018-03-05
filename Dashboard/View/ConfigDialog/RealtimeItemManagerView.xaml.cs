@@ -24,5 +24,15 @@ namespace Dashboard.View.ConfigDialog
         {
             InitializeComponent();
         }
+
+        private void AvailableItemListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ((ViewModel.SPCItemSettingViewModel)this.DataContext).AddClickedItem(e.OriginalSource);
+        }
+
+        private void SelectedItemListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ((ViewModel.SPCItemSettingViewModel)this.DataContext).AddClickedItem(e.OriginalSource);
+        }
     }
 }

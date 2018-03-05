@@ -202,6 +202,48 @@ namespace Dashboard.ViewModel
             RaisePropertyChanged("AvailableItems");
         }
 
+        /// <summary>
+        /// 處理滑鼠左鍵連點在可選/已選項
+        /// </summary>
+        public void AddClickedItem(object obj)
+        {
+            System.Windows.Controls.TextBlock itemTextBlock = obj as System.Windows.Controls.TextBlock;
+            if (itemTextBlock == null) return;
+
+            ItemViewModel itemViewModel;
+            foreach (KeyValuePair<int, string> item in AvailableItemList)
+            {
+                if (item.ToString() == itemTextBlock.Text)
+                {
+                    itemViewModel = new ItemViewModel();
+                    itemViewModel.Item = item;
+                    itemViewModel.IsSelected = false;
+                    if (SelectedItemsInListBox.Count() > 0)
+                    {
+                        var a = SelectedItemsInListBox.Select(x => x.Item == itemViewModel.Item);
+                        if (!a.Contains(true))
+                        {
+                            SelectedItemsInListBox.Add(itemViewModel);
+                            return;
+                        }
+                    }
+                    else
+                        AvailableItemsInListBox.Add(itemViewModel);
+                }
+            }
+        }
+
+        public void RemoveClickedItem(object obj)
+        {
+            System.Windows.Controls.TextBlock itemTextBlock = obj as System.Windows.Controls.TextBlock;
+            if (itemTextBlock == null) return;
+
+            foreach (KeyValuePair<int, string> item in AvailableItemList)
+            {
+                if (item.ToString() == itemTextBlock.Text) SelectedItemsInListBox.RemoveAt(item.Key);
+            }
+        }
+
         #endregion
 
         #region 變數        
@@ -241,8 +283,9 @@ namespace Dashboard.ViewModel
                     );
             }
         }
-        
+
         #endregion
+        
     }
 
     public class ItemViewModel
