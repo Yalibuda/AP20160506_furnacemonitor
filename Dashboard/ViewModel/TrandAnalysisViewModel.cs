@@ -384,10 +384,13 @@ namespace Dashboard.ViewModel
                     string[] item = dr["ITEM_LIST"].ToString().Split(',');
                     item = item.Select(x => "'" + x + "'").ToArray();
                     query.Clear();
-                    query.AppendLine("SELECT * FROM VW_FURNACEDATAINSPC");
-                    query.AppendFormat("WHERE FURN_ITEM_INDEX IN ({0}) ", string.Join(",", item));
-                    query.AppendFormat("AND RPT_DATETIME BETWEEN '{0}' AND '{1}'\r\n", start, end);
-                    query.AppendLine("ORDER BY RPT_DATETIME");
+                    //query.AppendLine("SELECT * FROM VW_FURNACEDATAINSPC");
+                    //query.AppendFormat("WHERE FURN_ITEM_INDEX IN ({0}) ", string.Join(",", item));
+                    //query.AppendFormat("AND RPT_DATETIME BETWEEN '{0}' AND '{1}'\r\n", start, end);
+                    //query.AppendLine("ORDER BY RPT_DATETIME");
+
+                    query.AppendLine(Database.DBQueryTool.GetSQLString_FurnacedataInSPC(SITE_ID, item, start, end));
+                    query.AppendLine("SELECT * FROM @tmpfurnacedatainspc order by rpt_datetime");
                     rpt.RawData = Database.DBQueryTool.GetData(query.ToString(), connString);
 
                     if (rpt.RawData != null && rpt.RawData.Rows.Count > 0)

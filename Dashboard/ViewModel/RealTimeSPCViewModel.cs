@@ -376,13 +376,18 @@ namespace Dashboard.ViewModel
                             Model.UnivariateReport rpt = new Model.UnivariateReport();
                             string[] item = dr["ITEM_LIST"].ToString().Split(',');
                             item = item.Select(x => "'" + x + "'").ToArray();
-                            query.Clear();
-                            query.AppendLine("SELECT * FROM VW_FURNACEDATAINSPC");
-                            query.AppendFormat("WHERE FURN_ITEM_INDEX IN ({0}) ", string.Join(",", item));
+                            query.Clear();                            
+                            //query.AppendLine("SELECT * FROM VW_FURNACEDATAINSPC");
+                            //query.AppendFormat("WHERE FURN_ITEM_INDEX IN ({0}) ", string.Join(",", item));
+                            //string sTime = string.Format("{0:yyyy-MM-dd HH:mm:ss}", start);
+                            //string eTime = string.Format("{0:yyyy-MM-dd HH:mm:ss}", end);
+                            //query.AppendFormat("AND RPT_DATETIME BETWEEN '{0}' AND '{1}'\r\n", sTime, eTime);
+                            //query.AppendLine("ORDER BY RPT_DATETIME");
                             string sTime = string.Format("{0:yyyy-MM-dd HH:mm:ss}", start);
                             string eTime = string.Format("{0:yyyy-MM-dd HH:mm:ss}", end);
-                            query.AppendFormat("AND RPT_DATETIME BETWEEN '{0}' AND '{1}'\r\n", sTime, eTime);
-                            query.AppendLine("ORDER BY RPT_DATETIME");
+                            query.AppendLine(Database.DBQueryTool.GetSQLString_FurnacedataInSPC(SITE_ID, item, sTime, eTime));
+                            query.AppendLine("SELECT * FROM @tmpfurnacedatainspc order by rpt_datetime");
+
                             rpt.RawData = Database.DBQueryTool.GetData(query.ToString(), connString);
                             if (_uniRptItems[i] != null && Database.DBQueryTool.CompareDataTableRow(_uniRptItems[i].RawData, rpt.RawData))
                             {
