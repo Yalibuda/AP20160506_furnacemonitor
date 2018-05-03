@@ -68,7 +68,7 @@
                                         <TextBox MinWidth="50" Text="{Binding WarningLine, Mode=TwoWay}"/>
 
                                     </StackPanel>
-                                    <CheckBox x:Name="cbArea" Content="顯示所有爐區" IsChecked="{Binding AllAreaVisible, Mode=TwoWay}"/>
+                                    <CheckBox x:Name="cbArea" Content="顯示50項爐區" IsChecked="{Binding AllAreaVisible, Mode=TwoWay}"/>
                                     <Label Content="時間範圍" FontSize="12" Margin="10,15,5,5"
                                        Foreground="DimGray" >
                                     </Label>

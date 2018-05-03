@@ -104,6 +104,7 @@ namespace Dashboard.Model
             };
             ColumnSeries barChart = new ColumnSeries();
             barChart.FillColor = OxyColor.FromRgb(121, 168, 225); // the rgb of minitab default
+            if (_rawdata.Rows.Count > 10) categoriesAxis.Angle = 90;
             #endregion
 
             #region y-axis setting
@@ -117,10 +118,13 @@ namespace Dashboard.Model
 
             //barChart.Title = BarTitle;
             #region add each data point to bar chart items
+            int iCnt = 0; // only 50 appears in the graph
             foreach (DataRow row in _rawdata.Rows)
             {
+                if (iCnt > 49) break;
                 categoriesAxis.ActualLabels.Add(row[0].ToString());
                 barChart.Items.Add(new ColumnItem(Convert.ToDouble(row[1])));
+                iCnt++;
             };
             #endregion
 

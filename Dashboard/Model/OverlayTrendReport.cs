@@ -98,16 +98,16 @@ namespace Dashboard.Model
             cmnd.AppendLine("axlab 1;");
             cmnd.AppendLine("adis 0;");
             cmnd.AppendLine("scale 1;");
-            cmnd.AppendLine(" psize 4;");
+            cmnd.AppendLine(" psize 7;");
             cmnd.AppendLine(" angle 90;");
             cmnd.AppendLine("scale 2;");
-            cmnd.AppendLine(" psize 5;");
+            cmnd.AppendLine(" psize 8;");
             cmnd.AppendLine("symbol;");
             cmnd.AppendLine("conn;");
             cmnd.AppendLine("pane;");
             cmnd.AppendFormat("rc {0} 1;\r\n", varCols.Count);
             cmnd.AppendLine("label;");
-            cmnd.AppendLine(" psize 5;");
+            cmnd.AppendLine(" psize 8;");
             cmnd.AppendLine("noal;");
             cmnd.AppendLine("nodt.");
             //刪除所有圖形
