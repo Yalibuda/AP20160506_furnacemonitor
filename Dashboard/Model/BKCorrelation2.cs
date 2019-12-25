@@ -123,7 +123,7 @@ namespace Dashboard.Model
             cmnd.AppendLine("repl;");
             cmnd.AppendLine("jpeg;");
             cmnd.AppendLine("scale 1;");
-            cmnd.AppendLine(" psize 5;");
+            cmnd.AppendLine(" psize 8;");
             cmnd.AppendLine("nojitter;");
             cmnd.AppendLine("full;");
             cmnd.AppendLine("bound;");

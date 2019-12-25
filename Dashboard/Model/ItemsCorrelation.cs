@@ -571,14 +571,14 @@ namespace Dashboard.Model
             cmnd.AppendFormat("rc {0} 1;\r\n", varCols.Count);//+ bkCol.Count
             cmnd.AppendLine("noal;");
             cmnd.AppendLine("label;");
-            cmnd.AppendLine(" psize 5;");
+            cmnd.AppendLine(" psize 8;");
             cmnd.AppendLine("scale 1;");
-            cmnd.AppendLine(" psize 5;");
+            cmnd.AppendLine(" psize 8;");
             cmnd.AppendLine("axlab 1;");
             cmnd.AppendLine("lshow;");
             cmnd.AppendLine(" angle 90;");
             cmnd.AppendLine("scale 2;");
-            cmnd.AppendLine(" psize 5;");
+            cmnd.AppendLine(" psize 8;");
             if (timeCol != null && (int)timeCol.DataType != 3) cmnd.AppendFormat("stamp {0};\r\n", timeCol.SynthesizedName);
             cmnd.AppendLine("symb;");
             cmnd.AppendLine("conn;");
@@ -597,7 +597,7 @@ namespace Dashboard.Model
             cmnd.AppendLine("repl;");
             cmnd.AppendLine("jpeg;");
             cmnd.AppendLine("scale 1;");
-            cmnd.AppendLine(" psize 5;");
+            cmnd.AppendLine(" psize 8;");
             cmnd.AppendLine("nojitter;");
             cmnd.AppendLine("full;");
             cmnd.AppendLine("bound;");
